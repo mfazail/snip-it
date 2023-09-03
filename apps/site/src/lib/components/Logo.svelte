@@ -1,0 +1,1 @@
+<img src="https://dummyimage.com/50x50/ffffff/6366f1.png&text=JB" alt="" {...$$restProps} >

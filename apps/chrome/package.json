@@ -1,0 +1,30 @@
+{
+    "name": "@snip-it/chrome",
+    "description": "Boilerplate for Chrome Extension Svelte Typescript project",
+    "version": "1.0.0",
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nekitcorp/chrome-extension-svelte-typescript-boilerplate.git"
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "check": "svelte-check --tsconfig ./tsconfig.json"
+    },
+    "devDependencies": {
+        "@crxjs/vite-plugin": "2.0.0-beta.18",
+        "@sveltejs/vite-plugin-svelte": "2.4.5",
+        "@tsconfig/svelte": "5.0.2",
+        "@types/chrome": "0.0.243",
+        "svelte": "4.2.0",
+        "svelte-check": "3.5.0",
+        "svelte-preprocess": "5.0.4",
+        "tslib": "2.6.2",
+        "vite": "4.2.3"
+    },
+    "dependencies": {
+        "@supabase/supabase-js": "^2.33.1",
+        "jwt-decode": "^3.1.2"
+    }
+}

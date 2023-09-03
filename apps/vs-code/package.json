@@ -1,0 +1,84 @@
+{
+  "publisher": "mfazail",
+  "name": "@snip-it/vs-code",
+  "displayName": "Snip It",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@8.6.0",
+  "description": "Create and share snippet with others, no need to see the docs and copy paste",
+  "author": "Fazail Alam <fazailalam898@gmail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/mfazail",
+  "homepage": "https://github.com/mfazail/snip-it#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mfazail/snip-it"
+  },
+  "bugs": {
+    "url": "https://github.com/mfazail/snip-it/issues"
+  },
+  "sponsor": {
+    "url": "https://github.com/sponsors/mfazail"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/index.js",
+  "icon": "res/icon.png",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "vscode": "^1.78.1"
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "snip-it.create",
+        "title": "Snip It"
+      },
+      {
+        "command": "snip-it.delete",
+        "title": "Snip It: Delete"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "snip-it.create",
+          "group": "1_modification",
+          "when": "editorHasSelection"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --external vscode",
+    "dev": "nr build --watch",
+    "lint": "eslint .",
+    "vscode:prepublish": "nr build",
+    "publish": "vsce publish --no-dependencies",
+    "pack": "vsce package --no-dependencies",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit",
+    "release": "bumpp && nr publish"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.39.5",
+    "@antfu/ni": "^0.21.3",
+    "@types/node": "^18.16.16",
+    "@types/vscode": "^1.78.1",
+    "@vscode/vsce": "^2.19.0",
+    "bumpp": "^9.1.0",
+    "eslint": "^8.42.0",
+    "esno": "^0.16.3",
+    "pnpm": "^8.6.0",
+    "rimraf": "^5.0.1",
+    "tsup": "^6.7.0",
+    "vite": "^4.2.3",
+    "vitest": "^0.31.4"
+  }
+}
