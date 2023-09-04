@@ -10,6 +10,7 @@ const [major, minor, patch] = version
     // split into version parts
     .split(/[.-]/);
 
+
 export default defineManifest(async (env) => ({
     manifest_version: 3,
     name: name,
@@ -22,10 +23,10 @@ export default defineManifest(async (env) => ({
         "48": "src/assets/icons/icon-48.png",
         "128": "src/assets/icons/icon-128.png",
     },
-    host_permissions: ["http://*/*"],
+    host_permissions: ["http://localhost:5173/*","https://mfazail.com/snip-it/*"],
     content_scripts: [
         {
-            matches: ["http://*/*"],
+            matches:  [ "http://localhost:5173/*","https://mfazail.com/snip-it/*"],
             js: ["src/content/index.ts"],
         },
     ],

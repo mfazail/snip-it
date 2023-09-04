@@ -1,13 +1,11 @@
 <script lang="ts">
     import jwt_decode from "jwt-decode";
     import { onMount } from "svelte";
+    import { APP_URL } from "../supabase/client";
     export let hasSession = false;
     export let jwtToken: null | string = null;
     let user_id: null | string = null;
     let email: null | string = null;
-    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-        console.log("From Option comp", { message });
-    });
 
     $: decode(jwtToken);
 
@@ -22,7 +20,7 @@
                 user_id = decodedToken.sub; // user_id
                 email = decodedToken.email; // email
             } catch (err) {
-                console.log({ err });
+                // console.log({ err });
             }
         }
     };
@@ -30,14 +28,20 @@
 
 <div>
     {#if hasSession}
-        <h2>Welcome Back {email}</h2>
+        <div class="guest-wrap">
+            <h3>Welcome Back {email}</h3>
+            <a
+                class="sign-in-btn"
+                target="_blank"
+                href="{APP_URL}/signout">Sign out</a>
+        </div>
     {:else}
         <div class="guest-wrap">
             <h3>Please sign in to continue creating snips</h3>
             <a
                 class="sign-in-btn"
                 target="_blank"
-                href="http://localhost:5173/signin">Sign in</a>
+                href="{APP_URL}/signin">Sign in</a>
         </div>
     {/if}
 </div>

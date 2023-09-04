@@ -1,9 +1,12 @@
 <script lang="ts">
     // @ts-ignore
     import { get_current_component } from "svelte/internal";
+    import jwt_decode from "jwt-decode";
+    import { APP_URL } from "../supabase/client";
     const THISComponent = get_current_component();
     export let snip = "demo";
     export let isSignedIn = false;
+    export let token = "";
 
     let loading = false;
     let error: any = null;
@@ -13,8 +16,37 @@
     };
 
     const handleSubmit = async (e: Event) => {
-        console.log({ e });
-        destroyThisComp();
+        // console.log({ e });
+        loading = true;
+        if (!token) {
+            loading = false;
+            return;
+        }
+        const user_id = jwt_decode<{ sub: string }>(token).sub;
+        // // console.log((e.target as any).prefix.value)
+
+        const res = await fetch(`${APP_URL}/api/create`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                user_id,
+                prefix: (e.target as any).prefix.value,
+                lang: (e.target as any).lang.value,
+                library: (e.target as any).library.value,
+                description: (e.target as any).description.value,
+                body: (e.target as any).body.value,
+            }),
+        });
+        if (res.status === 201) {
+            destroyThisComp();
+        } else {
+            error = await res.json();
+        }
+        loading = false;
+        // destroyThisComp();
     };
 </script>
 
@@ -26,6 +58,9 @@
     on:click|self={() => destroyThisComp()}>
     <div class="card">
         {#if isSignedIn}
+            <h3 style="font-size: 20px; font-weight: 500;margin-bottom: 5px;">
+                Create Snippet
+            </h3>
             <form on:submit|preventDefault={handleSubmit}>
                 <div>
                     <label for="prefix">Prefix</label>
@@ -78,9 +113,19 @@
                         <p class="error">{error.message}</p>
                     {/if}
                 </div>
-                <button
-                    class="btn"
-                    type="submit">Save</button>
+                <div
+                    style="display:flex;justify-content: end; margin-top: 5px;">
+                    <button
+                        on:click={() => destroyThisComp()}
+                        class="cancel-btn"
+                        type="button">Cancel</button>
+                    <button
+                        disabled={loading}
+                        class="btn"
+                        type="submit">
+                        Save
+                    </button>
+                </div>
             </form>
         {:else}
             <div class="guest-wrap">
@@ -107,7 +152,7 @@
                 <a
                     class="btn"
                     target="_blank"
-                    href="http://localhost:5173/signin">Sign in</a>
+                    href="{APP_URL}/signin">Sign in</a>
             </div>
         {/if}
     </div>
@@ -169,6 +214,17 @@
         font-size: 0.875rem;
         line-height: 1.25rem;
         color: #dc2626;
+    }
+    .cancel-btn {
+        background-color: #fff;
+        color: #111827;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        padding: 6px 10px;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        cursor: pointer;
+        margin-right: 5px;
     }
     .btn {
         display: block;

@@ -9,5 +9,5 @@
 //             langs: ["js", "javascript"],
 //         })
 //     );
-//     console.log("shiki initialized");
+//     // console.log("shiki initialized");
 // };

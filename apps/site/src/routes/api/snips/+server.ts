@@ -1,39 +1,32 @@
 import { getPaginationFromTo } from "$lib/utils/pagination";
 import { json, type RequestHandler } from "@sveltejs/kit";
-import {
-    PUBLIC_SUPABASE_URL,
-    PUBLIC_SUPABASE_ANON_KEY,
-} from "$env/static/public";
 
-export const GET: RequestHandler = async ({ url, fetch, request }) => {
+export const GET: RequestHandler = async ({ locals: { supabase }, url }) => {
     const { searchParams } = url;
-    const accessToken = request.headers.get("authorization");
     const page = searchParams.get("page") || 0;
-    const limit = Number(searchParams.get("limit")) || 10;
+    const limit = Number(searchParams.get("limit"));
+    const select = searchParams.get("select");
     const library = searchParams.get("library");
+    const prefix = searchParams.get("prefix");
     const lang = searchParams.get("lang");
     const { from, to } = getPaginationFromTo(page, limit);
-    if (!accessToken) {
-        return json({ message: "Not signed in" }, { status: 401 });
+    const query = supabase
+        .from("snip")
+        .select(select || "id,prefix,description,body,library,lang,updated_at");
+    if (lang) {
+        query.eq("lang", lang);
     }
-    const baseUrl = `${PUBLIC_SUPABASE_URL}/rest/v1/snip?`;
-    const select =
-        "select=id,prefix,description,created_at,body,updated_at,lang,library";
-    var query = "";
-
-    if (library) query += `library=eq.${library}&`;
-    if (lang) query += `lang=eq.${lang}&`;
-    console.log(`${baseUrl}${query}${select}`)
-    const res = await fetch(`${baseUrl}${query}${select}`, {
-        headers: {
-            apikey: PUBLIC_SUPABASE_ANON_KEY,
-            authorization: accessToken,
-            "Content-Type": "application/json",
-        },
-    });
-    if (res.status !== 200)
-        return json({ message: "Something went wrong" }, { status: 400 });
-    const data = await res.json();
+    if (library) {
+        query.textSearch("library", library);
+    }
+    if (prefix) {
+        query.eq("prefix", prefix);
+    }
+    query.limit(limit);
+    // console.log("Fetching...");
+    const { data, error } = await query;
+    // console.log("Fetched");
+    if (error) return json({ message: error.message }, { status: 400 });
 
     return json(data);
 };

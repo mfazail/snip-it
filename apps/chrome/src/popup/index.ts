@@ -20,15 +20,15 @@ function render() {
         port.onMessage.addListener((message) => {
             if (message.action === "hasSession") {
                 // Display the URL of the new tab in the popup
-                console.log({ message });
+                // console.log({ message });
                 if (comp && message.token) {
                     comp.$set({ hasSession: true, jwtToken: message.token });
                 }
                 // newTabUrlElement.textContent = message.newTabUrl;
             }
         });
-        console.log(chrome.action)
-        console.log("Popup Loaded")
+        // console.log(chrome.action)
+        // console.log("Popup Loaded")
     }
 }
 

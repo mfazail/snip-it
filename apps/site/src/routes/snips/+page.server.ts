@@ -8,7 +8,7 @@ export const load = async ({ locals: { supabase }, url }) => {
     const lang = searchParams.get("lang");
     const q = searchParams.get("q");
     const { from, to } = getPaginationFromTo(page, limit);
-    console.log({ from, to });
+    // console.log({ from, to });
     const query = supabase
         .from("snip")
         .select(

@@ -18,7 +18,7 @@ export const POST: RequestHandler = async ({ fetch, request }) => {
     if (res.status !== 200)
         return json({ message: "Sign out failed" }, { status: 400 });
     const j = await res.json();
-    console.log({ j });
+    // console.log({ j });
 
     return json({ message: "Signed out" }, { status: 200 });
 };

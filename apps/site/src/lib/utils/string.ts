@@ -42,7 +42,7 @@ export const userFallbackName = (str: string | null | undefined) => {
     Object.entries(fields).forEach(([k, v]) => {
       if (!v) {
         uFields.push(k);
-        // console.log({ k, v });
+        // // console.log({ k, v });
       }
     });
     if (uFields.length == 0) return [];

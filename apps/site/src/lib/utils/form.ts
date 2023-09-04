@@ -11,7 +11,7 @@ interface DataType {
     const formData = new FormData();
     Object.entries(data).forEach(([k, v]) => {
       formData.append(k, typeof v == "number" ? String(v) : v);
-      // console.log({k})
+      // // console.log({k})
     });
     return formData;
   };

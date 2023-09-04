@@ -1,0 +1,3 @@
+GET https://swtflpkcofffkxxvpkms.supabase.co/rest/v1/snip HTTP/1.1
+apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN3dGZscGtjb2ZmZmt4eHZwa21zIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTMzODEwMTYsImV4cCI6MjAwODk1NzAxNn0.EA5qwRnO5AeDmEFxYQJ9VsQJHMrT87f_lUXp3DSp_gM
+Content-Type: application/json
