@@ -1,5 +1,7 @@
 import { json, type RequestHandler } from "@sveltejs/kit";
 
+export const prerender = false
+
 export const GET: RequestHandler = async ({
     locals: { supabase },
     url,
@@ -13,7 +15,7 @@ export const GET: RequestHandler = async ({
 
     const query = supabase.from("library").select("id,name,short");
 
-    if (name) query.textSearch("name", name);
+    if (name) query.ilike("name", `%${name}%`);
 
     const { data, error } = await query;
     if (error) return json({ message: error.message }, { status: 500 });

@@ -13,9 +13,6 @@
                 <a href="/" class="mr-4 hover:underline md:mr-6 ">Home</a>
             </li>
             <li>
-                <a href="/docs" class="mr-4 hover:underline md:mr-6">Docs</a>
-            </li>
-            <li>
                 <a href="/snips" class="mr-4 hover:underline md:mr-6 ">Snips</a>
             </li>
             <li>

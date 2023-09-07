@@ -3,7 +3,9 @@
     import { onMount } from "svelte";
     import { gsap } from "gsap";
     import { TextPlugin } from "gsap/dist/TextPlugin";
+    import { featuredLibs } from "$lib/utils/libs";
     import Icon from "@iconify/svelte";
+
     let isAnimating = false;
     onMount(() => {
         isAnimating = true;
@@ -275,27 +277,93 @@
             </div>
         </div>
     </section>
-    <section >
-
-        
-
-    </section>
+    <div class="overflow-hidden">
+        <section
+            class="relative bg min-h-screen md:min-h-[80vh] w-full px-4 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center content-center md:content-start">
+            <div class="rounded-md w-full h-96 bg-white/50" />
+            <div class="prose dark:prose-invert">
+                <h2>Search for snippets</h2>
+                <ul>
+                    <li>Open command panel <code>Ctrl+shift+p</code></li>
+                    <li>Type: <strong>Snip It:Search</strong></li>
+                    <li>Enter library name <em>e.g. shadcn,etc</em></li>
+                    <li>
+                        All the snippets realted to selected library will saved
+                        locally
+                    </li>
+                    <li>Type the prefix e.g. scn, and use them</li>
+                </ul>
+            </div>
+        </section>
+        <section
+            class="relative bg-left max-w-7xl mx-auto min-h-screen md:min-h-[80vh] w-full grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center content-center md:content-start px-4">
+            <div class="prose dark:prose-invert">
+                <h2>Create your own snippets</h2>
+                <ul>
+                    <li>Select code</li>
+                    <li>Open command panel <code>Ctrl+shift+p</code></li>
+                    <li>Type: <strong>Snip It</strong></li>
+                    <li>Enter prefix and description and done</li>
+                </ul>
+            </div>
+            <div class="rounded-md w-full h-96 bg-white/50" />
+        </section>
+        <section
+            class="relative bg max-w-7xl mx-auto min-h-screen md:min-h-[80vh] w-full grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center content-center md:content-start px-4">
+            <div class="rounded-md w-full h-96 bg-white/50" />
+            <div class="prose dark:prose-invert">
+                <h2>Delete snippet</h2>
+                <ul>
+                    <li>Open command panel <code>Ctrl+shift+p</code></li>
+                    <li>Type: <strong>Snip It:Delete</strong></li>
+                    <li>Enter prefix and snippet will be deleted</li>
+                </ul>
+            </div>
+        </section>
+        <section
+            class="relative prose dark:prose-invert max-w-7xl mx-auto w-full flex flex-col items-center justify-center px-4">
+            <h2>Available Libraries</h2>
+            <div
+                class="libs max-w-3xl w-full h-full grid grid-cols-4 gap-10 content-center justify-items-center px-10 pt-10 pb-5">
+                {#each featuredLibs as lib, i (i)}
+                    <div
+                    title={lib.name}
+                        class="dark:bg-slate-900 hover:shadow-md hover:shadow-red-500 transition-all rounded-md flex items-center justify-center w-full h-20 transform skew-x-[20deg] -rotate-12 border border-red-500">
+                        {#if lib.type == "icon"}
+                            {@const icon = lib.icon ?? ""}
+                            <Icon {icon}  class="h-10 w-10"/>
+                            <span class="sr-only">{lib.name}</span>
+                            {:else}
+                            <img src={lib.url} alt={lib.name} class="h-10 aspect-square">
+                        {/if}
+                    </div>
+                {/each}
+            </div>
+            <div />
+        </section>
+    </div>
 </div>
 
 <style>
-    .left-container::before {
+    .bg::before,
+    .bg-left::before {
         content: "";
         position: absolute;
-        top: 70%;
-        left: -100%;
+        top: 0%;
         width: 70vw;
-        height: 50vh;
+        height: 100vh;
         background: linear-gradient(173.1deg, #e242f9f0 10.2%, #4f93f9 77.3%);
         mask-image: radial-gradient(rgba(0, 0, 0, 0.3), transparent 60%);
         -webkit-mask-image: radial-gradient(
             rgba(0, 0, 0, 0.3),
             transparent 60%
         );
+    }
+    .bg-left::before {
+        right: -30%;
+    }
+    .bg::before {
+        left: -30%;
     }
     .right-container::before {
         content: "";
@@ -314,6 +382,22 @@
         -webkit-mask-image: radial-gradient(
             rgba(0, 0, 0, 0.3),
             transparent 60%
+        );
+    }
+    .libs {
+        mask-image: gradient(
+            linear,
+            left top,
+            left bottom,
+            from(rgba(0, 0, 0, 1)),
+            to(rgba(0, 0, 0, 0))
+        );
+        -webkit-mask-image: -webkit-gradient(
+            linear,
+            left top,
+            left bottom,
+            from(rgba(0, 0, 0, 1)),
+            to(rgba(0, 0, 0, 0))
         );
     }
 </style>

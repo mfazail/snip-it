@@ -89,6 +89,7 @@ function debounce(
 }
 
 const fetchlibs = async (search: string, langId: string) => {
+    console.log("fetching...")
     const baseUrl = new URL("https://snipit.mfazail.com/api/libs");
     baseUrl.searchParams.set("name", search);
     baseUrl.searchParams.set("lang", langId);
@@ -102,11 +103,12 @@ const fetchlibs = async (search: string, langId: string) => {
         });
         if (res.status == 200) {
             const json: { id: number; name: string; short: string }[] =
-                res.data as {
+                res.data.libs as {
                     id: number;
                     name: string;
                     short: string;
                 }[];
+                console.log({json})
             const options = json.map((item) => ({
                 label: item.name,
                 description: item.short,

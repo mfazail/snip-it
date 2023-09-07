@@ -3,6 +3,7 @@
     import Button from "./Button.svelte";
     import { page } from "$app/stores";
     import { goto } from '$app/navigation';
+    import Logo from './Logo.svelte';
     export let isSignedin: boolean;
 
     const handleKeydown = (e:KeyboardEvent) => {
@@ -16,17 +17,7 @@
 <nav class="bg-white border-gray-200 dark:bg-gray-900">
     <div
         class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a
-            href="/"
-            class="flex relative items-center">
-            <Icon icon="lucide:scan-line" class="h-8 mr-3" />
-            <span
-                class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-                >Snip It</span>
-            <span
-                class="-mt-5 bg-blue-100 text-blue-800 text-[10px] font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-                >Beta</span>
-        </a>
+        <Logo />
         <div class="flex md:order-2">
             <button
                 type="button"
@@ -95,15 +86,6 @@
                                 ? "nav-active"
                                 : "nav-inactive"
                         }`}>Home</a>
-                </li>
-                <li>
-                    <a
-                        href="/docs"
-                        class={`block py-2 pl-3 pr-4 ${
-                            $page.url.pathname == "/docs"
-                                ? "nav-active"
-                                : "nav-inactive"
-                        }`}>Docs</a>
                 </li>
                 <li>
                     <a
