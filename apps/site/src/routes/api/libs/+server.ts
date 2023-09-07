@@ -8,8 +8,8 @@ export const GET: RequestHandler = async ({
     const { searchParams } = url;
     const client = request.headers.get("x-client");
     console.log({ client });
-    const name = String(searchParams.get("name"));
-    const lang = String(searchParams.get("lang"));
+    const name = searchParams.get("name");
+    const lang = searchParams.get("lang");
 
     const query = supabase.from("library").select("id,name,short");
 

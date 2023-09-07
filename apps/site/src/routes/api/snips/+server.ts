@@ -12,12 +12,12 @@ export const GET: RequestHandler = async ({ url, request }) => {
     const client = request.headers.get('x-client')
     console.log({client})
     const page = searchParams.get("page") || 0;
-    const limit = Number(searchParams.get("limit"));
+    const limit = searchParams.get("limit") ||"10";
     const select = searchParams.get("select");
     const library = searchParams.get("library");
     const lib_id = searchParams.get("lib_id");
     const lang = searchParams.get("lang");
-    const { from, to } = getPaginationFromTo(page, limit);
+    const { from, to } = getPaginationFromTo(page, parseInt(limit));
 
     const base = new URL(`${PUBLIC_SUPABASE_URL}/rest/v1/snip`);
 

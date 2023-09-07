@@ -16,7 +16,7 @@ export const searchSnips = async () => {
     }
     const processChanges = debounce((v) => fetchlibs(v, langId || "js"));
     const p = window.createQuickPick();
-    p.placeholder = "eg. lib:radix-ui or lang:c++";
+    p.placeholder = "e.g. shadcn/ui, vuetify, etc";
     p.show();
     p.onDidChangeSelection(async (e) => {
         if (e[0] && e[0].label) {
@@ -53,10 +53,11 @@ export const searchSnips = async () => {
         console.log("value", v);
         if (v) {
             const options = await processChanges(v);
+            console.log({options})
             if (!options) {
                 window.showInformationMessage("No results found");
             }
-            p.items = options;
+            p.items = options||[];
         }
         p.busy = false;
     });
