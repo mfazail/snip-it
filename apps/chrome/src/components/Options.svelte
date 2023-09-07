@@ -1,7 +1,7 @@
 <script lang="ts">
     import jwt_decode from "jwt-decode";
     import { onMount } from "svelte";
-    import { APP_URL } from "../supabase/client";
+    import { APP_URL } from "../utils";
     export let hasSession = false;
     export let jwtToken: null | string = null;
     let user_id: null | string = null;

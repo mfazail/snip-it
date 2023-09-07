@@ -1,12 +1,13 @@
 // Background service workers
 // https://developer.chrome.com/docs/extensions/mv3/service_workers/
 
-import { SUPABASE_PROJECT_REF,APP_URL } from "../supabase/client";
+import { SUPABASE_PROJECT_REF } from "../supabase/client";
+import { APP_URL }from '../utils'
 
 chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
-        id: "sampleContextMenu",
-        title: "Sample Context Menu",
+        id: "snipIt",
+        title: "Snip It",
         contexts: ["selection"],
     });
 });
@@ -15,7 +16,7 @@ chrome.runtime.onInstalled.addListener(() => {
  * Send message to content-script on context menu clicked
  */
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-    if (info.menuItemId === "sampleContextMenu") {
+    if (info.menuItemId === "snipIt") {
         if (tab === undefined || !tab.id) return;
         console.log(info.selectionText)
         const token = await getCookie();
@@ -65,6 +66,7 @@ chrome.runtime.onConnect.addListener((port) => {
             // console.log({ message });
             if (message.action === "checkSession") {
                 const token = await getCookie();
+                console.log({token})
                 port.postMessage({
                     action: "hasSession",
                     token,

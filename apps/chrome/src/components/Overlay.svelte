@@ -2,7 +2,7 @@
     // @ts-ignore
     import { get_current_component } from "svelte/internal";
     import jwt_decode from "jwt-decode";
-    import { APP_URL, langs } from "../supabase/client";
+    import { APP_URL, langs } from "../utils";
     import { onMount } from "svelte";
     const THISComponent = get_current_component();
     export let snip = "demo";
@@ -17,10 +17,10 @@
         THISComponent.$destroy();
     };
     onMount(async () => {
-        const res = await fetch(`${APP_URL}/api/libs`,{
-            headers:{
-                'x-client':'@snip-it/chrome'
-            }
+        const res = await fetch(`${APP_URL}/api/libs`, {
+            headers: {
+                "x-client": "@snip-it/chrome",
+            },
         });
         if (res.status == 200) {
             const j = await res.json();
@@ -41,14 +41,14 @@
             return;
         }
         const user_id = jwt_decode<{ sub: string }>(token).sub;
-        console.log(APP_URL)
+        console.log(APP_URL);
 
         const res = await fetch(`${APP_URL}/api/create`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 authorization: `Bearer ${token}`,
-                'x-client':'@snip-it/chrome'
+                "x-client": "@snip-it/chrome",
             },
             body: JSON.stringify({
                 user_id,
