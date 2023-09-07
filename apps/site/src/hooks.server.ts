@@ -6,6 +6,19 @@ import { createSupabaseServerClient } from "@supabase/auth-helpers-sveltekit";
 import type { Handle } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
+
+    if(event.url.pathname.startsWith('/api')){
+        if(event.request.method === 'OPTIONS'){
+            return new Response(null,{
+                headers:{
+                    'Access-Control-Allow-Methods':'GET, POST',
+                    'Access-Control-Allow-Origin':"*",
+                    'Access-Control-Allow-Headers':'*',
+                }
+            })
+        }
+    }
+
     event.locals.supabase = createSupabaseServerClient({
         supabaseUrl: PUBLIC_SUPABASE_URL,
         supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
