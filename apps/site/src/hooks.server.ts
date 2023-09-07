@@ -41,9 +41,13 @@ export const handle: Handle = async ({ event, resolve }) => {
         }
     };
 
-    return resolve(event, {
+    const res = await  resolve(event, {
         filterSerializedResponseHeaders(name) {
             return name === "content-range";
         },
     });
+    if(event.url.pathname.startsWith('/api')){
+        res.headers.append('Access-Control-Allow-Origin', `*`);
+    }
+    return res
 };
