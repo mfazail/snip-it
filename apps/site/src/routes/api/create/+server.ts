@@ -30,8 +30,8 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
         body,
         description,
         lang,
-        lib_id,
         prefix,
+        lib_id: parseInt(lib_id),
         user_id,
     });
     if (result) {
