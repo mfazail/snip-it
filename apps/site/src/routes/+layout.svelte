@@ -1,11 +1,14 @@
 <!-- src/routes/+layout.svelte -->
 <script lang="ts">
     import "../../src/app.postcss";
-    import { invalidate } from "$app/navigation";
+    import { invalidate,afterNavigate,beforeNavigate } from "$app/navigation";
     import { onMount } from "svelte";
+    import NProgress  from 'nprogress'
     import "flowbite";
     import Navbar from "$lib/components/Navbar.svelte";
     import { page } from "$app/stores";
+    import Alerter from "$lib/components/Alerter.svelte";
+    import Footer from "$lib/components/Footer.svelte";
 
     export let data;
 
@@ -21,6 +24,12 @@
 
         return () => data.subscription.unsubscribe();
     });
+    beforeNavigate(()=>{
+        NProgress.start()
+    })
+    afterNavigate(()=>{
+        NProgress.done()
+    })
 </script>
 
 <svelte:head>
@@ -30,4 +39,10 @@
 {#if $page.url.pathname != "/signin"}
     <Navbar isSignedin={session ? true : false} />
 {/if}
-<slot />
+<div class="dark:bg-slate-900 custom-scroll">
+    <slot />
+</div>
+<Alerter />
+{#if !$page.url.pathname.startsWith("/dashboard")}
+    <Footer />
+{/if}

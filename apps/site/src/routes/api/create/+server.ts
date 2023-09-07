@@ -5,35 +5,37 @@ import {
 import { validateSnip } from "$lib/schema/snip";
 import { json, type RequestHandler } from "@sveltejs/kit";
 
-export const POST: RequestHandler = async ({ request, fetch }) => {
-    const accessToken = request.headers.get("authorization");
-    if (!accessToken)
-        return json({ message: "Not signed in" }, { status: 401 });
+export const prerender = false;
+
+const getToken = (accessToken: string) => {
     const bStr = accessToken.replace(/^Bearer\s+/g, "");
     const [header, payload, signature] = bStr.split(".");
 
     const hStrip = header.replace(/(%..)/g, "");
-    // // console.log("Header- ", hStrip);
-
     const sStrip = signature.replace(/%[^%]*/g, "");
-    // // console.log("Signature- ", sStrip);
-    const token = `${hStrip}.${payload}.${sStrip}`;
-    // // console.log({ accessToken });
-    // // console.log({ token });
-    const { user_id, prefix, description, body, lang, library } =
+
+    return `${hStrip}.${payload}.${sStrip}`;
+};
+
+export const POST: RequestHandler = async ({ request, fetch }) => {
+    const accessToken = request.headers.get("authorization");
+    if (!accessToken)
+        return json({ message: "Not signed in" }, { status: 401 });
+    const token = getToken(accessToken);
+
+    const { user_id, prefix, description, body, lang, lib_id } =
         await request.json();
 
-    // console.log({ user_id, prefix, description, body, lang, library });
     const result = validateSnip({
         body,
         description,
         lang,
-        library,
+        lib_id,
         prefix,
         user_id,
     });
     if (result) {
-        return json({ message: result.message }, { status: 400 });
+        return json({ message: result.message }, { status: 403 });
     }
     const res = await fetch(`${PUBLIC_SUPABASE_URL}/rest/v1/snip`, {
         method: "POST",
@@ -49,11 +51,9 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
             description,
             body,
             lang,
-            library,
+            lib_id,
         }),
     });
-    // // console.log(res.status);
-    // // console.log(res.statusText);
 
     if (res.status === 201)
         return json({ message: "Snip created successfully!" }, { status: 201 });

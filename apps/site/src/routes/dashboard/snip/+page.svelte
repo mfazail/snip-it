@@ -4,7 +4,7 @@
     export let data;
 </script>
 
-<div class="grid grid-cols-1 lg:grid-cols-2">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
     {#each data.snips as snip (snip.id)}
         <a href="/dashboard/snip/{snip.id}/edit">
             <SnipCard {snip} />

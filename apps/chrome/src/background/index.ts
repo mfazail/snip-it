@@ -17,6 +17,7 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     if (info.menuItemId === "sampleContextMenu") {
         if (tab === undefined || !tab.id) return;
+        console.log(info.selectionText)
         const token = await getCookie();
         if (token) {
             chrome.tabs.sendMessage(

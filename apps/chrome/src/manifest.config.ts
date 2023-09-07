@@ -23,10 +23,10 @@ export default defineManifest(async (env) => ({
         "48": "src/assets/icons/icon-48.png",
         "128": "src/assets/icons/icon-128.png",
     },
-    host_permissions: ["http://localhost:5173/*","https://mfazail.com/snip-it/*"],
+    host_permissions: ["*://*/*"],
     content_scripts: [
         {
-            matches:  [ "http://localhost:5173/*","https://mfazail.com/snip-it/*"],
+            matches:  [ "*://*/*"],
             js: ["src/content/index.ts"],
         },
     ],

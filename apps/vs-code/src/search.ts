@@ -14,7 +14,7 @@ export const searchSnips = async () => {
             return;
         }
     }
-    const processChanges = debounce((v) => fetchSnips(v, langId || "js"));
+    const processChanges = debounce((v) => fetchlibs(v, langId || "js"));
     const p = window.createQuickPick();
     p.placeholder = "eg. lib:radix-ui or lang:c++";
     p.show();
@@ -70,7 +70,7 @@ export const searchSnips = async () => {
     p.onDidHide(() => {
         p.dispose();
     });
-    console.log("finished");
+    // console.log("finished");
 };
 
 function debounce(
@@ -87,11 +87,10 @@ function debounce(
     };
 }
 
-const fetchSnips = async (search: string, langId: string) => {
-    const baseUrl = new URL("https://snip-it-site.vercel.app/api/snips");
+const fetchlibs = async (search: string, langId: string) => {
+    const baseUrl = new URL("https://snipit.mfazail.com/api/libs");
+    baseUrl.searchParams.set("name", search);
     baseUrl.searchParams.set("lang", langId);
-    baseUrl.searchParams.set("library", search);
-    baseUrl.searchParams.set("select", "library,description");
     baseUrl.searchParams.set("limit", "10");
     try {
         const res = await axios.get(baseUrl.toString(), {
@@ -101,14 +100,15 @@ const fetchSnips = async (search: string, langId: string) => {
             },
         });
         if (res.status == 200) {
-            const json: { description: string; library: string }[] =
+            const json: { id: number; name: string; short: string }[] =
                 res.data as {
-                    library: string;
-                    description: string;
+                    id: number;
+                    name: string;
+                    short: string;
                 }[];
             const options = json.map((item) => ({
-                label: item.library,
-                description: item.description,
+                label: item.name,
+                description: item.short,
             }));
             return options;
         } else {
@@ -125,9 +125,9 @@ const fetchSnips = async (search: string, langId: string) => {
 };
 
 const fetchLibSnips = async (lib: string) => {
-    const baseUrl = new URL("https://snip-it-site.vercel.app/api/snips");
+    const baseUrl = new URL("https://snipit.mfazail.com/api/snips");
     baseUrl.searchParams.set("select", "prefix,description,body");
-    baseUrl.searchParams.set("library", lib);
+    baseUrl.searchParams.set("lib_id", lib);
     try {
         const res = await axios.get(baseUrl.toString(), {
             headers: {

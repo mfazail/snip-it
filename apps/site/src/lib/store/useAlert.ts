@@ -1,27 +1,37 @@
 import { writable } from "svelte/store";
-import type { Variant } from "$lib/components/ui/alert";
 
 interface AlertProp {
-  id?: string;
-  title: string;
-  description?: string;
-  variant?: Variant;
+    id?: string;
+    title: string;
+    description?: string;
+    variant?: "success" | "error" | "info";
 }
 
-export const alerts = writable<AlertProp[] | undefined>();
+export const alerts = writable<AlertProp[] | undefined>([]);
 
 export const useAlert = () => {
-  const show = ({ title, description, variant = "default" }: AlertProp) => {
-    const id = crypto.randomUUID();
-    const newAlert: AlertProp = {
-      id,
-      title,
-      description,
-      variant,
+    const show = ({ title, description, variant = "info" }: AlertProp) => {
+        console.log("called");
+        const id = crypto.randomUUID();
+        const newAlert: AlertProp = {
+            id,
+            title,
+            description,
+            variant,
+        };
+        alerts.update((prev) => [...(prev ?? []), newAlert]);
+        if (variant == "info" || variant == "success") {
+            setTimeout(() => {
+                alerts.update((prev) => prev?.filter((v) => v.id != id));
+            }, 4000);
+        }
     };
-    alerts.update((prev) => [...(prev ?? []), newAlert]);
-  };
-  return {
-    show,
-  };
+    const remove = (id: string) => {
+        if (!id) return;
+        alerts.update((prev) => prev?.filter((v) => v.id != id));
+    };
+    return {
+        show,
+        remove,
+    };
 };

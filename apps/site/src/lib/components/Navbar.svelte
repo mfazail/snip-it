@@ -52,11 +52,11 @@
                     placeholder="Search..." />
                 {#if !isSignedin}
                     <a href="/signin">
-                        <Button btnClass="ml-3">Login</Button>
+                        <Button className="ml-3">Login</Button>
                     </a>
                 {:else}
                     <a href="/dashboard">
-                        <Button btnClass="ml-3">Dashboard</Button>
+                        <Button className="ml-3">Dashboard</Button>
                     </a>
                 {/if}
             </div>

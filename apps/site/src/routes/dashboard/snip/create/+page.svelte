@@ -1,22 +1,43 @@
-<script>
+<script lang="ts">
     import { enhance } from "$app/forms";
     import Button from "$lib/components/Button.svelte";
     import Input from "$lib/components/Input.svelte";
+    import InputGroup from "$lib/components/InputGroup.svelte";
+    import InputHelper from "$lib/components/InputHelper.svelte";
     import Label from "$lib/components/Label.svelte";
     import Loader from "$lib/components/Loader.svelte";
     import Select from "$lib/components/Select.svelte";
     import Textarea from "$lib/components/Textarea.svelte";
     import { useAlert } from "$lib/store/useAlert";
-    import { bundledLanguagesBase } from "shikiji/langs";
+    import { BUNDLED_LANGUAGES } from "shiki";
+
+    export let form;
+    export let data;
+
+    type Library = {
+        id: number;
+        name: string | null;
+        short: string | null;
+        version: string | null;
+    };
 
     let isSubmitting = false;
+    let selectedLib: Library;
+    let prefix: string = form?.prefix ?? "";
     const { show } = useAlert();
-    export let form;
-    $: form?.message &&
-        show({ title: form?.message ?? "", variant: "destructive" });
+    $: form?.message && show({ title: form?.message ?? "", variant: "error" });
+
+    const handleLibSaelect = (e: Event) => {
+        if (data.libs) {
+            selectedLib = data.libs.filter(
+                (lib: Library) =>
+                    Number((e.target as HTMLSelectElement).value) == lib.id
+            )[0];
+        }
+    };
 </script>
 
-<div class="max-w-7xl mx-auto">
+<div class="max-w-3xl mx-auto">
     <form
         method="POST"
         use:enhance={() => {
@@ -26,38 +47,61 @@
                 update();
             };
         }}>
-        <div class="grid grid-cols-1 sm:grid-cols-2">
+        <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
                 <Label for="lang">Lang</Label>
                 <Select
                     id="lang"
                     name="lang"
-                    value={form?.lang ?? ""}
+                    value={form?.lang}
                     placeholder="Select language">
-                    {#each Object.entries(bundledLanguagesBase) as shikiLang}
-                        <option value={shikiLang[0]}>{shikiLang[0]}</option>
+                    {#each BUNDLED_LANGUAGES as shikiLang}
+                        <option value={shikiLang.id}
+                            >{shikiLang.displayName}</option>
                     {/each}
                 </Select>
             </div>
             <div>
                 <Label for="library">Library</Label>
                 <Select
+                    on:change={handleLibSaelect}
                     id="library"
                     name="library"
                     placeholder="Select library"
-                    value={form?.library ?? ""}>
-                    <option value="shadcn-svelte">Shadcn Svelte</option>
-                    <option value="radix-vue">Radix Vue</option>
+                    value={form?.lib_id}>
+                    {#each data.libs as lib}
+                        <option value={lib.id}>{lib.name} {lib.version}</option>
+                    {/each}
                 </Select>
             </div>
             <div>
                 <Label for="prefix">Prefix</Label>
-                <Input
-                    id="prefix"
-                    type="text"
-                    name="prefix"
-                    placeholder="prefix"
-                    value={form?.prefix ?? ""} />
+                <InputGroup>
+                    <p slot="icon">
+                        {#if selectedLib}
+                            {selectedLib.short}
+                        {:else}
+                            NA
+                        {/if}
+                    </p>
+                    <Input
+                        className="pl-10"
+                        id="prefix"
+                        type="text"
+                        name="prefix"
+                        placeholder="prefix"
+                        bind:value={prefix} />
+                </InputGroup>
+                <InputHelper>
+                    {#if selectedLib}
+                        <span class="dark:text-white font-semibold">
+                            `{selectedLib.short}:{prefix}`
+                        </span>
+                        will be prefix for this snip
+                    {:else}
+                        e.g. `scn:popover`
+                    {/if}
+                </InputHelper>
             </div>
             <div>
                 <Label for="description">Description</Label>
@@ -69,7 +113,7 @@
                     value={form?.description ?? ""} />
             </div>
         </div>
-        <div>
+        <div class="mt-5">
             <Label
                 for="body"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -81,8 +125,9 @@
                 name="body"
                 value={form?.body ?? ""} />
         </div>
-        <div class="flex items-center justify-end space-x-3 mt-2">
+        <div class="flex items-center justify-end space-x-3 mt-3">
             <Button
+                className="inline-flex items-center {isSubmitting ? 'mr-2' : ''}"
                 type="submit"
                 disabled={isSubmitting}>
                 {#if isSubmitting}

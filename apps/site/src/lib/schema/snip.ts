@@ -1,5 +1,6 @@
 import {
     string,
+    number,
     required,
     object,
     parse,
@@ -15,7 +16,7 @@ export const SnipSchema = required(
             body: string("body should be string"),
             description: string("description should be string"),
             lang: string("lang should be string"),
-            library: string("library should be string"),
+            lib_id: number("library id should be integer"),
         },
         "snip should be object"
     ),

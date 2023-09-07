@@ -1,8 +1,9 @@
 <script lang="ts">
-    export let btnClass:string|undefined = "";
+    export let className:string|undefined = "";
 </script>
 <button
-    class={`primary-btn ${btnClass}`}
+    on:click
+    class={`primary-btn ${className}`}
     {...$$restProps}>
     <slot />
 </button>

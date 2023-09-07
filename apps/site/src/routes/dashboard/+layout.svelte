@@ -40,7 +40,7 @@
     id="default-sidebar"
     class="fixed top-0 sm:top-[calc(100vh-90vh)] left-0 z-40 w-64 h-screen sm:h-[calc(100vh-75px)] transition-transform -translate-x-full sm:translate-x-0"
     aria-label="Sidebar">
-    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-slate-900">
         <ul class="space-y-2 font-medium">
             {#each sidebarItems as item}
                 <SidebarItem
@@ -58,6 +58,6 @@
     </div>
 </aside>
 
-<div class="p-4 sm:ml-64 sm:h-[calc(100vh-75px)] sm:overflow-y-scroll">
+<div class="p-4 sm:ml-64 sm:h-[calc(100vh-73px)] sm:overflow-y-scroll">
     <slot />
 </div>

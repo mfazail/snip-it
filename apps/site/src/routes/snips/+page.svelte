@@ -4,21 +4,24 @@
     import { slide } from "svelte/transition";
     import SnipCard from "$lib/components/SnipCard.svelte";
     import Icon from "@iconify/svelte";
-
+    import Pagination from "$lib/components/Pagination.svelte";
+    
     export let data;
-
+    
     let filterOpen = false;
 </script>
 
-<div class="max-w-7xl mx-auto">
-    <div class="max-w-7xl mb-3 mx-auto flex items-center justify-end">
+<div class="max-w-7xl mx-auto min-h-screen px-4">
+    <div class="mb-3 flex items-center justify-end">
         <button
             on:click={() => {
                 filterOpen = !filterOpen;
             }}
             type="button"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            <Icon icon="lucide:sliders-horizontal" class="w-4 h-4" />
+            <Icon
+                icon="lucide:sliders-horizontal"
+                class="w-4 h-4" />
             <span class="sr-only">Filter</span>
         </button>
     </div>
@@ -52,8 +55,9 @@
     {/if}
     <main class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
         {#each data.snips as snip (snip.id)}
-            <SnipCard
-                {snip} />
+            <SnipCard {snip} />
         {/each}
     </main>
+    <Pagination
+        totalItems={data.totalSnips} />
 </div>

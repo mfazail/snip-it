@@ -15,15 +15,15 @@
     export let data;
     export let form;
     $: form?.message &&
-        show({ title: form?.message ?? "", variant: "destructive" });
+        show({ title: form?.message ?? "", variant: "error" });
     $: prefix = form?.prefix ?? "";
     $: lang = form?.lang ?? "";
-    $: library = form?.library ?? "";
+    $: lib_id = form?.lib_id ?? "";
     $: description = form?.description ?? "";
     $: body = form?.body ?? "";
     onMount(() => {
         lang = data.snip.lang;
-        library = data.snip.library;
+        lib_id = data.snip.lib_id;
         description = data.snip.description;
         prefix = data.snip.prefix;
         body = data.snip.body;
@@ -51,11 +51,11 @@
                 </Select>
             </div>
             <div>
-                <Label for="library">library</Label>
+                <Label for="lib_id">lib_id</Label>
                 <Select
-                    id="library"
-                    name="library"
-                    value={library}>
+                    id="lib_id"
+                    name="lib_id"
+                    value={lib_id}>
                     <option value="svelte">Svelte</option>
                 </Select>
             </div>

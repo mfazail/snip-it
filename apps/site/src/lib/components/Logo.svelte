@@ -1,1 +1,17 @@
-<img src="https://dummyimage.com/50x50/ffffff/6366f1.png&text=JB" alt="" {...$$restProps} >
+<script>
+    import Icon from "@iconify/svelte";
+</script>
+
+<a
+    href="/"
+    class="flex relative items-center">
+    <Icon
+        icon="lucide:scan-line"
+        class="h-8 mr-3" />
+    <span
+        class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+        >Snip It</span>
+    <span
+        class="-mt-5 bg-blue-100 text-blue-800 text-[10px] font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+        >Beta</span>
+</a>

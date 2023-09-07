@@ -2,7 +2,8 @@
     // @ts-ignore
     import { get_current_component } from "svelte/internal";
     import jwt_decode from "jwt-decode";
-    import { APP_URL } from "../supabase/client";
+    import { APP_URL, langs } from "../supabase/client";
+    import { onMount } from "svelte";
     const THISComponent = get_current_component();
     export let snip = "demo";
     export let isSignedIn = false;
@@ -10,10 +11,27 @@
 
     let loading = false;
     let error: any = null;
-
+    let libs: any[] = [];
+    let short = "";
     const destroyThisComp = () => {
         THISComponent.$destroy();
     };
+    onMount(async () => {
+        const res = await fetch(`${APP_URL}/api/libs`,{
+            headers:{
+                'x-client':'@snip-it/chrome'
+            }
+        });
+        if (res.status == 200) {
+            const j = await res.json();
+            libs = j.libs;
+            short = libs[0].short;
+        } else {
+            error = {
+                libs: "Failed to get libraries from server",
+            };
+        }
+    });
 
     const handleSubmit = async (e: Event) => {
         // console.log({ e });
@@ -23,13 +41,14 @@
             return;
         }
         const user_id = jwt_decode<{ sub: string }>(token).sub;
-        // // console.log((e.target as any).prefix.value)
+        console.log(APP_URL)
 
         const res = await fetch(`${APP_URL}/api/create`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 authorization: `Bearer ${token}`,
+                'x-client':'@snip-it/chrome'
             },
             body: JSON.stringify({
                 user_id,
@@ -48,6 +67,29 @@
         loading = false;
         // destroyThisComp();
     };
+    const handleKeydown = (e: KeyboardEvent) => {
+        if (e.code == "Tab") {
+            e.preventDefault();
+            const t = e.target as HTMLTextAreaElement;
+
+            var start = t.selectionStart;
+            var end = t.selectionEnd;
+
+            // set textarea value to: text before caret + tab + text after caret
+            t.value =
+                t.value.substring(0, start) + "\t" + t.value.substring(end);
+
+            // put caret at right position again
+            t.selectionStart = t.selectionEnd = start + 1;
+        }
+    };
+    const handleSelect = (e: Event) => {
+        const v = (e.target as HTMLSelectElement).value;
+        const lib = libs.filter((l) => l.id == Number(v));
+        if (lib && lib[0]) {
+            short = lib[0].short;
+        }
+    };
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -64,30 +106,45 @@
             <form on:submit|preventDefault={handleSubmit}>
                 <div>
                     <label for="prefix">Prefix</label>
-                    <input
-                        class:error={error && error.prefix}
-                        id="prefix"
-                        type="text" />
+                    <div class="input-group">
+                        <div class="icon">
+                            <p>{short}</p>
+                        </div>
+                        <input
+                            style="padding-left: 2.5rem; "
+                            class:error={error && error.prefix}
+                            id="prefix"
+                            type="text" />
+                    </div>
                     {#if error && error.prefix}
                         <p class="error">{error.message}</p>
                     {/if}
                 </div>
                 <div>
                     <label for="lang">Lang</label>
-                    <input
+                    <select
                         class:error={error && error.lang}
-                        id="lang"
-                        type="text" />
+                        id="lang">
+                        {#each langs as lang}
+                            <option value={lang}>{lang}</option>
+                        {/each}
+                    </select>
                     {#if error && error.lang}
                         <p class="error">{error.message}</p>
                     {/if}
                 </div>
                 <div>
                     <label for="library">Library</label>
-                    <input
+                    <select
+                        on:change={handleSelect}
                         class:error={error && error.library}
-                        id="library"
-                        type="text" />
+                        id="library">
+                        {#each libs as lib (lib.id)}
+                            <option value={lib.id}>{lib.name}</option>
+                        {:else}
+                            <option value="null">No Libs</option>
+                        {/each}
+                    </select>
                     {#if error && error.library}
                         <p class="error">{error.message}</p>
                     {/if}
@@ -105,6 +162,7 @@
                 <div>
                     <label for="body">Snippet</label>
                     <textarea
+                        on:keydown={handleKeydown}
                         class:error={error && error.body}
                         id="body"
                         value={snip}
@@ -113,6 +171,13 @@
                         <p class="error">{error.message}</p>
                     {/if}
                 </div>
+                {#if error}
+                    {#if error.libs}
+                        <p class="error">{error.libs}</p>
+                    {:else}
+                        <p class="error">{error.message}</p>
+                    {/if}
+                {/if}
                 <div
                     style="display:flex;justify-content: end; margin-top: 5px;">
                     <button
@@ -120,7 +185,7 @@
                         class="cancel-btn"
                         type="button">Cancel</button>
                     <button
-                        disabled={loading}
+                        disabled={loading || error}
                         class="btn"
                         type="submit">
                         Save
@@ -172,7 +237,7 @@
         background-color: rgba(37, 37, 37, 0.431);
     }
     .card {
-        min-width: 300px;
+        min-width: 80%;
         background-color: #fff;
         padding: 20px;
         border-radius: 10px;
@@ -238,5 +303,49 @@
     }
     .btn:hover {
         background-color: #5456cc;
+    }
+    select {
+        display: block;
+        padding: 0.5rem;
+        margin-bottom: 1.5rem;
+        border-radius: 0.5rem;
+        border-width: 1px;
+        border-color: #d1d5db;
+        width: 100%;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        color: #111827;
+        background-color: #f9fafb;
+    }
+    .input-group {
+        position: relative;
+    }
+    .icon {
+        display: flex;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        align-items: center;
+        border-top-left-radius: 0.375rem;
+        border-bottom-left-radius: 0.375rem;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        color: #6b7280;
+        pointer-events: none;
+    }
+    @media (prefers-color-scheme: dark) {
+        h3,
+        label,
+        input {
+            color: #111827;
+        }
+    }
+    @media (min-width: 768px) {
+        .card {
+            min-width: 500px;
+        }
     }
 </style>
