@@ -35,6 +35,7 @@ export const searchSnips = async () => {
         window.showInformationMessage("No snips related to this library");
         return;
     }
+    console.log({snips})
     const userPath = getUserFolderPath();
     if (!userPath) return;
     const filePath = path.join(userPath, `${langId}.json`);

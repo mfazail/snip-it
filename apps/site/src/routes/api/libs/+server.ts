@@ -5,7 +5,7 @@ export const prerender = false
 export const GET: RequestHandler = async ({
     locals: { supabase },
     url,
-    request,
+    request,setHeaders,
 }) => {
     const { searchParams } = url;
     const client = request.headers.get("x-client");
@@ -19,5 +19,11 @@ export const GET: RequestHandler = async ({
 
     const { data, error } = await query;
     if (error) return json({ message: error.message }, { status: 500 });
+
+    setHeaders({
+        age: "100",
+        'cache-control':"max-age=3600" 
+    })
+
     return json({ libs: data }, { status: 200 });
 };

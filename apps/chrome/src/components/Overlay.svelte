@@ -54,7 +54,7 @@
                 user_id,
                 prefix: (e.target as any).prefix.value,
                 lang: (e.target as any).lang.value,
-                library: (e.target as any).library.value,
+                lib_id: (e.target as any).library.value,
                 description: (e.target as any).description.value,
                 body: (e.target as any).body.value,
             }),
