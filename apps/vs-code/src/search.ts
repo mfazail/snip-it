@@ -14,84 +14,64 @@ export const searchSnips = async () => {
             return;
         }
     }
-    const processChanges = debounce((v) => fetchlibs(v, langId || "js"));
-    const p = window.createQuickPick();
-    p.placeholder = "e.g. shadcn/ui, vuetify, etc";
-    p.show();
-    p.onDidChangeSelection(async (e) => {
-        if (e[0] && e[0].label) {
-            console.log("selection", e[0].label);
-            // hide it
-            p.hide();
-            // fetch all snippet with selectedLib
-            const snips = await fetchLibSnips(e[0].label);
-            // then write to snippet file
-            if (snips) {
-                const userPath = getUserFolderPath();
-                if (!userPath) return;
-                const filePath = path.join(userPath, `${langId}.json`);
-                if (!filePath) {
-                    window.showErrorMessage("User path not defined");
-                    return;
-                } else {
-                    const existingContent = read(filePath);
-                    snips.forEach(({ prefix, body, description }) => {
-                        existingContent[prefix] = {
-                            prefix,
-                            body,
-                            description,
-                        };
-                    });
-                    write(filePath, existingContent);
-                    window.showInformationMessage("Snips added successfully");
-                }
-            }
-        }
-    });
-    p.onDidChangeValue(async (v) => {
-        p.busy = true;
-        console.log("value", v);
-        if (v) {
-            const options = await processChanges(v);
-            console.log({options})
-            if (!options) {
-                window.showInformationMessage("No results found");
-            }
-            p.items = options||[];
-        }
-        p.busy = false;
-    });
+    let selectedLib;
+    window.showInformationMessage("Fetching libraries")
+    const libs = await fetchlibs(langId || "js");
+    if (!libs) {
+        window.showInformationMessage("Empty items");
+        return;
+    }
 
-    p.onDidAccept(() => {
-        console.log("accepted");
-        p.hide();
-        // fetch all snippet with selectedLib
-        // then write to snippet file
+    selectedLib = await window.showQuickPick(libs, {
+        placeHolder: "Select a library",
+        canPickMany: false,
     });
-    p.onDidHide(() => {
-        p.dispose();
-    });
-    // console.log("finished");
+    if (!selectedLib) {
+        window.showInformationMessage("No library selected!");
+        return;
+    }
+    const snips = await fetchLibSnips(selectedLib.id);
+    if (!snips) {
+        window.showInformationMessage("No snips related to this library");
+        return;
+    }
+    const userPath = getUserFolderPath();
+    if (!userPath) return;
+    const filePath = path.join(userPath, `${langId}.json`);
+    if (!filePath) {
+        window.showErrorMessage("User path not defined");
+        return;
+    } else {
+        const existingContent = read(filePath);
+        snips.forEach(({ prefix, body, description }) => {
+            existingContent[prefix] = {
+                prefix,
+                body,
+                description,
+            };
+        });
+        write(filePath, existingContent);
+        window.showInformationMessage("Snips added successfully");
+    }
 };
 
-function debounce(
-    func: (e: string) => Promise<any>,
-    timeout: number = 300
-): (e: string) => Promise<any> {
-    let timer: any;
-    return (...args: []): any => {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            // @ts-ignore
-            func.apply(this, args);
-        }, timeout);
-    };
-}
+// function debounce(
+//     func: (e: string) => Promise<any>,
+//     timeout: number = 500
+// ): (e: string) => Promise<any> {
+//     let timer: any;
+//     return (...args: []): any => {
+//         clearTimeout(timer);
+//         timer = setTimeout(() => {
+//             // @ts-ignore
+//             func.apply(this, args);
+//         }, timeout);
+//     };
+// }
 
-const fetchlibs = async (search: string, langId: string) => {
-    console.log("fetching...")
+const fetchlibs = async (langId: string) => {
+    console.log("fetching...");
     const baseUrl = new URL("https://snipit.mfazail.com/api/libs");
-    baseUrl.searchParams.set("name", search);
     baseUrl.searchParams.set("lang", langId);
     baseUrl.searchParams.set("limit", "10");
     try {
@@ -102,16 +82,17 @@ const fetchlibs = async (search: string, langId: string) => {
             },
         });
         if (res.status == 200) {
-            const json: { id: number; name: string; short: string }[] =
-                res.data.libs as {
-                    id: number;
-                    name: string;
-                    short: string;
-                }[];
-                console.log({json})
+            const json: { id: number; name: string; short: string }[] = res.data
+                .libs as {
+                id: number;
+                name: string;
+                short: string;
+            }[];
+            console.log({ json });
             const options = json.map((item) => ({
                 label: item.name,
                 description: item.short,
+                id: item.id
             }));
             return options;
         } else {
@@ -127,10 +108,9 @@ const fetchlibs = async (search: string, langId: string) => {
     return null;
 };
 
-const fetchLibSnips = async (lib: string) => {
+const fetchLibSnips = async (lib_id:number) => {
     const baseUrl = new URL("https://snipit.mfazail.com/api/snips");
-    baseUrl.searchParams.set("select", "prefix,description,body");
-    baseUrl.searchParams.set("lib_id", lib);
+    baseUrl.searchParams.set("lib_id", lib_id.toString());
     try {
         const res = await axios.get(baseUrl.toString(), {
             headers: {

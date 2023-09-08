@@ -7,6 +7,7 @@ export const prerender = false;
 export const POST: RequestHandler = async ({
     request,
     locals: { getSession, supabase },
+    url
 }) => {
     const session = await getSession();
     if (!session) {
@@ -17,6 +18,8 @@ export const POST: RequestHandler = async ({
             { status: 403 }
         );
     }
+
+    console.log(url.origin)
 
     const { user_id, prefix, description, body, lang, lib_id } =
         await request.json();
