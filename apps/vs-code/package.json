@@ -2,14 +2,14 @@
   "publisher": "mfazail",
   "name": "snip-it-vscode",
   "displayName": "Snip It",
-  "version": "0.0.0",
+  "version": "0.1.1",
   "private": true,
   "packageManager": "pnpm@8.6.0",
   "description": "Create and share snippet with others, no need to see the docs and copy paste",
   "author": "Fazail Alam <fazailalam898@gmail.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/mfazail",
-  "homepage": "https://github.com/mfazail/snip-it#readme",
+  "homepage": "https://snipit.mfazail.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/mfazail/snip-it"
@@ -24,9 +24,10 @@
     "Other"
   ],
   "main": "./dist/index.js",
-  "icon": "res/icon.png",
+  "icon": "./icons/icon.png",
   "files": [
-    "dist"
+    "dist",
+    "assets"
   ],
   "engines": {
     "vscode": "^1.78.1"

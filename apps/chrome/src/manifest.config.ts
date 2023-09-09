@@ -18,10 +18,10 @@ export default defineManifest(async (env) => ({
     version: `${major}.${minor}.${patch}`,
     version_name: version,
     icons: {
-        "16": "src/assets/icons/icon-16.png",
-        "32": "src/assets/icons/icon-32.png",
-        "48": "src/assets/icons/icon-48.png",
-        "128": "src/assets/icons/icon-128.png",
+        "16": "src/assets/icons/16x16.png",
+        "32": "src/assets/icons/32x32.png",
+        "48": "src/assets/icons/48x48.png",
+        "128": "src/assets/icons/128x128.png",
     },
     host_permissions: ["*://*/*"],
     content_scripts: [
@@ -36,10 +36,10 @@ export default defineManifest(async (env) => ({
     action: {
         default_popup: "src/popup/popup.html",
         default_icon: {
-            "16": "src/assets/icons/icon-16.png",
-            "32": "src/assets/icons/icon-32.png",
-            "48": "src/assets/icons/icon-48.png",
-            "128": "src/assets/icons/icon-128.png",
+            "16": "src/assets/icons/16x16.png",
+            "32": "src/assets/icons/32x32.png",
+            "48": "src/assets/icons/48x48.png",
+            "128": "src/assets/icons/128x128.png",
         },
     },
     permissions: ["storage", "scripting","activeTab","contextMenus",'tabs',"cookies"] as chrome.runtime.ManifestPermissions[],

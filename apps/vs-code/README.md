@@ -1,15 +1,37 @@
-# ext-name
+# Snip It
 
-<a href="https://marketplace.visualstudio.com/items?itemName=antfu.ext-name" target="__blank"><img src="https://img.shields.io/visual-studio-marketplace/v/antfu.ext-name.svg?color=eee&amp;label=VS%20Code%20Marketplace&logo=visual-studio-code" alt="Visual Studio Marketplace Version" /></a>
+<a href="https://marketplace.visualstudio.com/items?itemName=mfazail.snip-it-vscode" target="__blank"><img src="https://img.shields.io/visual-studio-marketplace/v/mfazail.snip-it-vscode.svg?color=eee&amp;label=VS%20Code%20Marketplace&logo=visual-studio-code" alt="Visual Studio Marketplace Version" /></a>
 
-## Sponsors
+## Search 
 
-<p align="center">
-  <a href="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg">
-    <img src='https://cdn.jsdelivr.net/gh/antfu/static/sponsors.png'/>
-  </a>
-</p>
+<img src="./assets/vscode-search.png" />
 
-## License
+- Open command pallete and search `Snip It: Search`
+- Enter the library name _e.g. shadcn, vuetify, etc_
+- Select the library and all snips related to that library will be installed locally
 
-[MIT](./LICENSE) License © 2022 [Anthony Fu](https://github.com/antfu)
+
+## Create
+
+> This will create snips locally not to our server
+
+<img src="./assets/vscode-snipit.png" />
+
+- Select block of code that you want to create snip
+- Open command pallete or context menu and select `Snip It`
+- Enter the required details such as _prefix,description_
+- Then it will be saved locally
+
+## Delete
+
+> This will delete snips locally not to our server
+
+<img src="./assets/vscode-delete.png" />
+
+- Open command pallete and search `Snip It: Search`
+- Enter the prefix name _e.g. scn:dropdown,fbs:popover, accordion, etc_
+- Then snip will be deleted from your computer
+
+<br>
+
+> More features coming soon...
