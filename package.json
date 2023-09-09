@@ -4,12 +4,12 @@
     "description": "",
     "scripts": {
         "dev": "pnpm --stream -r run dev",
-        "dev:cs": "pnpm --filter @snip-it/site --filter @snip-it/chrome --stream -r run dev",
-        "dev:c": "pnpm --filter @snip-it/chrome --stream -r run dev",
-        "dev:s": "pnpm --filter @snip-it/site --stream -r run dev",
-        "add:s": "pnpm --filter @snip-it/site --stream -r add",
-        "add:c": "pnpm --filter @snip-it/chrome --stream -r add",
-        "add:v": "pnpm --filter @snip-it/vs-code --stream -r add",
+        "dev:cs": "pnpm --filter snip-it-site --filter snip-it-chrome --stream -r run dev",
+        "dev:c": "pnpm --filter snip-it-chrome --stream -r run dev",
+        "dev:s": "pnpm --filter snip-it-site --stream -r run dev",
+        "add:s": "pnpm --filter snip-it-site --stream -r add",
+        "add:c": "pnpm --filter snip-it-chrome --stream -r add",
+        "add:v": "pnpm --filter snip-it-vs-code --stream -r add",
         "build": "pnpm --stream -r run build"
     },
     "keywords": [],

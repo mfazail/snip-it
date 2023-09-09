@@ -13,6 +13,10 @@
         }
     }
 
+    const toggleNav = () => {
+        
+    }
+
 </script>
 
 <nav class="bg-white border-gray-200 dark:bg-gray-900">
@@ -96,6 +100,17 @@
                                 ? "nav-active"
                                 : "nav-inactive"
                         }`}>Snips</a>
+                </li>
+                <li class="sm:hidden">
+                    <a
+                        href={isSignedin ? '/dashboard':'/signin'}
+                        class={`block py-2 pl-3 pr-4 ${
+                            $page.url.pathname == "/dashboard" || $page.url.pathname == "/signin"
+                                ? "nav-active"
+                                : "nav-inactive"
+                        }`}>
+                        {isSignedin ? 'Dashboard':'Login'}    
+                    </a>
                 </li>
             </ul>
         </div>

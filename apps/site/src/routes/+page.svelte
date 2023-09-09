@@ -16,6 +16,26 @@
         const concluding = gsap.timeline();
         const master = gsap.timeline({ repeat: -1, repeatDelay: 2.5 });
 
+        const libs = gsap.timeline({
+            repeat: -1,
+            yoyo: true,
+            yoyoEase: "power1.inOut",
+        });
+        libs.fromTo(
+            ".lib",
+            {
+                boxShadow: "none",
+            },
+            {
+                duration: 2,
+                stagger: {
+                    amount: 2,
+                    from: "random",
+                },
+                boxShadow: "0 4px 6px -1px #F05252, 0 2px 4px -1px #F05252",
+            }
+        );
+
         coding
             .to(".line", {
                 display: "block",
@@ -171,10 +191,14 @@
     });
 </script>
 
+<svelte:head>
+    <title>Snip It</title>
+</svelte:head>
+
 <div class=" w-full dark:text-white">
     <section
-        class="w-full overflow-hidden h-[calc(100vh-200px)] md:h-[calc(100vh-73px)] grid grid-cols-1 md:grid-cols-2 gap-9 md:gap-1 content-start md:content-center justify-items-center">
-        <div class="relative left-container">
+        class="w-full overflow-hidden h-screen md:h-[calc(100vh-73px)] grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-1 content-start md:content-center justify-items-center">
+        <div class="relative left-container mt-20 md:mt-0">
             <div
                 class="prose dark:prose-invert h-[calc(100vh-500px)] md:h-[calc(100vh-300px)] px-4">
                 <h1>
@@ -189,12 +213,21 @@
                     code structure when you can <br />just
                     <strong><em>snip it</em></strong>
                 </p>
-                <a
-                    href="#getting-started"
-                    class="primary-btn no-underline inline-flex items-center"
-                    >Get Started <Icon
-                        icon="ic:baseline-arrow-right-alt"
-                        class="w-4 h-4 ml-2" /></a>
+                <div>
+                    <img
+                        class="m-0 mb-2"
+                        src="https://img.shields.io/visual-studio-marketplace/v/mfazail.snip-it-vscode.svg?color=6366f1&amp;label=VS%20Code%20Marketplace&logo=visual-studio-code"
+                        alt="Visual Studio Marketplace Version" />
+                    <a
+                        href="https://marketplace.visualstudio.com/items?itemName=mfazail.snip-it-vscode"
+                        target="_blank"
+                        class="primary-btn no-underline inline-flex items-center">
+                        Get Started
+                        <Icon
+                            icon="ic:baseline-arrow-right-alt"
+                            class="w-4 h-4 ml-2" />
+                    </a>
+                </div>
             </div>
         </div>
         <div
@@ -233,8 +266,7 @@
                 icon="ic:twotone-bookmark-add">
                 <div class="grid grid-cols-5 gap-2 h-60">
                     <div
-                        class="sidebar hidden col-span-1 h-60 rounded-md w-full bg-blue-200 text-center pt-2">
-                    </div>
+                        class="sidebar hidden col-span-1 h-60 rounded-md w-full bg-blue-200 text-center pt-2" />
                     <div
                         class="content hidden col-span-3 h-60 rounded-md w-full">
                         <div class="w-full h-16 bg-slate-300 rounded-md" />
@@ -252,8 +284,7 @@
                         </div>
                     </div>
                     <div
-                        class="toc hidden relative col-span-1 h-40 rounded-md w-full bg-green-200 text-center pt-2">
-                    </div>
+                        class="toc hidden relative col-span-1 h-40 rounded-md w-full bg-green-200 text-center pt-2" />
                     <div
                         class="command hidden absolute bottom-2 right-5 font-mono text-xs">
                         ctrl+c
@@ -276,10 +307,16 @@
         </div>
     </section>
     <div class="overflow-hidden">
-        <section id="getting-started"
-            class="relative bg min-h-screen md:min-h-[80vh] w-full px-4 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center content-center md:content-start">
-            <div class="rounded-md w-full h-96 bg-white/50" />
-            <div class="prose dark:prose-invert">
+        <section
+            id="getting-started"
+            class="relative bg min-h-screen md:min-h-[80vh] w-full px-4 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-8 justify-items-center content-center md:content-start">
+            <div class="rounded-md w-full h-96 z-10 order-2 md:order-1">
+                <img
+                    src="/assets/vscode-search.png"
+                    class="h-80 sm:h-96 w-full object-cover rounded-md"
+                    alt="Snip It - Search" />
+            </div>
+            <div class="prose dark:prose-invert order-1 md:order-2">
                 <h2>Search for snippets</h2>
                 <ul>
                     <li>Open command panel <code>Ctrl+shift+p</code></li>
@@ -304,12 +341,22 @@
                     <li>Enter prefix and description and done</li>
                 </ul>
             </div>
-            <div class="rounded-md w-full h-96 bg-white/50" />
+            <div class="rounded-md w-full h-96 z-10">
+                <img
+                    src="/assets/vscode-snipit.png"
+                    class="h-80 sm:h-96 w-full object-cover rounded-md"
+                    alt="Snip It" />
+            </div>
         </section>
         <section
             class="relative bg max-w-7xl mx-auto min-h-screen md:min-h-[80vh] w-full grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center content-center md:content-start px-4">
-            <div class="rounded-md w-full h-96 bg-white/50" />
-            <div class="prose dark:prose-invert">
+            <div class="rounded-md w-full h-96 z-10 order-2 md:order-1">
+                <img
+                    src="/assets/vscode-delete.png"
+                    class="h-80 sm:h-96 w-full object-cover rounded-md"
+                    alt="Snip It - Delete" />
+            </div>
+            <div class="prose dark:prose-invert order-1 md:order-2">
                 <h2>Delete snippet</h2>
                 <ul>
                     <li>Open command panel <code>Ctrl+shift+p</code></li>
@@ -325,14 +372,19 @@
                 class="libs max-w-3xl w-full h-full grid grid-cols-4 gap-10 content-center justify-items-center px-10 pt-10 pb-5">
                 {#each featuredLibs as lib, i (i)}
                     <div
-                    title={lib.name}
-                        class="dark:bg-slate-900 hover:shadow-md hover:shadow-red-500 transition-all rounded-md flex items-center justify-center w-full h-20 transform skew-x-[20deg] -rotate-12 border border-red-500">
+                        title={lib.name}
+                        class="lib dark:bg-slate-900 hover:shadow-md hover:shadow-red-500 transition-all rounded-md overflow-hidden flex items-center justify-center w-10 h-10 md:w-20 md:h-20 transform skew-x-[20deg] -rotate-12 border border-red-500">
                         {#if lib.type == "icon"}
                             {@const icon = lib.icon ?? ""}
-                            <Icon {icon}  class="h-10 w-10"/>
+                            <Icon
+                                {icon}
+                                class="w-6 h-6 md:h-10 md:w-10" />
                             <span class="sr-only">{lib.name}</span>
-                            {:else}
-                            <img src={lib.url} alt={lib.name} class="h-10 aspect-square">
+                        {:else}
+                            <img
+                                src={lib.url}
+                                alt={lib.name}
+                                class="h-10 aspect-square" />
                         {/if}
                     </div>
                 {/each}

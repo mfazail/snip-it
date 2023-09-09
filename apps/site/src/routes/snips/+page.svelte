@@ -42,6 +42,26 @@
     };
 </script>
 
+<svelte:head>
+    <title>Snip It - Snips</title>
+    <meta
+        name="description"
+        content="A collection of code snippets for various libraries" />
+    <meta
+        name="og:description"
+        content="A collection of code snippets for various libraries" />
+    <meta name="og:title" content="Snip It - Snips" />
+    <meta name="twitter:title" content="Snip It - Snips" />
+    <meta
+        name="twitter:description"
+        content="A collection of code snippets for various libraries" />
+    <meta name="twitter:label1" content="Total Snips" />
+    <meta name="twitter:data1" content="{totalSnips?.toString()}" />
+    <meta name="twitter:label2" content="Total Library" />
+    <meta name="twitter:data2" content="16" />
+</svelte:head>
+
+
 <div class="max-w-7xl mx-auto min-h-screen px-4 dark:text-white">
     <div class="mb-3 flex items-center justify-end">
         <button

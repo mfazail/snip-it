@@ -2,7 +2,7 @@
   "publisher": "mfazail",
   "name": "snip-it-vscode",
   "displayName": "Snip It",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "private": true,
   "packageManager": "pnpm@8.6.0",
   "description": "Create and share snippet with others, no need to see the docs and copy paste",
@@ -26,8 +26,7 @@
   "main": "./dist/index.js",
   "icon": "./icons/icon.png",
   "files": [
-    "dist",
-    "assets"
+    "dist"
   ],
   "engines": {
     "vscode": "^1.78.1"
