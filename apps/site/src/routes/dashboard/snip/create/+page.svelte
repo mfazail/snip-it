@@ -9,7 +9,6 @@
     import Select from "$lib/components/Select.svelte";
     import Textarea from "$lib/components/Textarea.svelte";
     import { useAlert } from "$lib/store/useAlert";
-    import { BUNDLED_LANGUAGES } from "shiki";
 
     export let form;
     export let data;
@@ -29,10 +28,10 @@
 
     const handleLibSaelect = (e: Event) => {
         if (data.libs) {
-            selectedLib = data.libs.filter(
+            selectedLib = data.libs.find(
                 (lib: Library) =>
                     Number((e.target as HTMLSelectElement).value) == lib.id
-            )[0];
+            );
         }
     };
 </script>

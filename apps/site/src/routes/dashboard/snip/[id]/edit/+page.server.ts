@@ -14,11 +14,18 @@ export const load = async ({
         .select("*")
         .eq("id", id)
         .single();
+    const { data: libs, error: LibErr } = await supabase
+        .from("library")
+        .select("id,name,short,version");
     if (error) {
+        throw redirect(302, `/dashboard`);
+    }
+    if (LibErr) {
         throw redirect(302, `/dashboard`);
     }
     return {
         snip: data,
+        libs,
     };
 };
 

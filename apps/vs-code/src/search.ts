@@ -14,7 +14,7 @@ export const searchSnips = async () => {
             return;
         }
     }
-    let selectedLib;
+    let selectedLib:any;
     window.showInformationMessage("Fetching libraries")
     const libs = await fetchlibs(langId || "js");
     if (!libs) {
@@ -45,8 +45,9 @@ export const searchSnips = async () => {
     } else {
         const existingContent = read(filePath);
         snips.forEach(({ prefix, body, description }) => {
-            existingContent[prefix] = {
-                prefix,
+            const p = `${selectedLib.description}:${prefix}`
+            existingContent[p] = {
+                prefix:p,
                 body,
                 description,
             };
@@ -56,19 +57,6 @@ export const searchSnips = async () => {
     }
 };
 
-// function debounce(
-//     func: (e: string) => Promise<any>,
-//     timeout: number = 500
-// ): (e: string) => Promise<any> {
-//     let timer: any;
-//     return (...args: []): any => {
-//         clearTimeout(timer);
-//         timer = setTimeout(() => {
-//             // @ts-ignore
-//             func.apply(this, args);
-//         }, timeout);
-//     };
-// }
 
 const fetchlibs = async (langId: string) => {
     console.log("fetching...");
