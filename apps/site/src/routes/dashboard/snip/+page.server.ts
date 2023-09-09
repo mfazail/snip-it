@@ -7,7 +7,7 @@ export const load = async ({ locals: { supabase, getSession } }) => {
     if (!session) {
         throw redirect(302, `/signin`);
     }
-    const { data, error } = await supabase.from("snip").select("id,body,prefix,description,updated_at,lang,library (name)").limit(10);
+    const { data, error } = await supabase.from("snip").select("id,body,prefix,description,updated_at,library (name,lang)").limit(10);
     if (error) {
         throw redirect(302, `/dashboard`);
     }

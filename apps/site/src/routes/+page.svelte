@@ -190,7 +190,7 @@
                     <strong><em>snip it</em></strong>
                 </p>
                 <a
-                    href="/docs"
+                    href="#getting-started"
                     class="primary-btn no-underline inline-flex items-center"
                     >Get Started <Icon
                         icon="ic:baseline-arrow-right-alt"
@@ -230,11 +230,10 @@
                 light
                 className="window-browser hidden lg:w-[70%] top-9 md:top-[6%] left-[20%] md:left-[10%]"
                 title="Browser"
-                icon="akar-icons:panel-split-row">
+                icon="ic:twotone-bookmark-add">
                 <div class="grid grid-cols-5 gap-2 h-60">
                     <div
                         class="sidebar hidden col-span-1 h-60 rounded-md w-full bg-blue-200 text-center pt-2">
-                        Sidebar
                     </div>
                     <div
                         class="content hidden col-span-3 h-60 rounded-md w-full">
@@ -254,7 +253,6 @@
                     </div>
                     <div
                         class="toc hidden relative col-span-1 h-40 rounded-md w-full bg-green-200 text-center pt-2">
-                        Toc
                     </div>
                     <div
                         class="command hidden absolute bottom-2 right-5 font-mono text-xs">
@@ -278,7 +276,7 @@
         </div>
     </section>
     <div class="overflow-hidden">
-        <section
+        <section id="getting-started"
             class="relative bg min-h-screen md:min-h-[80vh] w-full px-4 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center content-center md:content-start">
             <div class="rounded-md w-full h-96 bg-white/50" />
             <div class="prose dark:prose-invert">

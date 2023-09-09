@@ -2,8 +2,9 @@
     // @ts-ignore
     import { get_current_component } from "svelte/internal";
     import jwt_decode from "jwt-decode";
-    import { APP_URL, langs } from "../utils";
+    import { APP_URL } from "../utils";
     import { onMount } from "svelte";
+
     const THISComponent = get_current_component();
     export let snip = "demo";
     export let isSignedIn = false;
@@ -12,6 +13,7 @@
     let loading = false;
     let error: any = null;
     let libs: any[] = [];
+    let selected: any[] = [];
     let short = "";
     const destroyThisComp = () => {
         THISComponent.$destroy();
@@ -53,7 +55,6 @@
             body: JSON.stringify({
                 user_id,
                 prefix: (e.target as any).prefix.value,
-                lang: (e.target as any).lang.value,
                 lib_id: (e.target as any).library.value,
                 description: (e.target as any).description.value,
                 body: (e.target as any).body.value,
@@ -111,6 +112,7 @@
                             <p>{short}</p>
                         </div>
                         <input
+                            required
                             style="padding-left: 2.5rem; "
                             class:error={error && error.prefix}
                             id="prefix"
@@ -121,21 +123,9 @@
                     {/if}
                 </div>
                 <div>
-                    <label for="lang">Lang</label>
-                    <select
-                        class:error={error && error.lang}
-                        id="lang">
-                        {#each langs as lang}
-                            <option value={lang}>{lang}</option>
-                        {/each}
-                    </select>
-                    {#if error && error.lang}
-                        <p class="error">{error.message}</p>
-                    {/if}
-                </div>
-                <div>
                     <label for="library">Library</label>
                     <select
+                        required
                         on:change={handleSelect}
                         class:error={error && error.library}
                         id="library">
@@ -152,6 +142,7 @@
                 <div>
                     <label for="description">Description</label>
                     <input
+                        required
                         class:error={error && error.description}
                         id="description"
                         type="text" />
@@ -162,6 +153,7 @@
                 <div>
                     <label for="body">Snippet</label>
                     <textarea
+                        required
                         on:keydown={handleKeydown}
                         class:error={error && error.body}
                         id="body"

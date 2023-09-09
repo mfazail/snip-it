@@ -10,12 +10,18 @@ export const GET: RequestHandler = async ({
     const { searchParams } = url;
     const client = request.headers.get("x-client");
     console.log({ client });
+    const id = searchParams.get("id");
     const name = searchParams.get("name");
     const lang = searchParams.get("lang");
 
-    const query = supabase.from("library").select("id,name,short");
+    const query = supabase.from("library").select("id,name,short,lang");
 
+    if (id) query.ilike("id", id);
     if (name) query.ilike("name", `%${name}%`);
+    if (lang) {
+        const l = lang.split(',')
+        query.contains('lang',l)
+    }
 
     const { data, error } = await query;
     if (error) return json({ message: error.message }, { status: 500 });

@@ -27,7 +27,8 @@ export const getPaginationFromTo = (
  * @param params
  * @returns
  */
-export const joinSearchParams = (params: URLSearchParams) => {
+export const joinSearchParams = (params: URLSearchParams,{key,value}:{key:string,value:any}) => {
+    params.set(key,value)
     return Object.entries(params).reduce((acc, [key, value]) => {
         if (value) {
             var v = value;

@@ -15,7 +15,6 @@ export const SnipSchema = required(
             prefix: string("prefix should be string"),
             body: string("body should be string"),
             description: string("description should be string"),
-            lang: string("lang should be string"),
             lib_id: number("library id should be integer"),
         },
         "snip should be object"

@@ -5,17 +5,51 @@
     import SnipCard from "$lib/components/SnipCard.svelte";
     import Icon from "@iconify/svelte";
     import Pagination from "$lib/components/Pagination.svelte";
-    
+    import { BUNDLED_LANGUAGES } from "shiki";
+    import { goto, invalidate } from "$app/navigation";
+    import { page } from "$app/stores";
     export let data;
-    
+    $: snips = data.snips;
+    $: totalSnips = data.totalSnips;
+
     let filterOpen = false;
+    let libs: any[] = [];
+    let isFetchingLibs = false;
+    const fetchLibs = async () => {
+        isFetchingLibs = true;
+        const res = await fetch("/api/libs");
+        if (res.ok) {
+            const l = await res.json();
+            libs = l.libs;
+        }
+        isFetchingLibs = false;
+    };
+    const handleLibChange = async (e: Event) => {
+        $page.url.searchParams.set(
+            "lib_id",
+            (e.target as HTMLSelectElement).value
+        );
+        await goto($page.url);
+        await invalidate("snips");
+    };
+    const handleLangChange = async (e: Event) => {
+        $page.url.searchParams.set(
+            "lang",
+            (e.target as HTMLSelectElement).value
+        );
+        await goto($page.url);
+        await invalidate("snips");
+    };
 </script>
 
-<div class="max-w-7xl mx-auto min-h-screen px-4">
+<div class="max-w-7xl mx-auto min-h-screen px-4 dark:text-white">
     <div class="mb-3 flex items-center justify-end">
         <button
             on:click={() => {
                 filterOpen = !filterOpen;
+                if (libs.length == 0) {
+                    fetchLibs();
+                }
             }}
             type="button"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -37,27 +71,49 @@
                 <div>
                     <Label for="lang">Language</Label>
                     <Select
+                        value={$page.url.searchParams.get("lang")}
                         id="lang"
+                        on:change={handleLangChange}
                         placeholder="Select language">
-                        <option value="js">JS</option>
+                        {#each BUNDLED_LANGUAGES as lang}
+                            <option value={lang.id}>{lang.id}</option>
+                        {/each}
                     </Select>
                 </div>
                 <div>
                     <Label for="library">Library</Label>
                     <Select
+                        on:change={handleLibChange}
+                        value={$page.url.searchParams.get("lib_id")}
+                        disabled={isFetchingLibs}
                         id="library"
                         placeholder="Select library">
-                        <option value="svelte">Svelte</option>
+                        {#each libs as lib}
+                            <option value={lib.id}>{lib.name}</option>
+                        {/each}
                     </Select>
                 </div>
             </div>
         </div>
     {/if}
-    <main class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-        {#each data.snips as snip (snip.id)}
+    <main
+        class="{snips.length > 0
+            ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3'
+            : ''} ">
+        {#each snips as snip (snip.id)}
             <SnipCard {snip} />
+        {:else}
+            <div
+                class="max-w-xl mx-auto border border-dashed dark:border-slate-500 w-full h-60 flex items-center justify-center rounded-md dark:bg-slate-700">
+                <Icon
+                    icon="solar:notification-unread-lines-bold-duotone"
+                    class="w-8 h-8 dark:text-slate-100 animate-bounce" />
+                <p class="ml-2 md:ml-4 dark:text-slate-300">No Snips found</p>
+            </div>
         {/each}
     </main>
-    <Pagination
-        totalItems={data.totalSnips} />
+    
+    {#if snips.length > 0}
+        <Pagination totalItems={totalSnips} />
+    {/if}
 </div>

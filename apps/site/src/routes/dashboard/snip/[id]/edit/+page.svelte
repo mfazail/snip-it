@@ -17,12 +17,10 @@
     $: form?.message &&
         show({ title: form?.message ?? "", variant: "error" });
     $: prefix = form?.prefix ?? "";
-    $: lang = form?.lang ?? "";
     $: lib_id = form?.lib_id ?? "";
     $: description = form?.description ?? "";
     $: body = form?.body ?? "";
     onMount(() => {
-        lang = data.snip.lang;
         lib_id = data.snip.lib_id;
         description = data.snip.description;
         prefix = data.snip.prefix;
@@ -41,15 +39,6 @@
             };
         }}>
         <div class="grid grid-cols-1 sm:grid-cols-2">
-            <div>
-                <Label for="lang">Lang</Label>
-                <Select
-                    id="lang"
-                    name="lang"
-                    value={lang}>
-                    <option value="js">JS</option>
-                </Select>
-            </div>
             <div>
                 <Label for="lib_id">lib_id</Label>
                 <Select

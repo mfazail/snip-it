@@ -6,9 +6,10 @@
     import Logo from './Logo.svelte';
     export let isSignedin: boolean;
 
-    const handleKeydown = (e:KeyboardEvent) => {
+    const handleKeydown = async(e:KeyboardEvent) => {
         if(e.code == "Enter"){
-            goto(`/snips?q=${(e.target as HTMLInputElement).value}`)
+            $page.url.searchParams.set('name',(e.target as HTMLInputElement).value)
+            await goto(`/snips?${$page.url.searchParams.toString()}`)
         }
     }
 

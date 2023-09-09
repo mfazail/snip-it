@@ -1,13 +1,30 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
     import { page } from "$app/stores";
-    import { joinSearchParams } from "$lib/utils/pagination";
+    import { goto } from "$app/navigation";
     export let totalItems: number | null = 1;
     let currentPage = 1;
     let limit = 10;
     let totalPages = totalItems! / limit;
     $: currentPage = Number($page.url.searchParams.get("page") ?? "1");
     $: limit = Number($page.url.searchParams.get("limit") ?? "10");
+
+    const prev = () => {
+        if(currentPage == 1) return;
+        const p = currentPage == 1 ? 1 : currentPage - 1;
+        $page.url.searchParams.set('page',p.toString())
+        goto($page.url);
+    };
+    const next = () => {
+        if(currentPage == Math.ceil(totalPages)) return;
+        const p = currentPage + 1;        
+        $page.url.searchParams.set('page',p.toString())
+        goto($page.url);
+    };
+    const toPage = (i: number) => {
+        $page.url.searchParams.set('page',i.toString())
+        goto($page.url);
+    };
 </script>
 
 <nav
@@ -15,60 +32,46 @@
     class="w-full flex items-center justify-center my-2">
     <ul class="flex items-center -space-x-px h-8 text-sm">
         <li>
-            <button disabled={currentPage == 1}>
-                <a
-                    href="/snips?page={currentPage == 1
-                        ? 1
-                        : currentPage - 1}&{joinSearchParams(
-                        $page.url.searchParams
-                    )}"
-                    class="link-pagination link-prev">
-                    <span class="sr-only">Previous</span>
-                    <Icon
-                        icon="lucide:chevron-left"
-                        class="w-2.5 h-2.5" />
-                </a>
+            <button
+                class="link-pagination link-prev"
+                disabled={currentPage == 1}
+                on:click={prev}>
+                <span class="sr-only">Previous</span>
+                <Icon
+                    icon="lucide:chevron-left"
+                    class="w-2.5 h-2.5" />
             </button>
         </li>
         {#each { length: totalPages / limit } as _, i}
             <li>
-                <button disabled={currentPage == i + 1}>
+                <button
+                    on:click={() => {
+                        toPage(i + 1);
+                    }}
+                    disabled={currentPage == i + 1}>
                     {#if currentPage == i + 1}
                         <p class="link-pagination link-active">{currentPage}</p>
                     {:else}
-                        <a
-                            href="/snips?page={i + 1}{joinSearchParams(
-                                $page.url.searchParams
-                            )}"
-                            aria-current="page"
-                            class="link-pagination">
+                        <p class="link-pagination">
                             {i + 1}
-                        </a>
+                        </p>
                     {/if}
                 </button>
             </li>
         {/each}
         <li>
-            <button disabled={currentPage == totalPages}>
-                <a
-                    href="/snips?page={currentPage + 1}&{joinSearchParams(
-                        $page.url.searchParams
-                    )}"
-                    class="link-pagination link-next">
-                    <span class="sr-only">Next</span>
-                    <Icon
-                        icon="lucide:chevron-right"
-                        class="w-2.5 h-2.5" />
-                </a>
+            <button
+                class="link-pagination link-next"
+                on:click={next}
+                disabled={currentPage == Math.ceil(totalPages)}>
+                <span class="sr-only">Next</span>
+                <Icon
+                    icon="lucide:chevron-right"
+                    class="w-2.5 h-2.5" />
             </button>
         </li>
     </ul>
 </nav>
-<p class="text-white">
-    {#each $page.url.searchParams.entries() as param}
-        {JSON.stringify(param, null, 2)}
-    {/each}
-</p>
 
 <style lang="postcss">
     .link-pagination {

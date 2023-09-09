@@ -9,19 +9,24 @@
         description: string | null;
         body: string | null;
         updated_at: string | null;
-        lang: string | null;
         library: {
             name: string | null;
+            lang: string[] | null;
         } | null;
     }
     let bg: string = "#282A36";
     export let snip: Props;
     const renderHtml = async () => {
-        if (!$shiki?.getLoadedLanguages().includes(snip.lang as Lang)) {
-            await $shiki?.loadLanguage(snip.lang as Lang);
+        if (!snip.library) return "";
+        if (
+            !$shiki
+                ?.getLoadedLanguages()
+                .includes(snip.library.lang![0] as Lang)
+        ) {
+            await $shiki?.loadLanguage(snip.library.lang![0] as Lang);
         }
         return $shiki!.codeToHtml(snip.body ?? "", {
-            lang: snip.lang ?? "js",
+            lang: snip.library.lang![0] ?? "js",
             theme: "dracula",
         });
     };
@@ -44,12 +49,13 @@
             <p class="text-sm text-slate-600 dark:text-slate-300">
                 {snip.description}
             </p>
-            <p class="text-xs text-blue-600 dark:text-blue-400 underline underline-offset-1">
+            <p
+                class="text-xs text-blue-600 dark:text-blue-400 underline underline-offset-1">
                 {snip.library?.name}
             </p>
         </div>
         <Icon
-            icon="vscode-icons:file-type-{snip.lang}"
+            icon="vscode-icons:file-type-jsx"
             class="w-6 h-6" />
     </div>
     <div
@@ -66,7 +72,9 @@
         {/if}
     </div>
     <div class="flex items-center justify-between mt-1">
-        <p class="text-xs dark:text-slate-400 text-slate-600">{snip.lang}</p>
+        <p class="text-xs dark:text-slate-400 text-slate-600">
+            {snip.library?.lang}
+        </p>
         <p class="text-xs dark:text-slate-400 text-slate-600">
             Edited at: {formatEditedAt(snip.updated_at)}
         </p>

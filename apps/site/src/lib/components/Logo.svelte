@@ -6,7 +6,7 @@
     href="/"
     class="flex relative items-center dark:text-white">
     <Icon
-        icon="lucide:scan-line"
+        icon="fluent:square-hint-sparkles-24-regular"
         class="h-8 mr-3" />
     <span
         class="self-center text-2xl font-semibold whitespace-nowrap "

@@ -1,4 +1,3 @@
-<!-- src/routes/+layout.svelte -->
 <script lang="ts">
     import "../../src/app.postcss";
     import { invalidate,afterNavigate,beforeNavigate } from "$app/navigation";

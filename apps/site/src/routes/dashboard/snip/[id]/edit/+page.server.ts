@@ -33,9 +33,8 @@ export const actions: Actions = {
             return fail(403, {
                 prefix: null,
                 body: null,
-                description: null,
-                lang: null,
                 lib_id: null,
+                description: null,
                 message: "Not authorized",
             });
         }
@@ -43,14 +42,12 @@ export const actions: Actions = {
         const prefix = String(data.get("prefix"));
         const body = String(data.get("body"));
         const description = String(data.get("description"));
-        const lang = String(data.get("lang"));
         const lib_id = Number(data.get("lib_id"));
         const result = validateSnip({
             user_id: session.user.id,
             prefix,
             body,
             description,
-            lang,
             lib_id,
         });
         if (result) {
@@ -58,7 +55,6 @@ export const actions: Actions = {
                 prefix,
                 body,
                 description,
-                lang,
                 lib_id,
                 message: result.message,
             });
@@ -69,14 +65,13 @@ export const actions: Actions = {
                 prefix,
                 body,
                 description,
-                lang,
                 lib_id,
                 message: "id is required",
             });
         }
         const { error } = await supabase
             .from("snip")
-            .update({ prefix, body, description, lang, lib_id: Number(lib_id) })
+            .update({ prefix, body, description, lib_id: Number(lib_id) })
             .eq("id", id);
 
         if (error) {
@@ -84,7 +79,6 @@ export const actions: Actions = {
                 prefix,
                 body,
                 description,
-                lang,
                 lib_id,
                 message: error.message,
             });

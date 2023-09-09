@@ -1,32 +1,53 @@
 import { getPaginationFromTo } from "$lib/utils/pagination";
+import { createSupabaseLoadClient } from "@supabase/auth-helpers-sveltekit";
+import { error } from "@sveltejs/kit";
 
 export const prerender = false;
 
-export const load = async ({ locals: { supabase }, url }) => {
+export const load = async ({ locals:{supabase}, url, setHeaders,depends }) => {
+    depends('snips')
     const { searchParams } = url;
-    
     const page = searchParams.get("page") || 0;
     const limit = Number(searchParams.get("limit")) || 10;
-    const library = searchParams.get("library");
+    const lib_id = searchParams.get("lib_id");
+    const name = searchParams.get("name");
     const lang = searchParams.get("lang");
     const { from, to } = getPaginationFromTo(page, limit);
-    console.log({ from, to });
-    const query = supabase.from("snip").select('id,body,prefix,description,updated_at,lang,library (name)', {
-        count: "exact",
-    });
+    // console.log({ from, to });
+    const query = supabase
+        .from("snip")
+        .select(
+            "id,body,prefix,description,lib_id,updated_at,library (name,lang)",
+            {
+                count: "exact",
+            }
+        );
 
-    if (library) query.eq("library", library);
-    if (lang) query.eq("lang", lang);
+    if (lib_id) query.eq("lib_id", lib_id);
+    if (lang) {
+        const l = lang.split(",");
+        query.contains("library.lang", l);
+    }
+    if (name) {
+        query.ilike("library.name",`%${name}%`);
+    }
 
     query.order("created_at", { ascending: false });
     query.range(from, to);
     query.limit(limit);
-    const { error, data, count } = await query;
-    if (error) {
-        throw new Error(error.message);
+    const { error: err, data: snips, count } = await query;
+    if (err) {
+        throw error(500, { message: err.message });
     }
+
+    setHeaders({
+        age: "100",
+        'cache-control':'max-age=3600'
+    })
+
+    // console.log("called1");
     return {
-        snips: data,
+        snips,
         totalSnips: count,
     };
 };

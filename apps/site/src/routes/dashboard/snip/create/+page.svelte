@@ -49,19 +49,6 @@
         }}>
         <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-                <Label for="lang">Lang</Label>
-                <Select
-                    id="lang"
-                    name="lang"
-                    value={form?.lang}
-                    placeholder="Select language">
-                    {#each BUNDLED_LANGUAGES as shikiLang}
-                        <option value={shikiLang.id}
-                            >{shikiLang.displayName}</option>
-                    {/each}
-                </Select>
-            </div>
-            <div>
                 <Label for="library">Library</Label>
                 <Select
                     on:change={handleLibSaelect}

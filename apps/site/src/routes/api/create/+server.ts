@@ -37,7 +37,6 @@ export const POST: RequestHandler = async ({ request, url,fetch }) => {
     const result = validateSnip({
         body,
         description,
-        lang,
         prefix,
         lib_id: parseInt(lib_id),
         user_id,

@@ -6,22 +6,32 @@
     import Input from "$lib/components/Input.svelte";
     import Button from "$lib/components/Button.svelte";
     import Logo from "$lib/components/Logo.svelte";
+    import Icon from "@iconify/svelte";
     export let form;
     let isSubmitting = false;
     const { show } = useAlert();
-    $: if (form?.error)
-        show({ title: form?.error ?? "", variant: "error" });
+    $: if (form?.error) show({ title: form?.error ?? "", variant: "error" });
 </script>
 
 <div
     class="h-screen flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 space-y-4">
     <Logo />
-    <div class="w-full border dark:border-slate-800 rounded-lg shadow md:mt-0 sm:max-w-sm xl:p-0">
+    <div
+        class="w-full border dark:border-slate-800 rounded-lg shadow md:mt-0 sm:max-w-sm xl:p-0 relative">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1
-                class="text-xl dark:text-white font-bold leading-tight tracking-tight md:text-2xl mb-8">
-                Sign in to your account
-            </h1>
+            <div>
+                <h1
+                    class="text-xl dark:text-white font-bold leading-tight tracking-tight md:text-2xl">
+                    Sign in to your account
+                </h1>
+                <div
+                    class="inline-flex items-center text-yellow-300 text-xs py-1">
+                    <Icon
+                        icon="mdi:alert-rhombus-outline"
+                        class="text-yellow-300 mr-2" />
+                    Currently signups are invites only
+                </div>
+            </div>
             <form
                 class="space-y-4 flex flex-col"
                 method="post"
