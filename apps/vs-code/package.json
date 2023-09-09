@@ -1,6 +1,6 @@
 {
   "publisher": "mfazail",
-  "name": "@snip-it/vs-code",
+  "name": "snip-it-vscode",
   "displayName": "Snip It",
   "version": "0.0.0",
   "private": true,

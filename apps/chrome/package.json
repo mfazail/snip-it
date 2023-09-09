@@ -1,5 +1,5 @@
 {
-    "name": "@snip-it/chrome",
+    "name": "snip-it-chrome",
     "description": "Boilerplate for Chrome Extension Svelte Typescript project",
     "version": "1.0.0",
     "type": "module",
