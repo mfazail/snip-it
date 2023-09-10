@@ -1,35 +1,39 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
     import { page } from "$app/stores";
-    import { goto } from "$app/navigation";
+    import { goto, invalidate } from "$app/navigation";
     export let totalItems: number | null = 1;
+    export let depends = ""
     let currentPage = 1;
     let limit = 10;
-    let totalPages = totalItems! / limit;
+    let totalPages = Math.floor(totalItems! / limit);
     $: currentPage = Number($page.url.searchParams.get("page") ?? "1");
     $: limit = Number($page.url.searchParams.get("limit") ?? "10");
 
-    const prev = () => {
+    const prev = async() => {
         if(currentPage == 1) return;
         const p = currentPage == 1 ? 1 : currentPage - 1;
         $page.url.searchParams.set('page',p.toString())
-        goto($page.url);
+        await goto($page.url);
+        await invalidate(depends)
     };
-    const next = () => {
+    const next = async() => {
         if(currentPage == Math.ceil(totalPages)) return;
         const p = currentPage + 1;        
         $page.url.searchParams.set('page',p.toString())
-        goto($page.url);
+        await goto($page.url);
+        await invalidate(depends)
     };
-    const toPage = (i: number) => {
+    const toPage = async(i: number) => {
         $page.url.searchParams.set('page',i.toString())
-        goto($page.url);
+        await goto($page.url);
+        await invalidate(depends)
     };
 </script>
 
 <nav
     aria-label="Page navigation example"
-    class="w-full flex items-center justify-center my-2">
+    class="w-full flex items-center justify-center py-2">
     <ul class="flex items-center -space-x-px h-8 text-sm">
         <li>
             <button
@@ -42,7 +46,7 @@
                     class="w-2.5 h-2.5" />
             </button>
         </li>
-        {#each { length: totalPages / limit } as _, i}
+        {#each { length:totalPages } as _, i}
             <li>
                 <button
                     on:click={() => {

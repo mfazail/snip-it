@@ -1,7 +1,9 @@
 <script>
     import SidebarItem from "$lib/components/SidebarItem.svelte";
     import { page } from "$app/stores";
+    import { browser } from '$app/environment'
     import Icon from "@iconify/svelte";
+    import { onDestroy, onMount } from "svelte";
     const sidebarItems = [
         {
             href: "/dashboard",
@@ -24,7 +26,16 @@
             icon: "lucide:plus",
         },
     ];
+    onMount(()=>{
+        if(browser)
+        document.body.classList.add('overflow-hidden')
+    })
+    onDestroy(()=>{
+        if(browser)
+        document.body.classList.remove('overflow-hidden')
+    })
 </script>
+
 
 <button
     data-drawer-target="default-sidebar"
@@ -58,6 +69,6 @@
     </div>
 </aside>
 
-<div class="p-4 sm:ml-64 min-h-screen sm:min-h-full sm:h-[calc(100vh-73px)] sm:overflow-y-scroll">
+<div class="p-4 sm:ml-64 sm:h-[calc(100vh-73px)] sm:overflow-y-scroll">
     <slot />
 </div>

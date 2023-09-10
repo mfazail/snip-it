@@ -1,19 +1,19 @@
 import { getPaginationFromTo } from "$lib/utils/pagination";
-import { createSupabaseLoadClient } from "@supabase/auth-helpers-sveltekit";
 import { error } from "@sveltejs/kit";
 
 export const prerender = false;
 
-export const load = async ({ locals:{supabase}, url, setHeaders,depends }) => {
+export const load = async ({ url,parent, setHeaders,depends }) => {
     depends('snips')
+    const { supabase } = await parent()
     const { searchParams } = url;
-    const page = searchParams.get("page") || 0;
+    const page = searchParams.get("page") || 1;
     const limit = Number(searchParams.get("limit")) || 10;
     const lib_id = searchParams.get("lib_id");
     const name = searchParams.get("name");
     const lang = searchParams.get("lang");
     const { from, to } = getPaginationFromTo(page, limit);
-    // console.log({ from, to });
+    console.log({ from, to });
     const query = supabase
         .from("snip")
         .select(

@@ -1,6 +1,6 @@
 import { window } from "vscode";
 import { getUserFolderPath, read, write } from "./read-write";
-import path from "path";
+import { join } from "path";
 
 export const createSnippet = async () => {
   const editor = window.activeTextEditor;
@@ -36,7 +36,7 @@ export const createSnippet = async () => {
     const languageId = editor.document.languageId;
     const snippetFolderPath = getUserFolderPath();
     if (!snippetFolderPath) return;
-    const snippetFilePath = path.join(snippetFolderPath, `${languageId}.json`);
+    const snippetFilePath = join(snippetFolderPath, `${languageId}.json`);
     const content = read(snippetFilePath);
     if (!content) return;
     content[prefix] = snippetObject;

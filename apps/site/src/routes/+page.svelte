@@ -16,25 +16,6 @@
         const concluding = gsap.timeline();
         const master = gsap.timeline({ repeat: -1, repeatDelay: 2.5 });
 
-        const libs = gsap.timeline({
-            repeat: -1,
-            yoyo: true,
-            yoyoEase: "power1.inOut",
-        });
-        libs.fromTo(
-            ".lib",
-            {
-                boxShadow: "none",
-            },
-            {
-                duration: 2,
-                stagger: {
-                    amount: 2,
-                    from: "random",
-                },
-                boxShadow: "0 4px 6px -1px #F05252, 0 2px 4px -1px #F05252",
-            }
-        );
 
         coding
             .to(".line", {
@@ -373,7 +354,7 @@
                 {#each featuredLibs as lib, i (i)}
                     <div
                         title={lib.name}
-                        class="lib dark:bg-slate-900 hover:shadow-md hover:shadow-red-500 transition-all rounded-md overflow-hidden flex items-center justify-center w-10 h-10 md:w-20 md:h-20 transform skew-x-[20deg] -rotate-12 border border-red-500">
+                        class="dark:bg-slate-900 hover:shadow-md hover:shadow-red-500 transition-all rounded-md overflow-hidden flex items-center justify-center w-10 h-10 md:w-20 md:h-20 transform skew-x-[20deg] -rotate-12 border border-red-500">
                         {#if lib.type == "icon"}
                             {@const icon = lib.icon ?? ""}
                             <Icon

@@ -10,10 +10,11 @@
         "add:s": "pnpm --filter snip-it-site --stream -r add",
         "add:c": "pnpm --filter snip-it-chrome --stream -r add",
         "add:v": "pnpm --filter snip-it-vs-code --stream -r add",
+        "publish:vs":"pnpm --filter snip-it-vscode --stream -r run publish",
         "build": "pnpm --stream -r run build"
     },
     "keywords": [],
-    "author": "",
+    "author": "Fazail Alam <fazailalam898@gmail.com>",
     "license": "ISC",
     "devDependencies": {
         "typescript": "^5"

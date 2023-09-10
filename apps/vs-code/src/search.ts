@@ -1,7 +1,8 @@
 import { window } from "vscode";
-import axios from "axios";
+// import axios from "axios";
+import fetch from "node-fetch";
 import { getUserFolderPath, read, write } from "./read-write";
-import path from "path";
+import { join } from "path";
 
 export const searchSnips = async () => {
     const editor = window.activeTextEditor;
@@ -14,8 +15,8 @@ export const searchSnips = async () => {
             return;
         }
     }
-    let selectedLib:any;
-    window.showInformationMessage("Fetching libraries")
+    let selectedLib: any;
+    window.showInformationMessage("Fetching libraries");
     const libs = await fetchlibs(langId || "js");
     if (!libs) {
         window.showInformationMessage("Empty items");
@@ -35,19 +36,19 @@ export const searchSnips = async () => {
         window.showInformationMessage("No snips related to this library");
         return;
     }
-    console.log({snips})
+    console.log({ snips });
     const userPath = getUserFolderPath();
     if (!userPath) return;
-    const filePath = path.join(userPath, `${langId}.json`);
+    const filePath = join(userPath, `${langId}.json`);
     if (!filePath) {
         window.showErrorMessage("User path not defined");
         return;
     } else {
         const existingContent = read(filePath);
         snips.forEach(({ prefix, body, description }) => {
-            const p = `${selectedLib.description}:${prefix}`
+            const p = `${selectedLib.description}:${prefix}`;
             existingContent[p] = {
-                prefix:p,
+                prefix: p,
                 body,
                 description,
             };
@@ -57,31 +58,31 @@ export const searchSnips = async () => {
     }
 };
 
-
 const fetchlibs = async (langId: string) => {
     console.log("fetching...");
     const baseUrl = new URL("https://snipit.mfazail.com/api/libs");
     baseUrl.searchParams.set("lang", langId);
     baseUrl.searchParams.set("limit", "10");
     try {
-        const res = await axios.get(baseUrl.toString(), {
+        const res = await fetch(baseUrl.toString(), {
             headers: {
                 "Content-Type": "application/json",
                 "x-client": "@snip-it/vscode",
             },
         });
         if (res.status == 200) {
-            const json: { id: number; name: string; short: string }[] = res.data
-                .libs as {
-                id: number;
-                name: string;
-                short: string;
-            }[];
+            const j: any = await res.json();
+            const json: { id: number; name: string; short: string }[] =
+                j.libs as {
+                    id: number;
+                    name: string;
+                    short: string;
+                }[];
             console.log({ json });
             const options = json.map((item) => ({
                 label: item.name,
                 description: item.short,
-                id: item.id
+                id: item.id,
             }));
             return options;
         } else {
@@ -97,18 +98,19 @@ const fetchlibs = async (langId: string) => {
     return null;
 };
 
-const fetchLibSnips = async (lib_id:number) => {
+const fetchLibSnips = async (lib_id: number) => {
     const baseUrl = new URL("https://snipit.mfazail.com/api/snips");
     baseUrl.searchParams.set("lib_id", lib_id.toString());
     try {
-        const res = await axios.get(baseUrl.toString(), {
+        const res = await fetch(baseUrl.toString(), {
             headers: {
                 "Content-Type": "application/json",
                 "x-client": "@snip-it/vscode",
             },
         });
         if (res.status == 200) {
-            return res.data as {
+            const j = await res.json();
+            return j as {
                 prefix: string;
                 description: string;
                 body: string;

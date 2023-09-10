@@ -11,7 +11,9 @@ export const getPaginationFromTo = (
     current: string | number,
     limit: number = 10
 ) => {
-    const from = Math.max(0, Number(current)) * 10;
+    var c = Number(current);
+    if (c == 1) c = 0;
+    const from = c * 10;
     const to = from + limit;
     return {
         from,
@@ -21,14 +23,17 @@ export const getPaginationFromTo = (
 
 /**
  * converts the search params to a string
- * or replace to the new params 
+ * or replace to the new params
  * // input: {a: '1', b: '2', c: undefined}
  * // output: 'a=1&b=2'
  * @param params
  * @returns
  */
-export const joinSearchParams = (params: URLSearchParams,{key,value}:{key:string,value:any}) => {
-    params.set(key,value)
+export const joinSearchParams = (
+    params: URLSearchParams,
+    { key, value }: { key: string; value: any }
+) => {
+    params.set(key, value);
     return Object.entries(params).reduce((acc, [key, value]) => {
         if (value) {
             var v = value;

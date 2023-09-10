@@ -134,6 +134,6 @@
     </main>
     
     {#if snips.length > 0}
-        <Pagination totalItems={totalSnips} />
+        <Pagination depends="snips" totalItems={totalSnips} />
     {/if}
 </div>

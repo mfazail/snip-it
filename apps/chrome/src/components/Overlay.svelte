@@ -226,6 +226,7 @@
         height: 100%;
         top: 0;
         left: 0;
+        z-index: 999999;
         background-color: rgba(37, 37, 37, 0.431);
     }
     .card {
