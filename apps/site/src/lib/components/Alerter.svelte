@@ -16,14 +16,14 @@
                 <h3
                     class:text-red-600={alert.variant == "error"}
                     class:text-green-600={alert.variant == "success"}>
-                    Hello
+                    { alert.title }
                 </h3>
                 <p
                     class="text-sm"
                     class:text-slate-400={alert.variant == "info"}
                     class:text-red-500={alert.variant == "error"}
                     class:text-green-500={alert.variant == "success"}>
-                    Some cute little message
+                    {alert.description}
                 </p>
                 <button
                     class="absolute right-2 top-3"

@@ -6,20 +6,17 @@ export const prerender = false;
 export const load = async ({
     parent,
     url,
-    depends
 }) => {
-    depends('dashboard:snips')
     const { session,supabase } = await parent()
     if (!session) {
         throw redirect(302, `/signin`);
     }
-    const { searchParams } = url;
-    const page = searchParams.get("page");
+    const page = url.searchParams.get("page");
 
     const query = supabase
         .from("snip")
         .select("id,body,prefix,description,updated_at,library (name,lang)", {
-            count: "exact",
+            count: "estimated",
         })
         .limit(10);
 

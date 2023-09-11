@@ -1,13 +1,13 @@
 <script lang="ts">
     import { enhance } from "$app/forms";
-    import Button from "$lib/components/Button.svelte";
-    import Input from "$lib/components/Input.svelte";
-    import InputGroup from "$lib/components/InputGroup.svelte";
-    import InputHelper from "$lib/components/InputHelper.svelte";
-    import Label from "$lib/components/Label.svelte";
-    import Loader from "$lib/components/Loader.svelte";
-    import Select from "$lib/components/Select.svelte";
-    import Textarea from "$lib/components/Textarea.svelte";
+    import Button from "$lib/components/ui/Button.svelte";
+    import Input from "$lib/components/ui/Input.svelte";
+    import InputGroup from "$lib/components/ui/InputGroup.svelte";
+    import InputHelper from "$lib/components/ui/InputHelper.svelte";
+    import Label from "$lib/components/ui/Label.svelte";
+    import Loader from "$lib/components/ui/Loader.svelte";
+    import Select from "$lib/components/ui/Select.svelte";
+    import Textarea from "$lib/components/ui/Textarea.svelte";
     import { useAlert } from "$lib/store/useAlert";
 
     export let form;

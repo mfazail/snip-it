@@ -11,7 +11,6 @@ export const alerts = writable<AlertProp[] | undefined>([]);
 
 export const useAlert = () => {
     const show = ({ title, description, variant = "info" }: AlertProp) => {
-        console.log("called");
         const id = crypto.randomUUID();
         const newAlert: AlertProp = {
             id,

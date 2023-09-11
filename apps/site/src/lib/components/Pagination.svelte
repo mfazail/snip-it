@@ -1,33 +1,37 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
     import { page } from "$app/stores";
-    import { goto, invalidate } from "$app/navigation";
+    import { goto } from "$app/navigation";
+
     export let totalItems: number | null = 1;
-    export let depends = ""
+    
     let currentPage = 1;
     let limit = 10;
-    let totalPages = Math.floor(totalItems! / limit);
+    $: totalPages = Math.floor(totalItems! / limit);
     $: currentPage = Number($page.url.searchParams.get("page") ?? "1");
     $: limit = Number($page.url.searchParams.get("limit") ?? "10");
 
     const prev = async() => {
         if(currentPage == 1) return;
         const p = currentPage == 1 ? 1 : currentPage - 1;
-        $page.url.searchParams.set('page',p.toString())
-        await goto($page.url);
-        await invalidate(depends)
+        const searchParams = new URLSearchParams($page.url.search)
+        searchParams.set('page',p.toString())
+        const url = $page.url.pathname
+        await goto(`${url}?${searchParams.toString()}`);
     };
     const next = async() => {
         if(currentPage == Math.ceil(totalPages)) return;
-        const p = currentPage + 1;        
-        $page.url.searchParams.set('page',p.toString())
-        await goto($page.url);
-        await invalidate(depends)
+        const p = currentPage + 1;
+        const searchParams = new URLSearchParams($page.url.search)
+        searchParams.set('page',p.toString())
+        const url = $page.url.pathname
+        await goto(`${url}?${searchParams.toString()}`);
     };
     const toPage = async(i: number) => {
-        $page.url.searchParams.set('page',i.toString())
-        await goto($page.url);
-        await invalidate(depends)
+        const searchParams = new URLSearchParams($page.url.search)
+        searchParams.set('page',i.toString())
+        const url = $page.url.pathname
+        await goto(`${url}?${searchParams.toString()}`);
     };
 </script>
 

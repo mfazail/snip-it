@@ -1,6 +1,6 @@
 <script lang="ts">
     import Icon from '@iconify/svelte';
-    import Button from "./Button.svelte";
+    import Button from "./ui/Button.svelte";
     import { page } from "$app/stores";
     import { goto } from '$app/navigation';
     import Logo from './Logo.svelte';

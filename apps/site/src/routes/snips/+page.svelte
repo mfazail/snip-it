@@ -1,20 +1,23 @@
 <script lang="ts">
-    import Label from "$lib/components/Label.svelte";
-    import Select from "$lib/components/Select.svelte";
+    import Label from "$lib/components/ui/Label.svelte";
+    import Select from "$lib/components/ui/Select.svelte";
     import { slide } from "svelte/transition";
     import SnipCard from "$lib/components/SnipCard.svelte";
     import Icon from "@iconify/svelte";
     import Pagination from "$lib/components/Pagination.svelte";
     import { BUNDLED_LANGUAGES } from "shiki";
-    import { goto, invalidate } from "$app/navigation";
+    import { goto } from "$app/navigation";
     import { page } from "$app/stores";
+
     export let data;
-    $: snips = data.snips;
-    $: totalSnips = data.totalSnips;
+
+    let { snips, totalSnips } = data;
+    $: ({ snips, totalSnips } = data);
 
     let filterOpen = false;
     let libs: any[] = [];
     let isFetchingLibs = false;
+
     const fetchLibs = async () => {
         isFetchingLibs = true;
         const res = await fetch("/api/libs");
@@ -25,20 +28,14 @@
         isFetchingLibs = false;
     };
     const handleLibChange = async (e: Event) => {
-        $page.url.searchParams.set(
-            "lib_id",
-            (e.target as HTMLSelectElement).value
-        );
-        await goto($page.url);
-        await invalidate("snips");
+        const searchParams = new URLSearchParams($page.url.search);
+        searchParams.set("lib_id", (e.target as HTMLSelectElement).value);
+        await goto(`/snips?${searchParams.toString()}`);
     };
     const handleLangChange = async (e: Event) => {
-        $page.url.searchParams.set(
-            "lang",
-            (e.target as HTMLSelectElement).value
-        );
-        await goto($page.url);
-        await invalidate("snips");
+        const searchParams = new URLSearchParams($page.url.search);
+        searchParams.set("lang", (e.target as HTMLSelectElement).value);
+        await goto(`/snips?${searchParams.toString()}`);
     };
 </script>
 
@@ -50,17 +47,22 @@
     <meta
         name="og:description"
         content="A collection of code snippets for various libraries" />
-    <meta name="og:title" content="Snip It - Snips" />
-    <meta name="twitter:title" content="Snip It - Snips" />
+    <meta
+        name="og:title"
+        content="Snip It - Snips" />
+    <meta
+        name="twitter:title"
+        content="Snip It - Snips" />
     <meta
         name="twitter:description"
         content="A collection of code snippets for various libraries" />
-    <meta name="twitter:label1" content="Total Snips" />
-    <meta name="twitter:data1" content="{totalSnips?.toString()}" />
-    <meta name="twitter:label2" content="Total Library" />
-    <meta name="twitter:data2" content="16" />
+    <meta
+        name="twitter:label2"
+        content="Total Library" />
+    <meta
+        name="twitter:data2"
+        content="16" />
 </svelte:head>
-
 
 <div class="max-w-7xl mx-auto min-h-screen px-4 dark:text-white">
     <div class="mb-3 flex items-center justify-end">
@@ -121,7 +123,9 @@
             ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3'
             : ''} ">
         {#each snips as snip (snip.id)}
-            <SnipCard {snip} />
+            <SnipCard
+                {snip}
+                canEdit={data.session ? true : false} />
         {:else}
             <div
                 class="max-w-xl mx-auto border border-dashed dark:border-slate-500 w-full h-60 flex items-center justify-center rounded-md dark:bg-slate-700">
@@ -132,8 +136,8 @@
             </div>
         {/each}
     </main>
-    
+
     {#if snips.length > 0}
-        <Pagination depends="snips" totalItems={totalSnips} />
+        <Pagination totalItems={totalSnips} />
     {/if}
 </div>

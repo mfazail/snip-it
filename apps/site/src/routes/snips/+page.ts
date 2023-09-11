@@ -3,29 +3,28 @@ import { error } from "@sveltejs/kit";
 
 export const prerender = false;
 
-export const load = async ({ url,parent, setHeaders,depends }) => {
-    depends('snips')
+export const load = async ({ url,parent, setHeaders }) => {
     const { supabase } = await parent()
-    const { searchParams } = url;
-    const page = searchParams.get("page") || 1;
-    const limit = Number(searchParams.get("limit")) || 10;
-    const lib_id = searchParams.get("lib_id");
-    const name = searchParams.get("name");
-    const lang = searchParams.get("lang");
+    // console.log("fetching...")
+    const page = url.searchParams.get("page") || 1;
+    const limit = Number(url.searchParams.get("limit")) || 10;
+    const lib_id = url.searchParams.get("lib_id");
+    const name = url.searchParams.get("name");
+    const lang = url.searchParams.get("lang");
     const { from, to } = getPaginationFromTo(page, limit);
-    console.log({ from, to });
+    // console.log({ from, to });
     const query = supabase
         .from("snip")
         .select(
             "id,body,prefix,description,lib_id,updated_at,library (name,lang)",
             {
-                count: "exact",
+                count: "estimated",
             }
         );
 
-    if (lib_id) query.eq("lib_id", lib_id);
-    if (lang) {
-        const l = lang.split(",");
+        if (lib_id) query.eq("lib_id", lib_id);
+        if (lang) {
+            const l = lang.split(",");
         query.contains("library.lang", l);
     }
     if (name) {
@@ -39,13 +38,12 @@ export const load = async ({ url,parent, setHeaders,depends }) => {
     if (err) {
         throw error(500, { message: err.message });
     }
-
+    
     setHeaders({
-        age: "100",
         'cache-control':'max-age=3600'
     })
-
-    // console.log("called1");
+    
+    // console.log("fetched")
     return {
         snips,
         totalSnips: count,

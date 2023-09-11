@@ -1,10 +1,10 @@
 <script lang="ts">
     import { enhance } from "$app/forms";
     import { useAlert } from "$lib/store/useAlert";
-    import Loader from "$lib/components/Loader.svelte";
-    import Label from "$lib/components/Label.svelte";
-    import Input from "$lib/components/Input.svelte";
-    import Button from "$lib/components/Button.svelte";
+    import Loader from "$lib/components/ui/Loader.svelte";
+    import Label from "$lib/components/ui/Label.svelte";
+    import Input from "$lib/components/ui/Input.svelte";
+    import Button from "$lib/components/ui/Button.svelte";
     import Logo from "$lib/components/Logo.svelte";
     import Icon from "@iconify/svelte";
     export let form;
@@ -38,7 +38,7 @@
                 action="?/signin"
                 use:enhance={({}) => {
                     isSubmitting = true;
-                    return async ({ update }) => {
+                    return ({ update }) => {
                         isSubmitting = false;
                         update();
                     };
@@ -83,9 +83,11 @@
                     className="self-end inline-flex items-center mr-2"
                     type="submit"
                     disabled={isSubmitting}>
-                    {#if isSubmitting}
-                        <Loader />
-                    {/if}
+                    <svelte:fragment slot="iconLeft">
+                        {#if isSubmitting}
+                            <Loader />
+                        {/if}
+                    </svelte:fragment>
                     Sign in
                 </Button>
             </form>

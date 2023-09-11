@@ -14,6 +14,7 @@
             lang: string[] | null;
         } | null;
     }
+    export let canEdit: boolean = false;
     let bg: string = "#282A36";
     export let snip: Props;
     const renderHtml = async () => {
@@ -50,15 +51,23 @@
 <div
     class="rounded-md min-w-[250px] mt-8 p-4 hover:shadow border dark:border-slate-700"
     class:md:row-span-1={getBodyLength() < 5}
-    class:md:row-span-2={getBodyLength() > 5}>
+    class:md:row-span-2={getBodyLength() > 5 && getBodyLength() <= 10}
+    class:md:row-span-3={getBodyLength() > 10}>
     <div class="flex items-center justify-between w-full">
         <div>
             <h5 class="text-xl font-semibold dark:text-white">{snip.prefix}</h5>
             <p class="text-sm text-slate-600 dark:text-slate-300">
                 {snip.description}
+                {#if canEdit}
+                    <a
+                        href="/dashboard/snip/{snip.id}/edit"
+                        class="text-xs text-blue-600 dark:text-blue-400 underline underline-offset-1">
+                        Edit
+                    </a>
+                {/if}
             </p>
             <p
-                class="text-xs text-blue-600 dark:text-blue-400 underline underline-offset-1">
+                class="text-xs text-blue-600 dark:text-blue-400">
                 {snip.library?.name}
             </p>
         </div>
