@@ -41,6 +41,9 @@ export const deleteSnippet = async () => {
             );
         } else if (option.id == 1) {
             const langId = editor.document.languageId;
+            window.showInformationMessage(
+                `Fetching libs with ${langId} language`
+            );
             const libs = await fetchlibs(langId);
             if (!libs) {
                 window.showInformationMessage(
@@ -52,6 +55,7 @@ export const deleteSnippet = async () => {
                 title: "Select a library",
                 placeHolder: "Select a library to delete all its snips",
             });
+            // console.log({ selectedLib });
             if (!selectedLib) {
                 return;
             }
@@ -59,10 +63,16 @@ export const deleteSnippet = async () => {
             if (!userSnippetFolderPath) return;
             const filePath = join(userSnippetFolderPath, `${langId}.json`);
             const content = read(filePath);
+            // console.log({ content });
             if (!content) return;
-            content.forEach((s: any) => {
-                if (s.prefix.include(selectedLib.description)) {
-                    delete content[s.prefix];
+            Object.entries(content).forEach(([key, _]) => {
+                // console.log({ key });
+                if (
+                    key
+                        .toLowerCase()
+                        .includes(selectedLib.description.toLowerCase())
+                ) {
+                    delete content[key];
                 }
             });
             write(filePath, content);

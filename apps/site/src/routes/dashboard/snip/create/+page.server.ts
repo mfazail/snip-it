@@ -1,19 +1,6 @@
 import { validateSnip } from "$lib/schema/snip";
 import { fail, type Actions, redirect } from "@sveltejs/kit";
 
-export const load = async ({ locals: { supabase, getSession } }) => {
-    const session = await getSession();
-    if (!session) throw redirect(302, "/signin");
-
-    const { data, error } = await supabase
-        .from("library")
-        .select("id,name,short,version");
-    if (error) throw new Error(error.message);
-    return {
-        libs: data,
-    };
-};
-
 export const actions: Actions = {
     default: async ({ locals: { supabase, getSession }, request }) => {
         const session = await getSession();
@@ -65,6 +52,8 @@ export const actions: Actions = {
                 message: error.message,
             });
         }
-        throw redirect(302, `/dashboard/snip`);
+        return {
+            success: true,
+        };
     },
 };

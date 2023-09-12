@@ -1,5 +1,6 @@
 <script lang="ts">
     import { enhance } from "$app/forms";
+    import { PUBLIC_APP_URL } from "$env/static/public";
     import Button from "$lib/components/ui/Button.svelte";
     import Input from "$lib/components/ui/Input.svelte";
     import InputGroup from "$lib/components/ui/InputGroup.svelte";
@@ -9,28 +10,52 @@
     import Select from "$lib/components/ui/Select.svelte";
     import Textarea from "$lib/components/ui/Textarea.svelte";
     import { useAlert } from "$lib/store/useAlert";
+    import { onMount } from "svelte";
 
     export let form;
-    export let data;
 
-    type Library = {
-        id: number;
-        name: string | null;
-        short: string | null;
-        version: string | null;
-    };
+    type Library =
+        | {
+              id: number;
+              name: string | null;
+              short: string | null;
+              version: string | null;
+          }
+        | undefined;
 
     let isSubmitting = false;
     let selectedLib: Library;
+    let libs: Library[] = [];
     let prefix: string = form?.prefix ?? "";
     const { show } = useAlert();
-    $: form?.message && show({ title: form?.message ?? "", variant: "error" });
+    $: form?.message &&
+        show({
+            title: "Error",
+            description: form?.message ?? "",
+            variant: "error",
+        });
+    $: form?.success &&
+        show({
+            title: "Success",
+            description: "Snip created successfully!",
+            variant: "error",
+        });
+
+    onMount(async () => {
+        try {
+            const res = await fetch(`${PUBLIC_APP_URL}/api/libs`);
+            const d = await res.json();
+            libs = d.libs;
+        } catch (e) {
+            console.log(e);
+        }
+    });
 
     const handleLibSaelect = (e: Event) => {
-        if (data.libs) {
-            selectedLib = data.libs.find(
+        if (libs) {
+            selectedLib = libs.find(
                 (lib: Library) =>
-                    Number((e.target as HTMLSelectElement).value) == lib.id
+                    Number((e.target as HTMLSelectElement).value) == lib?.id
             );
         }
     };
@@ -52,11 +77,12 @@
                 <Select
                     on:change={handleLibSaelect}
                     id="library"
+                    disabled={libs.length == 0}
                     name="library"
                     placeholder="Select library"
                     value={form?.lib_id}>
-                    {#each data.libs as lib}
-                        <option value={lib.id}>{lib.name} {lib.version}</option>
+                    {#each libs as lib}
+                        <option value={lib?.id}>{lib?.name}</option>
                     {/each}
                 </Select>
             </div>
@@ -113,12 +139,14 @@
         </div>
         <div class="flex items-center justify-end space-x-3 mt-3">
             <Button
-                className="inline-flex items-center {isSubmitting ? 'mr-2' : ''}"
+                icon
                 type="submit"
                 disabled={isSubmitting}>
-                {#if isSubmitting}
-                    <Loader />
-                {/if}
+                <svelte:fragment slot="iconLeft">
+                    {#if isSubmitting}
+                        <Loader />
+                    {/if}
+                </svelte:fragment>
                 Create
             </Button>
         </div>

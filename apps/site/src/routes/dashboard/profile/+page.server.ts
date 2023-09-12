@@ -2,7 +2,7 @@ import { checkProfileFields } from "$lib/schema/profile.js";
 import { fail, redirect } from "@sveltejs/kit";
 
 export const actions = {
-    update: async ({ locals: { getSession, supabase }, request }) => {
+    updateProfile: async ({ locals: { getSession, supabase }, request }) => {
         const session = await getSession();
         if (!session) {
             throw redirect(302, "/signin");
@@ -78,12 +78,24 @@ export const actions = {
         }
         if (name) dataToUpdate["name"] = name;
 
-        const { error: err, data: profile } = await supabase
+        const { error: err } = await supabase
             .from("profile")
             .update(dataToUpdate)
-            .eq("user_id", session.user.id)
-            .select("avatar_url,name,username")
-            .maybeSingle();
+            .eq("user_id", session.user.id);
+        const { error: userNameErr } = await supabase.auth.updateUser({
+            data: {
+                username: username,
+            },
+        });
+        if (userNameErr) {
+            return fail(500, {
+                avatar: avatar_url || null,
+                username,
+                name,
+                message: userNameErr.message,
+                error: true,
+            });
+        }
         if (err) {
             return fail(500, {
                 avatar: null,
@@ -94,9 +106,83 @@ export const actions = {
             });
         }
         return {
-            name: profile?.name,
-            avatar: profile?.avatar_url,
-            username: profile?.username,
+            name: name,
+            avatar: avatar_url,
+            username: username,
+            success: true,
+        };
+    },
+    updateUser: async ({ locals: { supabase, getSession }, request }) => {
+        const session = await getSession();
+        if (!session) {
+            throw redirect(302, "/signin");
+        }
+        const data = await request.formData();
+        const email = String(data.get("email"));
+        const password = String(data.get("password"));
+        const new_password = String(data.get("new_password"));
+
+        if (!password) {
+            return fail(401, {
+                email,
+                message: "Password is required!",
+                error: true,
+            });
+        }
+
+        const { error, data: isValid } = await supabase.rpc(
+            "verify_user_password",
+            {
+                password: password,
+            }
+        );
+        if (error) {
+            return fail(500, {
+                email,
+                message: error.message,
+                error: true,
+            });
+        }
+        if (!isValid) {
+            return fail(401, {
+                email,
+                message: "Invalid password!",
+                error: true,
+            });
+        }
+        if (new_password) {
+            const { error: err } = await supabase.auth.updateUser({
+                password: new_password,
+            });
+            if (err) {
+                return fail(500, {
+                    email,
+                    message: err.message,
+                    error: true,
+                });
+            }
+        } else {
+            if (!email) {
+                return fail(401, {
+                    email,
+                    message: "Email is required!",
+                    error: true,
+                });
+            }
+            const { error: err } = await supabase.auth.updateUser({
+                email,
+                password,
+            });
+            if (err) {
+                return fail(500, {
+                    email,
+                    message: err.message,
+                    error: true,
+                });
+            }
+        }
+        return {
+            email,
             success: true,
         };
     },

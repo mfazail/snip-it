@@ -80,8 +80,9 @@
                     </div>
                 </div>
                 <Button
-                    className="self-end inline-flex items-center mr-2"
+                    className="self-end"
                     type="submit"
+                    icon
                     disabled={isSubmitting}>
                     <svelte:fragment slot="iconLeft">
                         {#if isSubmitting}

@@ -3,11 +3,8 @@ import { redirect } from "@sveltejs/kit";
 
 export const prerender = false;
 
-export const load = async ({
-    parent,
-    url,
-}) => {
-    const { session,supabase } = await parent()
+export const load = async ({ parent, url }) => {
+    const { session, supabase } = await parent();
     if (!session) {
         throw redirect(302, `/signin`);
     }
@@ -15,7 +12,7 @@ export const load = async ({
 
     const query = supabase
         .from("snip")
-        .select("id,body,prefix,description,updated_at,library (name,lang)", {
+        .select("id,body,prefix,description,updated_at,library!inner (name,lang)", {
             count: "estimated",
         })
         .limit(10);

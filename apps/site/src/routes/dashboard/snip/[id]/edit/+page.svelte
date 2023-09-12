@@ -14,25 +14,43 @@
     export let form;
     export let data;
 
-    type Library = {
-        id: number;
-        name: string | null;
-        short: string | null;
-        version: string | null;
-    };
+    const { show } = useAlert();
+
+    type Library =
+        | {
+              id: number;
+              name: string | null;
+              short: string | null;
+              version: string | null;
+          }
+        | undefined;
+
+    let { snip } = data;
+    $: ({ snip } = data);
 
     let isSubmitting = false;
     let selectedLib: Library;
-    let prefix: string = form?.prefix ?? data.snip.prefix;
-    let lib_id = form?.lib_id ?? data.snip.lib_id;
-    let description = form?.description ?? data.snip.description;
-    let body = form?.body ?? data.snip.body;
-    const { show } = useAlert();
-    $: form?.message && show({ title: form?.message ?? "", variant: "error" });
+    let prefix: string = form?.prefix ?? snip.prefix;
+    let lib_id = form?.lib_id ?? snip.lib_id;
+    let description = form?.description ?? snip.description;
+    let body = form?.body ?? snip.body;
+
+    $: form?.message &&
+        show({
+            title: "Error",
+            description: form.message ?? "",
+            variant: "error",
+        });
+    $: form?.success &&
+        show({
+            title: "Update successfull",
+            description: "Snip updated successfully",
+            variant: "success",
+        });
 
     onMount(() => {
-        if (data.snip) {
-            selectedLib = data.libs.find((l: Library) => l.id == lib_id);
+        if (snip) {
+            selectedLib = data.libs.find((l: Library) => l?.id == lib_id);
         }
     });
 
@@ -40,7 +58,7 @@
         if (data.libs) {
             selectedLib = data.libs.find(
                 (lib: Library) =>
-                    Number((e.target as HTMLSelectElement).value) == lib.id
+                    Number((e.target as HTMLSelectElement).value) == lib?.id
             );
         }
     };
@@ -58,11 +76,11 @@
         }}>
         <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-                <Label for="library">Library</Label>
+                <Label for="lib_id">Library</Label>
                 <Select
                     on:change={handleLibSaelect}
-                    id="library"
-                    name="library"
+                    id="lib_id"
+                    name="lib_id"
                     placeholder="Select library"
                     bind:value={lib_id}>
                     {#each data.libs as lib}
@@ -123,14 +141,14 @@
         </div>
         <div class="flex items-center justify-end space-x-3 mt-3">
             <Button
-                className="inline-flex items-center {isSubmitting
-                    ? 'mr-2'
-                    : ''}"
+                icon
                 type="submit"
                 disabled={isSubmitting}>
-                {#if isSubmitting}
-                    <Loader />
-                {/if}
+                <svelte:fragment slot="iconLeft">
+                    {#if isSubmitting}
+                        <Loader />
+                    {/if}
+                </svelte:fragment>
                 Update
             </Button>
         </div>

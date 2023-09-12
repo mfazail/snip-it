@@ -5,14 +5,18 @@
     const { remove } = useAlert();
 </script>
 
-<div class="dark:text-white fixed bottom-4 right-4 space-y-3">
+<div class="dark:text-white fixed bottom-4 right-4 space-y-3 z-[99999]">
     {#if $alerts}
         {#each $alerts as alert (alert.id)}
             <div
                 transition:fly={{ x: 100 }}
                 class="min-w-[300px] relative px-5 py-3 border border-slate-700 rounded-md"
                 class:border-red-500={alert.variant == "error"}
-                class:border-green-500={alert.variant == "success"}>
+                class:border-green-500={alert.variant == "success"}
+                class:bg-red-100={alert.variant == "error"}
+                class:bg-green-200={alert.variant == "success"}
+                class:bg-slate-800={alert.variant == "info"}
+                >
                 <h3
                     class:text-red-600={alert.variant == "error"}
                     class:text-green-600={alert.variant == "success"}>

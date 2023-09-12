@@ -18,6 +18,9 @@
     let libs: any[] = [];
     let isFetchingLibs = false;
 
+    $: lib_id = $page.url.searchParams.get("lib_id");
+    $: lang = $page.url.searchParams.get("lang");
+
     const fetchLibs = async () => {
         isFetchingLibs = true;
         const res = await fetch("/api/libs");
@@ -30,11 +33,13 @@
     const handleLibChange = async (e: Event) => {
         const searchParams = new URLSearchParams($page.url.search);
         searchParams.set("lib_id", (e.target as HTMLSelectElement).value);
+        searchParams.delete("page");
         await goto(`/snips?${searchParams.toString()}`);
     };
     const handleLangChange = async (e: Event) => {
         const searchParams = new URLSearchParams($page.url.search);
         searchParams.set("lang", (e.target as HTMLSelectElement).value);
+        searchParams.delete("page");
         await goto(`/snips?${searchParams.toString()}`);
     };
 </script>
@@ -93,7 +98,7 @@
                 <div>
                     <Label for="lang">Language</Label>
                     <Select
-                        value={$page.url.searchParams.get("lang")}
+                        value={lang}
                         id="lang"
                         on:change={handleLangChange}
                         placeholder="Select language">
@@ -106,7 +111,7 @@
                     <Label for="library">Library</Label>
                     <Select
                         on:change={handleLibChange}
-                        value={$page.url.searchParams.get("lib_id")}
+                        value={lib_id}
                         disabled={isFetchingLibs}
                         id="library"
                         placeholder="Select library">
@@ -121,7 +126,7 @@
     <main
         class="{snips.length > 0
             ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3'
-            : ''} ">
+            : 'mt-3'} ">
         {#each snips as snip (snip.id)}
             <SnipCard
                 {snip}
@@ -136,7 +141,6 @@
             </div>
         {/each}
     </main>
-
     {#if snips.length > 0}
         <Pagination totalItems={totalSnips} />
     {/if}

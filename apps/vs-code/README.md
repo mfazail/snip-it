@@ -1,6 +1,6 @@
 # Snip It
 
-<a href="https://marketplace.visualstudio.com/items?itemName=mfazail.snip-it-vscode" target="__blank"><img src="https://img.shields.io/visual-studio-marketplace/v/mfazail.snip-it-vscode.svg?color=eee&amp;label=VS%20Code%20Marketplace&logo=visual-studio-code" alt="Visual Studio Marketplace Version" /></a>
+<a href="https://marketplace.visualstudio.com/items?itemName=mfazail.snip-it-vscode" target="__blank"><img src="https://img.shields.io/visual-studio-marketplace/v/mfazail.snip-it-vscode.svg?color=6366f1&amp;label=VS%20Code%20Marketplace&logo=visual-studio-code" alt="Visual Studio Marketplace Version" /></a>
 
 ## Search 
 
@@ -31,6 +31,7 @@
 - Open command pallete and search `Snip It: Delete`
 - Enter the prefix name _e.g. scn:dropdown,fbs:popover, accordion, etc_
 - Then snip will be deleted from your computer
+- You can also delete whole snippets of a library
 
 <br>
 

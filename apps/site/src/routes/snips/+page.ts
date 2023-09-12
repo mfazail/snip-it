@@ -3,8 +3,8 @@ import { error } from "@sveltejs/kit";
 
 export const prerender = false;
 
-export const load = async ({ url,parent, setHeaders }) => {
-    const { supabase } = await parent()
+export const load = async ({ url, parent, setHeaders }) => {
+    const { supabase } = await parent();
     // console.log("fetching...")
     const page = url.searchParams.get("page") || 1;
     const limit = Number(url.searchParams.get("limit")) || 10;
@@ -16,19 +16,19 @@ export const load = async ({ url,parent, setHeaders }) => {
     const query = supabase
         .from("snip")
         .select(
-            "id,body,prefix,description,lib_id,updated_at,library (name,lang)",
+            "id,body,prefix,description,lib_id,updated_at,library!inner (name,lang)",
             {
                 count: "estimated",
             }
         );
 
-        if (lib_id) query.eq("lib_id", lib_id);
-        if (lang) {
-            const l = lang.split(",");
+    if (lib_id) query.eq("lib_id", lib_id);
+    if (lang) {
+        const l = lang.split(",");
         query.contains("library.lang", l);
     }
     if (name) {
-        query.ilike("library.name",`%${name}%`);
+        query.ilike("library.name", `%${name}%`);
     }
 
     query.order("created_at", { ascending: false });
@@ -38,11 +38,11 @@ export const load = async ({ url,parent, setHeaders }) => {
     if (err) {
         throw error(500, { message: err.message });
     }
-    
+
     setHeaders({
-        'cache-control':'max-age=3600'
-    })
-    
+        "cache-control": "max-age=3600",
+    });
+
     // console.log("fetched")
     return {
         snips,
