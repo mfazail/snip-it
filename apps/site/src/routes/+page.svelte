@@ -293,7 +293,7 @@
             class="relative bg min-h-screen md:min-h-[80vh] w-full px-4 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-8 justify-items-center content-center md:content-start">
             <div class="rounded-md w-full h-96 z-10 order-2 md:order-1">
                 <img
-                    src="/assets/vscode-search.png"
+                    src="/assets/vscode-search.webp"
                     class="h-80 sm:h-96 w-full object-cover rounded-md"
                     alt="Snip It - Search" />
             </div>
@@ -304,7 +304,7 @@
                     <li>Type: <strong>Snip It:Search</strong></li>
                     <li>Enter library name <em>e.g. shadcn,etc</em></li>
                     <li>
-                        All the snippets realted to selected library will saved
+                        All the snippets realted to selected library will saved be
                         locally
                     </li>
                     <li>Type the prefix e.g. scn, and use them</li>
@@ -324,7 +324,7 @@
             </div>
             <div class="rounded-md w-full h-96 z-10">
                 <img
-                    src="/assets/vscode-snipit.png"
+                    src="/assets/vscode-snipit.webp"
                     class="h-80 sm:h-96 w-full object-cover rounded-md"
                     alt="Snip It" />
             </div>
@@ -333,7 +333,7 @@
             class="relative bg max-w-7xl mx-auto min-h-screen md:min-h-[80vh] w-full grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center content-center md:content-start px-4">
             <div class="rounded-md w-full h-96 z-10 order-2 md:order-1">
                 <img
-                    src="/assets/vscode-delete.png"
+                    src="/assets/vscode-delete.webp"
                     class="h-80 sm:h-96 w-full object-cover rounded-md"
                     alt="Snip It - Delete" />
             </div>
@@ -381,7 +381,7 @@
         content: "";
         position: absolute;
         top: 0%;
-        width: 70vw;
+        width: 200vw;
         height: 100vh;
         background: linear-gradient(173.1deg, #e242f9f0 10.2%, #4f93f9 77.3%);
         mask-image: radial-gradient(rgba(0, 0, 0, 0.3), transparent 60%);
@@ -402,7 +402,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 70vw;
+        width: 200vw;
         height: 100vh;
         background: linear-gradient(
             173.1deg,
@@ -431,4 +431,9 @@
             to(rgba(0, 0, 0, 0))
         );
     }
+    @media (min-width: 640px) {
+        .bg::before,.bg-left::before,.right-container::before{
+            width: 70vw;
+        }
+     }
 </style>

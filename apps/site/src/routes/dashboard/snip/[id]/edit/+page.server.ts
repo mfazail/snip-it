@@ -2,7 +2,7 @@ import { validateSnip } from "$lib/schema/snip.js";
 import { redirect, type Actions, fail } from "@sveltejs/kit";
 
 export const actions: Actions = {
-    default: async ({
+    edit: async ({
         params: { id },
         locals: { supabase, getSession },
         request,
@@ -69,5 +69,21 @@ export const actions: Actions = {
             lib_id,
             success: true,
         };
+    },
+    delete: async ({ locals: { supabase, getSession }, params: { id } }) => {
+        const session = await getSession();
+        if (!session) return redirect(302, "/signin");
+        if (!id)
+            return fail(404, {
+                message: "Snip not found!",
+            });
+
+        const { error:err } =await supabase.from("snip").delete().eq('id',id)
+        if(err){
+            return fail(500,{
+                message:err.message
+            })
+        }
+        throw redirect(302,'/dashboard/snip')
     },
 };

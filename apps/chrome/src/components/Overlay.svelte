@@ -13,8 +13,10 @@
     let loading = false;
     let error: any = null;
     let libs: any[] = [];
-    let selected: any[] = [];
     let short = "";
+    let right = true;
+    let dragStart = false;
+    let cardWidth = 350;
     const destroyThisComp = () => {
         THISComponent.$destroy();
     };
@@ -91,149 +93,188 @@
             short = lib[0].short;
         }
     };
+    const toggleSide = () => {
+        right = !right;
+    };
+    const handleESC = (e: KeyboardEvent) => {
+        if (e.code == "Escape") destroyThisComp();
+    };
+
+    const handleMouseDown = (e: MouseEvent) => {
+        dragStart = true;
+    };
+    const handleMouseMove = (e: MouseEvent) => {
+        e.stopImmediatePropagation();
+        if (!dragStart) return;
+        e.preventDefault();
+        e.stopPropagation();
+        if (right) {
+            cardWidth -= e.movementX;
+        } else {
+            cardWidth += e.movementX;
+        }
+    };
+    const handleMouseLeave = () => {
+        dragStart = false;
+    };
 </script>
+
+<svelte:window on:keydown={handleESC} />
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
-    class="overlay"
-    tabindex="-1"
-    on:click|self={() => destroyThisComp()}>
-    <div class="card">
-        {#if isSignedIn}
+    class="card transition"
+    style:left={!right ? "0px" : ""}
+    style:right={right ? "0px" : ""}
+    style:width="{cardWidth}px">
+    {#if isSignedIn}
+        <button
+            class="drag"
+            style:left={right ? "4px" : ""}
+            style:right={right ? "" : "4px"}
+            on:mousedown|preventDefault|stopPropagation={handleMouseDown}
+            on:mousemove|preventDefault|stopPropagation={handleMouseMove}
+            on:mouseleave={handleMouseLeave}
+            on:mouseout={handleMouseLeave}
+            on:blur={handleMouseLeave} />
+        <div
+            style="display: flex; align-items: center; justify-content: space-between;margin-bottom:20px">
             <h3 style="font-size: 20px; font-weight: 500;margin-bottom: 5px;">
                 Create Snippet
             </h3>
-            <form on:submit|preventDefault={handleSubmit}>
-                <div>
-                    <label for="prefix">Prefix</label>
-                    <div class="input-group">
-                        <div class="icon">
-                            <p>{short}</p>
-                        </div>
-                        <input
-                            required
-                            style="padding-left: 2.5rem; "
-                            class:error={error && error.prefix}
-                            id="prefix"
-                            type="text" />
+            <button on:click={toggleSide}>{right ? "Left" : "Right"}</button>
+        </div>
+        <form on:submit|preventDefault={handleSubmit}>
+            <div>
+                <label for="library">Library</label>
+                <select
+                    required
+                    on:change={handleSelect}
+                    class:error={error && error.library}
+                    id="library">
+                    {#each libs as lib (lib.id)}
+                        <option value={lib.id}>{lib.name}</option>
+                    {:else}
+                        <option value="null">No Libs</option>
+                    {/each}
+                </select>
+                {#if error && error.library}
+                    <p class="error">{error.message}</p>
+                {/if}
+            </div>
+            <div>
+                <label for="prefix">Prefix</label>
+                <div class="input-group">
+                    <div class="icon">
+                        <p>{short}</p>
                     </div>
-                    {#if error && error.prefix}
-                        <p class="error">{error.message}</p>
-                    {/if}
-                </div>
-                <div>
-                    <label for="library">Library</label>
-                    <select
-                        required
-                        on:change={handleSelect}
-                        class:error={error && error.library}
-                        id="library">
-                        {#each libs as lib (lib.id)}
-                            <option value={lib.id}>{lib.name}</option>
-                        {:else}
-                            <option value="null">No Libs</option>
-                        {/each}
-                    </select>
-                    {#if error && error.library}
-                        <p class="error">{error.message}</p>
-                    {/if}
-                </div>
-                <div>
-                    <label for="description">Description</label>
                     <input
                         required
-                        class:error={error && error.description}
-                        id="description"
+                        style="padding-left: 2.5rem; "
+                        class:error={error && error.prefix}
+                        id="prefix"
                         type="text" />
-                    {#if error && error.description}
-                        <p class="error">{error.message}</p>
-                    {/if}
                 </div>
-                <div>
-                    <label for="body">Snippet</label>
-                    <textarea
-                        required
-                        on:keydown={handleKeydown}
-                        class:error={error && error.body}
-                        id="body"
-                        value={snip}
-                        rows={10} />
-                    {#if error && error.body}
-                        <p class="error">{error.message}</p>
-                    {/if}
-                </div>
-                {#if error}
-                    {#if error.libs}
-                        <p class="error">{error.libs}</p>
-                    {:else}
-                        <p class="error">{error.message}</p>
-                    {/if}
+                {#if error && error.prefix}
+                    <p class="error">{error.message}</p>
                 {/if}
-                <div
-                    style="display:flex;justify-content: end; margin-top: 5px;">
-                    <button
-                        on:click={() => destroyThisComp()}
-                        class="cancel-btn"
-                        type="button">Cancel</button>
-                    <button
-                        disabled={loading || error}
-                        class="btn"
-                        type="submit">
-                        Save
-                    </button>
-                </div>
-            </form>
-        {:else}
-            <div class="guest-wrap">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="lucide lucide-scan-line"
-                    ><path d="M3 7V5a2 2 0 0 1 2-2h2" /><path
-                        d="M17 3h2a2 2 0 0 1 2 2v2" /><path
-                        d="M21 17v2a2 2 0 0 1-2 2h-2" /><path
-                        d="M7 21H5a2 2 0 0 1-2-2v-2" /><line
-                        x1="7"
-                        x2="17"
-                        y1="12"
-                        y2="12" /></svg>
-                <h3>Sign in to continue</h3>
-                <a
-                    class="btn"
-                    target="_blank"
-                    href="{APP_URL}/signin">Sign in</a>
             </div>
-        {/if}
-    </div>
+            <div>
+                <label for="description">Description</label>
+                <textarea
+                    rows={4}
+                    required
+                    class:error={error && error.description}
+                    id="description" />
+                {#if error && error.description}
+                    <p class="error">{error.message}</p>
+                {/if}
+            </div>
+            <div>
+                <label for="body">Snippet</label>
+                <textarea
+                    required
+                    on:keydown={handleKeydown}
+                    class:error={error && error.body}
+                    id="body"
+                    value={snip}
+                    rows={10} />
+                {#if error && error.body}
+                    <p class="error">{error.message}</p>
+                {/if}
+            </div>
+            {#if error}
+                {#if error.libs}
+                    <p class="error">{error.libs}</p>
+                {:else}
+                    <p class="error">{error.message}</p>
+                {/if}
+            {/if}
+            <div style="display:flex;justify-content: end; margin-top: 5px;">
+                <button
+                    on:click={() => destroyThisComp()}
+                    class="cancel-btn"
+                    type="button">Cancel</button>
+                <button
+                    disabled={loading || error}
+                    class="btn"
+                    type="submit">
+                    Save
+                </button>
+            </div>
+        </form>
+    {:else}
+        <div class="guest-wrap">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-scan-line"
+                ><path d="M3 7V5a2 2 0 0 1 2-2h2" /><path
+                    d="M17 3h2a2 2 0 0 1 2 2v2" /><path
+                    d="M21 17v2a2 2 0 0 1-2 2h-2" /><path
+                    d="M7 21H5a2 2 0 0 1-2-2v-2" /><line
+                    x1="7"
+                    x2="17"
+                    y1="12"
+                    y2="12" /></svg>
+            <h3>Sign in to continue</h3>
+            <a
+                class="btn"
+                target="_blank"
+                href="{APP_URL}/signin">Sign in</a>
+        </div>
+    {/if}
 </div>
 
 <style>
-    .overlay {
-        position: fixed;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        z-index: 999999;
-        background-color: rgba(37, 37, 37, 0.431);
+    .drag {
+        position: absolute;
+        top: 50%;
+        padding: 0;
+        translate: 0 -50%;
+        background: #121212;
+        border-radius: 5px;
+        width: 8px;
+        height: 30px;
+        cursor: e-resize;
     }
     .card {
-        min-width: 80%;
+        position: fixed;
+        top: 0;
+        z-index: 999999;
+        min-width: 350px;
         background-color: #fff;
         padding: 20px;
-        border-radius: 10px;
+        height: 100vh;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
     }
     .guest-wrap {
         display: flex;
@@ -251,10 +292,12 @@
     textarea {
         display: block;
         padding: 6px 10px;
+        margin-bottom: 10px;
         border-radius: 0.5rem;
         border-width: 1px;
         border-color: #d1d5db;
         width: 100%;
+        width: -webkit-fill-available;
         font-size: 0.875rem;
         line-height: 1.25rem;
         color: #111827;
@@ -294,13 +337,17 @@
         text-decoration: none;
         white-space: pre;
     }
+    .btn:disabled {
+        background-color: #6365f1b4;
+        cursor: not-allowed;
+    }
     .btn:hover {
         background-color: #5456cc;
     }
     select {
         display: block;
         padding: 0.5rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 10px;
         border-radius: 0.5rem;
         border-width: 1px;
         border-color: #d1d5db;
@@ -329,16 +376,16 @@
         color: #6b7280;
         pointer-events: none;
     }
+    .transition {
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 150ms;
+    }
     @media (prefers-color-scheme: dark) {
         h3,
         label,
         input {
             color: #111827;
-        }
-    }
-    @media (min-width: 768px) {
-        .card {
-            min-width: 500px;
         }
     }
 </style>

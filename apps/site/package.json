@@ -33,6 +33,7 @@
     "gsap": "^3.12.2",
     "nprogress": "^0.2.0",
     "shiki": "^0.14.4",
+    "svelte-paginate": "^0.1.0",
     "valibot": "^0.13.1"
   }
 }

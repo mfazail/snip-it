@@ -9,6 +9,7 @@
     import Select from "$lib/components/ui/Select.svelte";
     import Textarea from "$lib/components/ui/Textarea.svelte";
     import { useAlert } from "$lib/store/useAlert";
+    import Icon from "@iconify/svelte";
     import { onMount } from "svelte";
 
     export let form;
@@ -29,6 +30,7 @@
     $: ({ snip } = data);
 
     let isSubmitting = false;
+    let isDeleting = false;
     let selectedLib: Library;
     let prefix: string = form?.prefix ?? snip.prefix;
     let lib_id = form?.lib_id ?? snip.lib_id;
@@ -67,6 +69,7 @@
 <div class="max-w-3xl mx-auto">
     <form
         method="POST"
+        action="?/edit"
         use:enhance={() => {
             isSubmitting = true;
             return async ({ update }) => {
@@ -152,5 +155,36 @@
                 Update
             </Button>
         </div>
+    </form>
+    <form
+        class="flex items-center justify-between dark:text-white border border-dashed border-red-500 rounded-md p-4 mt-5"
+        action="?/delete"
+        method="post"
+        use:enhance={() => {
+            isDeleting = true;
+            return async ({ update }) => {
+                isDeleting = false;
+                update();
+            };
+        }}>
+        <p>
+            Delete <strong class="text-slate-400"
+                >{selectedLib?.short}:{snip.prefix}</strong>
+        </p>
+        <Button
+            className="!bg-red-500 focus:!ring-red-500 text-white"
+            icon
+            disabled={isDeleting}>
+            <svelte:fragment slot="iconLeft">
+                {#if isDeleting}
+                    <Loader />
+                {:else}
+                    <Icon
+                        icon="solar:trash-bin-2-bold-duotone"
+                        class="w-4 h-4" />
+                {/if}
+            </svelte:fragment>
+            Delete
+        </Button>
     </form>
 </div>

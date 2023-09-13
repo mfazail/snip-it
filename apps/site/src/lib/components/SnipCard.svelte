@@ -6,7 +6,6 @@
     interface Props {
         id: number;
         prefix: string;
-        description: string | null;
         body: string | null;
         updated_at: string | null;
         library: {
@@ -49,7 +48,7 @@
 </script>
 
 <div
-    class="rounded-md min-w-[250px] mt-8 p-4 hover:shadow border dark:border-slate-700"
+    class="rounded-md min-w-[250px] p-4 mb-4 hover:shadow border dark:border-slate-700 break-inside-avoid-column"
     class:md:row-span-1={getBodyLength() < 5}
     class:md:row-span-2={getBodyLength() > 5 && getBodyLength() <= 10}
     class:md:row-span-3={getBodyLength() > 10}>
@@ -57,7 +56,6 @@
         <div>
             <h5 class="text-xl font-semibold dark:text-white">{snip.prefix}</h5>
             <p class="text-sm text-slate-600 dark:text-slate-300">
-                {snip.description}
                 {#if canEdit}
                     <a
                         href="/dashboard/snip/{snip.id}/edit"
@@ -66,8 +64,7 @@
                     </a>
                 {/if}
             </p>
-            <p
-                class="text-xs text-blue-600 dark:text-blue-400">
+            <p class="text-xs text-blue-600 dark:text-blue-400">
                 {snip.library?.name}
             </p>
         </div>
@@ -83,8 +80,11 @@
         class="mt-2 overflow-auto max-h-80 custom-scroll scroll-track-bottom-rounded rounded-md text-sm w-full">
         {#if $shiki}
             <div class="p-2">
-                {#await renderHtml() then co}
-                    {@html co}
+                {#await renderHtml()}
+                    <div
+                        class="w-full h-60 bg-slate-400 animate-pulse rounded-md" />
+                {:then htm}
+                    {@html htm}
                 {/await}
             </div>
         {:else}

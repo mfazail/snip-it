@@ -16,7 +16,7 @@ export const load = async ({ url, parent, setHeaders }) => {
     const query = supabase
         .from("snip")
         .select(
-            "id,body,prefix,description,lib_id,updated_at,library!inner (name,lang)",
+            "id,body,prefix,lib_id,updated_at,library!inner (name,lang)",
             {
                 count: "estimated",
             }
@@ -40,6 +40,7 @@ export const load = async ({ url, parent, setHeaders }) => {
     }
 
     setHeaders({
+        age:"100",
         "cache-control": "max-age=3600",
     });
 
