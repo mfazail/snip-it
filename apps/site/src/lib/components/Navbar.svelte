@@ -126,7 +126,7 @@
                                 : "nav-inactive"
                         }`}>Snips</a>
                 </li>
-                <li class="sm:hidden">
+                <li class="md:hidden">
                     <a
                         href={isSignedin ? "/dashboard" : "/signin"}
                         class={`block py-2 pl-3 pr-4 ${

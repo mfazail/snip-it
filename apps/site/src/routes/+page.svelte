@@ -16,7 +16,6 @@
         const concluding = gsap.timeline();
         const master = gsap.timeline({ repeat: -1, repeatDelay: 2.5 });
 
-
         coding
             .to(".line", {
                 display: "block",
@@ -169,11 +168,30 @@
             });
 
         master.add(coding).add(browsing).add(pasting).add(concluding);
+        return () => {
+            coding.clear();
+            browsing.clear();
+            pasting.clear();
+            concluding.clear();
+            master.clear();
+        };
     });
 </script>
 
 <svelte:head>
     <title>Snip It</title>
+    <meta
+        name="twitter:title"
+        content="Snip It" />
+    <meta
+        name="twitter:description"
+        content="Snip It is a VSCode extension to save code snippets and use them later. There are collection of code snippets for various libraries" />
+    <meta
+        name="og:title"
+        content="Snip It" />
+    <meta
+        name="og:description"
+        content="Snip It is a VSCode extension to save code snippets and use them later. There are collection of code snippets for various libraries" />
 </svelte:head>
 
 <div class=" w-full dark:text-white">
@@ -304,8 +322,8 @@
                     <li>Type: <strong>Snip It:Search</strong></li>
                     <li>Enter library name <em>e.g. shadcn,etc</em></li>
                     <li>
-                        All the snippets realted to selected library will saved be
-                        locally
+                        All the snippets realted to selected library will saved
+                        be locally
                     </li>
                     <li>Type the prefix e.g. scn, and use them</li>
                 </ul>
@@ -432,8 +450,10 @@
         );
     }
     @media (min-width: 640px) {
-        .bg::before,.bg-left::before,.right-container::before{
+        .bg::before,
+        .bg-left::before,
+        .right-container::before {
             width: 70vw;
         }
-     }
+    }
 </style>

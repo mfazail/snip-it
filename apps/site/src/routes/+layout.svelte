@@ -4,15 +4,19 @@
     import { onMount } from "svelte";
     import NProgress from "nprogress";
     import "flowbite";
+    import { inject } from "@vercel/analytics";
     import Navbar from "$lib/components/Navbar.svelte";
     import { page } from "$app/stores";
     import Alerter from "$lib/components/Alerter.svelte";
     import Footer from "$lib/components/Footer.svelte";
+    import { dev } from "$app/environment";
 
     export let data;
 
     let { supabase, session } = data;
     $: ({ supabase, session } = data);
+
+    inject({ mode: dev ? "development" : "production" });
 
     onMount(() => {
         const { data } = supabase.auth.onAuthStateChange((event, _session) => {

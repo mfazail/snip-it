@@ -29,6 +29,7 @@
     "@supabase/auth-helpers-sveltekit": "^0.10.2",
     "@supabase/supabase-js": "^2.33.1",
     "@tailwindcss/typography": "^0.5.9",
+    "@vercel/analytics": "^1.0.2",
     "dayjs": "^1.11.9",
     "flowbite": "^1.8.1",
     "gsap": "^3.12.2",
