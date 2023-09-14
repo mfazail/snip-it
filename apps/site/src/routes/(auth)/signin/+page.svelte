@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { enhance } from "$app/forms";
     import { useAlert } from "$lib/store/useAlert";
     import Loader from "$lib/components/ui/Loader.svelte";
     import Label from "$lib/components/ui/Label.svelte";
@@ -7,10 +6,43 @@
     import Button from "$lib/components/ui/Button.svelte";
     import Logo from "$lib/components/Logo.svelte";
     import Icon from "@iconify/svelte";
-    export let form;
-    let isSubmitting = false;
+    import { checkLoginFields } from "$lib/schema/signin.js";
+    import { goto } from "$app/navigation";
+
+    export let data;
+
     const { show } = useAlert();
-    $: if (form?.error) show({ title: form?.error ?? "", variant: "error" });
+    let isSubmitting = false;
+    let email = "";
+    let password = "";
+
+    const handleLogin = async () => {
+        isSubmitting = true;
+        const result = checkLoginFields({ email, password });
+        if (result) {
+            show({
+                title: result.message,
+                description: "Please check fields for valid type!",
+                variant: "error",
+            });
+            isSubmitting = false;
+            return;
+        }
+        const { error } = await data.supabase.auth.signInWithPassword({
+            email,
+            password,
+        });
+        if (error) {
+            show({
+                title: "Error Login",
+                description: error.message,
+                variant: "error",
+            });
+            isSubmitting = false;
+            return;
+        }
+        await goto("/");
+    };
 </script>
 
 <div
@@ -34,15 +66,7 @@
             </div>
             <form
                 class="space-y-4 flex flex-col"
-                method="post"
-                action="?/signin"
-                use:enhance={({}) => {
-                    isSubmitting = true;
-                    return ({ update }) => {
-                        isSubmitting = false;
-                        update();
-                    };
-                }}>
+                on:submit|preventDefault={handleLogin}>
                 <div>
                     <Label
                         for="email"
@@ -51,7 +75,7 @@
                     <Input
                         type="email"
                         name="email"
-                        value={form?.email ?? ""}
+                        bind:value={email}
                         id="email"
                         required
                         placeholder="name@company.com"
@@ -76,6 +100,7 @@
                             id="password"
                             placeholder="••••••••"
                             required
+                            bind:value={password}
                             class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
                 </div>
