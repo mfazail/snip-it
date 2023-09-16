@@ -6,9 +6,7 @@
     import { featuredLibs } from "$lib/utils/libs";
     import Icon from "@iconify/svelte";
 
-    let isAnimating = false;
     onMount(() => {
-        isAnimating = true;
         gsap.registerPlugin(TextPlugin);
         const coding = gsap.timeline();
         const browsing = gsap.timeline();
@@ -179,7 +177,6 @@
 </script>
 
 <svelte:head>
-    <title>Snip It</title>
     <meta
         name="twitter:title"
         content="Snip It" />
@@ -201,10 +198,11 @@
             <div
                 class="prose dark:prose-invert h-[calc(100vh-500px)] md:h-[calc(100vh-300px)] px-4">
                 <h1>
-                    You don't have to remember the <span
-                        class="text-transparent bg-clip-text bg-gradient-to-br from-[#e242f9f0] to-[#4f93f9]"
-                        >structure</span
-                    >!
+                    Don't remember the structure?
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-br from-[#e242f9f0] to-[#4f93f9]">
+                        Just snip it
+                    </span>
                 </h1>
                 <p>
                     why going through docs again & again, <br />

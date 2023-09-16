@@ -11,10 +11,8 @@
   },
   "devDependencies": {
     "@iconify/svelte": "^3.1.4",
-    "@sveltejs/adapter-auto": "^2.0.0",
-    "@sveltejs/adapter-vercel": "^3.0.3",
+    "@sveltejs/adapter-static": "^2.0.3",
     "@sveltejs/kit": "^1.20.4",
-    "@types/nprogress": "^0.2.0",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.24",
     "postcss-load-config": "^4.0.1",
@@ -26,16 +24,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@supabase/auth-helpers-sveltekit": "^0.10.2",
-    "@supabase/supabase-js": "^2.33.1",
     "@tailwindcss/typography": "^0.5.9",
-    "@vercel/analytics": "^1.0.2",
-    "dayjs": "^1.11.9",
-    "flowbite": "^1.8.1",
-    "gsap": "^3.12.2",
-    "nprogress": "^0.2.0",
-    "shiki": "^0.14.4",
-    "svelte-paginate": "^0.1.0",
-    "valibot": "^0.13.1"
+    "gsap": "^3.12.2"
   }
 }

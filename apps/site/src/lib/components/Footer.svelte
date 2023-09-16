@@ -1,5 +1,6 @@
 <script>
-    import Logo from "./Logo.svelte";
+    import Icon from "@iconify/svelte";
+import Logo from "./Logo.svelte";
 </script>
 <footer class="p-4 bg-white md:p-8 lg:p-10 dark:bg-slate-900">
     <div class="mx-auto max-w-screen-xl text-center">
@@ -13,12 +14,12 @@
                 <a href="/" class="mr-4 hover:underline md:mr-6 ">Home</a>
             </li>
             <li>
-                <a href="/snips" class="mr-4 hover:underline md:mr-6 ">Snips</a>
-            </li>
-            <li>
                 <a href="https://mfazail.com" class="mr-4 hover:underline md:mr-6">Me</a>
             </li>
+            <li>
+                <a href="https://github.com/mfazail/snip-it" class="block mr-4 hover:underline md:mr-6"><Icon icon="mdi:github" class="w-5 h-5 "/>  </a>
+            </li>
         </ul>
-        <span class="text-sm text-slate-500 sm:text-center dark:text-slate-400">© 2023 <a href="/" class="hover:underline">Snip It</a>. All Rights Reserved.</span>
+        <span class="text-sm text-slate-500 sm:text-center dark:text-slate-400">Made by <a href="https://github.com/mfazail" target="_blank" class="underline underline-offset-2 text-blue-500">mfazail</a></span>
     </div>
   </footer>
