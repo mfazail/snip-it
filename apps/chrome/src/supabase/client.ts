@@ -1,1 +1,0 @@
-export const SUPABASE_PROJECT_REF = "swtflpkcofffkxxvpkms";
