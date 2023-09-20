@@ -14,15 +14,13 @@ export interface LibMetadata {
     langs: string[];
 }
 
-const branch = process.env.NODE_ENV === "production" ? "main" : "dev";
+const branch: "main" | "dev" = 'main';
 
-const _baseLibUrl = "https://api.github.com/repos/mfazail/snip-it/contents/snips";
-const _baseFileUrl = `https://raw.githubusercontent.com/mfazail/snip-it/${branch}/snips`
+const _baseUrl = `https://raw.githubusercontent.com/mfazail/snip-it/${branch}/snips`;
 
 export const fetchlibs = async (langId: string) => {
     // console.log("fetching...");
-
-    const baseUrl = new URL(`${_baseLibUrl}/_libs.json`);
+    const baseUrl = new URL(`${_baseUrl}/_libs.json`);
     try {
         const res = await fetch(baseUrl.toString(), {
             headers: {
@@ -30,8 +28,9 @@ export const fetchlibs = async (langId: string) => {
             },
         });
         if (res.status == 200) {
-            const j: any = await res.json();
-            const json: LibMetadata[] = j.libs as LibMetadata[];
+            const json: LibMetadata[] | undefined =
+                (await res.json()) as LibMetadata[];
+            if (!json) throw new Error("Invalid response");
             // console.log({ json });
             const options = json
                 .filter((item) => item.langs.includes(langId))
@@ -60,7 +59,7 @@ export const fetchLibSnips = async (path: string, lang: string) => {
         window.showErrorMessage("Invalid path or language");
         return null;
     }
-    const baseUrl = new URL(`${_baseFileUrl}${path}/${lang}.json`); 
+    const baseUrl = new URL(`${_baseUrl}${path}/${lang}.json`);
     try {
         const res = await fetch(baseUrl.toString(), {
             headers: {
