@@ -1,0 +1,127 @@
+[
+    {
+        "prefix": "collapsible",
+        "body": "<CollapsibleRoot v-model:open=\"$1\">\n\t<CollapsibleTrigger>\n        <!-- <Icon v-if=\"rootOpen\" icon=\"radix-icons:cross-2\" />\n        <Icon v-else icon=\"radix-icons:row-spacing\" /> -->\n      </CollapsibleTrigger>\n    <CollapsibleContent>\n      $2\n    </CollapsibleContent>\n  </CollapsibleRoot>\t",
+        "description": "Collapsible"
+    },
+    {
+        "prefix": "context-menu",
+        "body": "<ContextMenuRoot>\n    <ContextMenuTrigger>$1</ContextMenuTrigger>\n\n    <ContextMenuPortal>\n      <ContextMenuContent>\n        <ContextMenuLabel />\n        <ContextMenuItem />\n\t\t$2\n      </ContextMenuContent>\n    </ContextMenuPortal>\n  </ContextMenuRoot>",
+        "description": "Context menu"
+    },
+    {
+        "prefix": "dialog",
+        "body": "<DialogRoot>\n    <DialogTrigger>$1</DialogTrigger>\n    <DialogPortal>\n      <DialogOverlay />\n      <DialogContent>\n        <DialogTitle />\n        <DialogDescription /> $2\n        <DialogClose />\n      </DialogContent>\n    </DialogPortal>\n  </DialogRoot>",
+        "description": "Dialog"
+    },
+    {
+        "prefix": "dropdown-menu",
+        "body": "<DropdownMenuRoot>\n    <DropdownMenuTrigger>$1</DropdownMenuTrigger>\n\n    <DropdownMenuPortal>\n      <DropdownMenuContent>\n        <DropdownMenuLabel />\n        <DropdownMenuItem />\n\t\t$2\n      </DropdownMenuContent>\n    </DropdownMenuPortal>\n  </DropdownMenuRoot>",
+        "description": "Dropdown menu"
+    },
+    {
+        "prefix": "hover-card",
+        "body": "<HoverCardRoot>\n    <HoverCardTrigger>$1</HoverCardTrigger>\n    <HoverCardPortal>\n      <HoverCardContent>\n\t\t$2\n        <HoverCardArrow />\n      </HoverCardContent>\n    </HoverCardPortal>\n  </HoverCardRoot>",
+        "description": "Hover card"
+    },
+    {
+        "prefix": "menubar",
+        "body": "<MenubarRoot>\n    <MenubarMenu>\n      <MenubarTrigger>$1</MenubarTrigger>\n      <MenubarPortal>\n        <MenubarContent>\n          <MenubarLabel />\n          <MenubarItem />\n\t\t\t$2\n        </MenubarContent>\n      </MenubarPortal>\n    </MenubarMenu>\n  </MenubarRoot>",
+        "description": "Menubar"
+    },
+    {
+        "prefix": "accordion",
+        "body": "<AccordionRoot>\n    <AccordionItem>\n      <AccordionHeader>\n        <AccordionTrigger >$1</AccordionTrigger >\n      </AccordionHeader>\n      <AccordionContent>$2</AccordionContent>\n    </AccordionItem>\n  </AccordionRoot>",
+        "description": "Accordion"
+    },
+    {
+        "prefix": "alert-dialog",
+        "body": "<AlertDialogRoot>\n\t<AlertDialogTrigger>$1</AlertDialogTrigger>\n    <AlertDialogPortal>\n      <AlertDialogOverlay />\n      <AlertDialogContent>\n        <AlertDialogTitle>$2</AlertDialogTitle>\n        <AlertDialogDescription>$3</AlertDialogDescription>\n          <AlertDialogCancel>$4</AlertDialogCancel>\n          <AlertDialogAction @click=\"\">$5</AlertDialogAction>\n      </AlertDialogContent>\n    </AlertDialogPortal>\n  </AlertDialogRoot>",
+        "description": "Alert Dialog"
+    },
+    {
+        "prefix": "aspect-ratio",
+        "body": "<AspectRatio :ratio=\"16 / 9\"></AspectRatio>",
+        "description": "Aspect ratio"
+    },
+    {
+        "prefix": "avatar",
+        "body": "<AvatarRoot>\n      <AvatarImage src=\"$1\" alt=\"$2\" />\n      <AvatarFallback :delay-ms=\"$3\">\n        $4\n      </AvatarFallback>\n</AvatarRoot>",
+        "description": "Avatar"
+    },
+    {
+        "prefix": "checkbox",
+        "body": "<CheckboxRoot v-model=\"$1\">\n        <CheckboxIndicator>\n          $2 <!-- <Icon icon=\"radix-icons:check\" /> -->\n        </CheckboxIndicator>\n</CheckboxRoot>",
+        "description": "Checkbox"
+    },
+    {
+        "prefix": "label",
+        "body": "<Label for=\"$1\">$2</Label>",
+        "description": "Label"
+    },
+    {
+        "prefix": "navigation-menu",
+        "body": "<NavigationMenuRoot>\n    <NavigationMenuList>\n      <NavigationMenuItem>\n        <NavigationMenuTrigger>$1</NavigationMenuTrigger>\n        <NavigationMenuContent>\n          <NavigationMenuLink />$2\n        </NavigationMenuContent>\n      </NavigationMenuItem>\n      <NavigationMenuIndicator />\n    </NavigationMenuList>\n    <NavigationMenuViewport />\n  </NavigationMenuRoot>",
+        "description": "Navigation menu"
+    },
+    {
+        "prefix": "popover",
+        "body": "<PopoverRoot>\n    <PopoverTrigger>$1</PopoverTrigger>\n    <PopoverAnchor />\n    <PopoverPortal>\n      <PopoverContent>\n        <PopoverClose />\n        <PopoverArrow />\n\t\t\t$2\n      </PopoverContent>\n    </PopoverPortal>\n  </PopoverRoot>",
+        "description": "Popover"
+    },
+    {
+        "prefix": "progress",
+        "body": "<ProgressRoot\n    v-model=\"$1\"\n    style=\"transform: translateZ(0)\"\n  >\n    <ProgressIndicator\n      :style=\"`transform: translateX(-${100 - $1}%)`\"\n    />\n  </ProgressRoot>",
+        "description": "Progress"
+    },
+    {
+        "prefix": "radio-group",
+        "body": "<RadioGroupRoot defaultvalue=\"$1\">\n    <RadioGroupItem value=\"$1\">\n      <RadioGroupIndicator />\n    </RadioGroupItem>\n\t$2\n  </RadioGroupRoot>",
+        "description": "Radio group"
+    },
+    {
+        "prefix": "scroll-area",
+        "body": "<ScrollAreaRoot>\n    <ScrollAreaViewport />\n    <ScrollAreaScrollbar orientation=\"$1\">\n      <ScrollAreaThumb />\n\t\t\t$2\n    </ScrollAreaScrollbar>\n    <ScrollAreaCorner />\n  </ScrollAreaRoot>",
+        "description": "Scroll area"
+    },
+    {
+        "prefix": "select",
+        "body": "<SelectRoot>\n    <SelectTrigger>\n      <SelectValue />$1\n      <SelectIcon />\n    </SelectTrigger>\n\n    <SelectPortal>\n      <SelectContent>\n        <SelectScrollUpButton />\n        <SelectViewport>\n          <SelectItem>$2\n            <SelectItemText />\n            <SelectItemIndicator />\n          </SelectItem>\n          <SelectSeparator />\n        </SelectViewport>\n        <SelectScrollDownButton />\n        <SelectArrow />\n      </SelectContent>\n    </SelectPortal>\n  </SelectRoot>",
+        "description": "Select"
+    },
+    {
+        "prefix": "slider",
+        "body": "<SliderRoot\n    v-model=\"$1\" :max=\"$2\"\n    :step=\"1\"\n  >\n    <SliderTrack >\n      <SliderRange />$3\n    </SliderTrack>\n    <SliderThumb />\n  </SliderRoot>",
+        "description": "Slider"
+    },
+    {
+        "prefix": "switch",
+        "body": "<SwitchRoot v-model:checked=\"$1\">\n      <SwitchThumb />\n</SwitchRoot>",
+        "description": "Switch"
+    },
+    {
+        "prefix": "tab",
+        "body": "<TabsRoot default-value=\"$1\">\n    <TabsList>\n      <TabsTrigger value=\"$1\" >\n        $2\n      </TabsTrigger>\n      <TabsTrigger value=\"$3\" >\n        $4\n      </TabsTrigger>\n    </TabsList>\n    <TabsContent value=\"$1\">\n      $5\n    </TabsContent>\n    <TabsContent value=\"$3\">\n      $6\n    </TabsContent>\n  </TabsRoot>",
+        "description": "Tab"
+    },
+    {
+        "prefix": "toggle",
+        "body": "<Toggle v-model:pressed=\"$1\">\n    $2\n</Toggle>",
+        "description": "Toggle"
+    },
+    {
+        "prefix": "toggle-group",
+        "body": "<ToggleGroupRoot v-model=\"$1\">\n      <ToggleGroupItem value=\"left\">\n        \t$2\n      </ToggleGroupItem>\n      <ToggleGroupItem value=\"center\">\n\t\t\t$3\n      </ToggleGroupItem>\n      <ToggleGroupItem value=\"right\">\n\t\t\t$4\n      </ToggleGroupItem>\n</ToggleGroupRoot>",
+        "description": "Toggle group"
+    },
+    {
+        "prefix": "toolbar",
+        "body": "<ToolbarRoot>\n    <ToolbarToggleGroup v-model=\"\" type=\"multiple\">\n      <ToolbarToggleItem\n        value=\"\"\n      >\n        $1\n      </ToolbarToggleItem>\n\t</ToolbarToggleGroup>\n    <ToolbarSeparator />\n    <ToolbarLink\n      href=\"#\"\n      target=\"_blank\"\n    >\n      $2\n    </ToolbarLink>\n    <ToolbarButton>\n      $3\n    </ToolbarButton>\n  </ToolbarRoot>",
+        "description": "Toolbar"
+    },
+    {
+        "prefix": "tooltip",
+        "body": "<TooltipProvider>\n    <TooltipRoot>\n      <TooltipTrigger>\n        $1\n      </TooltipTrigger>\n      <TooltipPortal>\n        <TooltipContent as-child :side-offset=\"5\" >\n          <ul>\n            $2\n            <TooltipArrow size=\"8\" />\n          </ul>\n        </TooltipContent>\n      </TooltipPortal>\n    </TooltipRoot>\n  </TooltipProvider>",
+        "description": "Tooltip"
+    }
+]

@@ -1,0 +1,182 @@
+[
+    {
+        "prefix": "calendar",
+        "body": "<Calendar\n    mode=\"$1\"\n    selected={$2}\n    onSelect={$3}\n    className=\"rounded-md border\"\n  />",
+        "description": "Calendar from shadcn/ui"
+    },
+    {
+        "prefix": "accordion",
+        "body": "<Accordion type=\"single\" collapsible>\n  <AccordionItem value=\"item-1\">\n    <AccordionTrigger>$1</AccordionTrigger>\n    <AccordionContent>\n      $2\n    </AccordionContent>\n  </AccordionItem>\n</Accordion>",
+        "description": "shadcn ui accordion"
+    },
+    {
+        "prefix": "alert",
+        "body": "<Alert>\n  <AlertTitle>$1</AlertTitle>\n  <AlertDescription>\n    $2\n  </AlertDescription>\n</Alert>",
+        "description": "Alert component from shadcn/ui"
+    },
+    {
+        "prefix": "alert-dialog",
+        "body": "<AlertDialog>\n  <AlertDialogTrigger>$1</AlertDialogTrigger>\n  <AlertDialogContent>\n    <AlertDialogHeader>\n      <AlertDialogTitle>$2</AlertDialogTitle>\n      <AlertDialogDescription>\n\t\t\t$3\n      </AlertDialogDescription>\n    </AlertDialogHeader>\n    <AlertDialogFooter>\n      <AlertDialogCancel>Cancel</AlertDialogCancel>\n      <AlertDialogAction>Continue</AlertDialogAction>\n    </AlertDialogFooter>\n  </AlertDialogContent>\n</AlertDialog>",
+        "description": "Alert dialog from shadcn/ui"
+    },
+    {
+        "prefix": "aspect-ratio",
+        "body": "<AspectRatio ratio={$1}>\n    $2\n  </AspectRatio>",
+        "description": "Aspect ratio from shadcn/ui"
+    },
+    {
+        "prefix": "avatar",
+        "body": "<Avatar>\n  <AvatarImage src={$1} />\n  <AvatarFallback>$2</AvatarFallback>\n</Avatar>",
+        "description": "Avatar from shadcn/ui"
+    },
+    {
+        "prefix": "badge",
+        "body": "<Badge>$1</Badge>",
+        "description": "Badge from shadcn/ui"
+    },
+    {
+        "prefix": "button",
+        "body": "<Button variant=\"$1\">$2</Button>",
+        "description": "Button from shadcn/ui"
+    },
+    {
+        "prefix": "card",
+        "body": "<Card>\n  <CardHeader>\n    <CardTitle>$1</CardTitle>\n    <CardDescription>$2</CardDescription>\n  </CardHeader>\n  <CardContent>\n    $3\n  </CardContent>\n  <CardFooter>\n    $4\n  </CardFooter>\n</Card>",
+        "description": "Card from shadcn/ui"
+    },
+    {
+        "prefix": "checkbox",
+        "body": "<div className=\"flex items-center space-x-2\">\n      <Checkbox id=\"$1\" />\n      <label\n        htmlFor=\"$2\"\n        className=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\"\n      >\n        $3\n      </label>\n    </div>",
+        "description": "Checkbox"
+    },
+    {
+        "prefix": "collapsible",
+        "body": "<Collapsible>\n  <CollapsibleTrigger>$1</CollapsibleTrigger>\n  <CollapsibleContent>\n    $2\n  </CollapsibleContent>\n</Collapsible>",
+        "description": "Collapsible from shadcn/ui"
+    },
+    {
+        "prefix": "combobox",
+        "body": "<Popover open={open} onOpenChange={setOpen}>\n      <PopoverTrigger asChild>\n        <Button\n          variant=\"outline\"\n          role=\"combobox\"\n          className=\"w-[200px] justify-between\"\n        >\n          {value\n            ? $1.find(($2) => $2.value === value)?.label\n            : \"$3\"}\n\t\t\t{/* Icon */}\n          {/* <ChevronsUpDown className=\"ml-2 h-4 w-4 shrink-0 opacity-50\" /> */}\n        </Button>\n      </PopoverTrigger>\n      <PopoverContent className=\"w-[200px] p-0\">\n        <Command>\n          <CommandInput placeholder=\"$4\" />\n          <CommandEmpty>No framework found.</CommandEmpty>\n          <CommandGroup>\n            {$1.map(($2) => (\n              <CommandItem\n                key={$2.value}\n                onSelect={(currentValue) => {\n                  setValue(currentValue === value ? \"\" : currentValue)\n                  setOpen(false)\n                }}\n              >\n\t\t\t\t{/* Icon */}\n                {/* <Check\n                  className={cn(\n                    \"mr-2 h-4 w-4\",\n                    value === $2.value ? \"opacity-100\" : \"opacity-0\"\n                  )}\n                /> */}\n                {$2.label}\n              </CommandItem>\n            ))}\n          </CommandGroup>\n        </Command>\n      </PopoverContent>\n    </Popover>",
+        "description": "Combox from shadcn/ui"
+    },
+    {
+        "prefix": "command",
+        "body": "<Command>\n  <CommandInput placeholder=\"$1\" />\n  <CommandList>\n    <CommandEmpty>$2</CommandEmpty>\n    <CommandGroup heading=\"$3\">\n      <CommandItem>$4</CommandItem>\n    </CommandGroup>\n    <CommandSeparator />\n  </CommandList>\n</Command>",
+        "description": "Command from shadcn/ui"
+    },
+    {
+        "prefix": "context-menu",
+        "body": "<ContextMenu>\n  <ContextMenuTrigger>$1</ContextMenuTrigger>\n  <ContextMenuContent>\n    <ContextMenuItem>$2</ContextMenuItem>\n  </ContextMenuContent>\n</ContextMenu>",
+        "description": "Context menu from shadcn/ui"
+    },
+    {
+        "prefix": "date-picker",
+        "body": "<Popover>\n      <PopoverTrigger asChild>\n        <Button\n          variant={\"$1\"}\n          className={cn(\n            \"w-[280px] justify-start text-left font-normal\",\n            !date$2 && \"text-muted-foreground\"\n          )}\n        >\n\t\t{/* Icon \n          <CalendarIcon className=\"mr-2 h-4 w-4\" /> */}\n          {date$2 ? format(date$2, \"PPP\") : <span>Pick a date</span>}\n        </Button>\n      </PopoverTrigger>\n      <PopoverContent className=\"w-auto p-0\">\n        <Calendar\n          mode=\"$3\"\n          selected={date$2}\n          onSelect={setDate$4}\n          initialFocus\n        />\n      </PopoverContent>\n    </Popover>",
+        "description": "Date picker"
+    },
+    {
+        "prefix": "dialog",
+        "body": "<Dialog>\n  <DialogTrigger>$1</DialogTrigger>\n  <DialogContent>\n    <DialogHeader>\n      <DialogTitle>$2</DialogTitle>\n      <DialogDescription>\n        $3\n      </DialogDescription>\n    </DialogHeader>\n  </DialogContent>\n</Dialog>",
+        "description": "Dialog"
+    },
+    {
+        "prefix": "dropdown-menu",
+        "body": "<DropdownMenu>\n  <DropdownMenuTrigger>$1</DropdownMenuTrigger>\n  <DropdownMenuContent>\n    <DropdownMenuLabel>$2</DropdownMenuLabel>\n    <DropdownMenuSeparator />\n    <DropdownMenuItem>$3</DropdownMenuItem>\n  </DropdownMenuContent>\n</DropdownMenu>",
+        "description": "Dropdown menu"
+    },
+    {
+        "prefix": "form",
+        "body": "{/* const form = useForm() */}\n<FormField\n  control={$1.control}\n  name=\"$2\"\n  render={({ field }) => (\n    <FormItem>\n      <FormLabel>$2</FormLabel>\n      <FormControl>\n        <Input placeholder=\"Select $2\" {...field} />\n      </FormControl>\n      <FormDescription>$3</FormDescription>\n      <FormMessage />\n    </FormItem>\n  )}\n/>",
+        "description": "Form using react-hook-form"
+    },
+    {
+        "prefix": "hover-card",
+        "body": "<HoverCard>\n  <HoverCardTrigger>$1</HoverCardTrigger>\n  <HoverCardContent>\n    $2\n  </HoverCardContent>\n</HoverCard>",
+        "description": "Hover card"
+    },
+    {
+        "prefix": "input",
+        "body": "<Input type=\"$1\" placeholder=\"$1\" />",
+        "description": "Input"
+    },
+    {
+        "prefix": "label",
+        "body": "<Label htmlFor=\"$1\">$2</Label>",
+        "description": "Label"
+    },
+    {
+        "prefix": "menubar",
+        "body": "<Menubar>\n  <MenubarMenu>\n    <MenubarTrigger>$1</MenubarTrigger>\n    <MenubarContent>\n      <MenubarItem>\n        $2 <MenubarShortcut>⌘$3</MenubarShortcut>\n      </MenubarItem>\n      <MenubarSeparator />\n    </MenubarContent>\n  </MenubarMenu>\n</Menubar>",
+        "description": "Menubar"
+    },
+    {
+        "prefix": "navigation-menu",
+        "body": "<NavigationMenu>\n  <NavigationMenuList>\n    <NavigationMenuItem>\n      <NavigationMenuTrigger>$1</NavigationMenuTrigger>\n      <NavigationMenuContent>\n        <NavigationMenuLink>$2</NavigationMenuLink>\n      </NavigationMenuContent>\n    </NavigationMenuItem>\n  </NavigationMenuList>\n</NavigationMenu>",
+        "description": "Navigation menu"
+    },
+    {
+        "prefix": "popover",
+        "body": "<Popover>\n  <PopoverTrigger>$1</PopoverTrigger>\n  <PopoverContent>$2</PopoverContent>\n</Popover>",
+        "description": "Popover"
+    },
+    {
+        "prefix": "progress",
+        "body": "<Progress value={60} className=\"w-full\" />",
+        "description": "Progress"
+    },
+    {
+        "prefix": "radio-group",
+        "body": "<RadioGroup defaultValue=\"$1\">\n  <div className=\"flex items-center space-x-2\">\n    <RadioGroupItem value=\"$1\" id=\"$2\" />\n    <Label htmlFor=\"$2\">$3</Label>\n  </div>\n  <div className=\"flex items-center space-x-2\">\n    <RadioGroupItem value=\"$4\" id=\"$5\" />\n    <Label htmlFor=\"$5\">$6</Label>\n  </div>\n</RadioGroup>",
+        "description": "Radio group"
+    },
+    {
+        "prefix": "scroll-area",
+        "body": "<ScrollArea className=\"h-[200px] w-[350px]$1 rounded-md border p-4\">\n\t$2\n</ScrollArea>",
+        "description": "Scroll area"
+    },
+    {
+        "prefix": "sheet",
+        "body": "<Sheet>\n  <SheetTrigger>$1</SheetTrigger>\n  <SheetContent>\n    <SheetHeader>\n      <SheetTitle>$2</SheetTitle>\n      <SheetDescription>\n        $3\n      </SheetDescription>\n    </SheetHeader>\n  </SheetContent>\n</Sheet>",
+        "description": "Sheet"
+    },
+    {
+        "prefix": "slider",
+        "body": "<Slider defaultValue={[33]} max={100} step={1} />",
+        "description": "Slider"
+    },
+    {
+        "prefix": "switch",
+        "body": "<Switch\n\tchecked={value$1}\n\tonCheckedChange={onChange$2}\n/>",
+        "description": "Switch"
+    },
+    {
+        "prefix": "table",
+        "body": "<Table>\n  <TableCaption>$1</TableCaption>\n  <TableHeader>\n    <TableRow>\n      <TableHead>$2</TableHead>\n    </TableRow>\n  </TableHeader>\n  <TableBody>\n    <TableRow>\n      <TableCell>$3</TableCell>\n    </TableRow>\n  </TableBody>\n</Table>",
+        "description": "Table"
+    },
+    {
+        "prefix": "tabs",
+        "body": "<Tabs defaultValue=\"$1\">\n  <TabsList>\n    <TabsTrigger value=\"$1\">$2</TabsTrigger>\n    <TabsTrigger value=\"$3\">$4</TabsTrigger>\n  </TabsList>\n  <TabsContent value=\"$1\">$5</TabsContent>\n  <TabsContent value=\"$3\">$6</TabsContent>\n</Tabs>",
+        "description": "Tabs"
+    },
+    {
+        "prefix": "textarea",
+        "body": "<Textarea id=\"$1\" placeholder=\"$2\" />",
+        "description": "Textarea"
+    },
+    {
+        "prefix": "toggle",
+        "body": "<Toggle>$1</Toggle>",
+        "description": "Toggle"
+    },
+    {
+        "prefix": "tooltip",
+        "body": "<TooltipProvider>\n  <Tooltip>\n    <TooltipTrigger>$1</TooltipTrigger>\n    <TooltipContent>\n      $2\n    </TooltipContent>\n  </Tooltip>\n</TooltipProvider>",
+        "description": "Tooltip"
+    },
+    {
+        "prefix": "select",
+        "body": "<Select onValueChange={onChange$1} defaultValue={value$2}>\r\n\t\t<SelectTrigger>\r\n\t\t\t<SelectValue placeholder=\"$3\" />\r\n\t\t</SelectTrigger>\r\n\t\t<SelectContent>\r\n\t\t\t<SelectItem value=\"$2\">$4</SelectItem>\r\n\t\t</SelectContent>\r\n</Select>",
+        "description": "Select"
+    }
+]

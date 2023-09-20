@@ -1,0 +1,20 @@
+[
+    {
+        "name": "flowbite-svelte",
+        "path": "/flowbite-svelte",
+        "short": "fbs",
+        "langs": ["svelte"]
+    },
+    {
+        "name": "radix-vue",
+        "path": "/radix-vue",
+        "short":"rdv",
+        "langs":["vue"]
+    },
+    {
+        "name": "shadcn-ui",
+        "path": "/shadcn-ui",
+        "short":"scn",
+        "langs":["jsx","tsx"]
+    }
+]
