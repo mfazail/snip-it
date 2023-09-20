@@ -6,15 +6,23 @@ export const read = (filePath: string) => {
     if (existsSync(filePath)) {
         const existingContentRaw = readFileSync(filePath, "utf-8");
         const contentWithoutComments = existingContentRaw.replace(
-            /\/\/[^\n]*\n/g,
+            /(?:\n|^)\/\/\s*\s*([\s\S]*?)\n/g,
             ""
         );
+        const contentWithoutMultiComments = contentWithoutComments.replace(
+            /\/\*[\s\S]*?\*\//g,
+            ""
+        );
+        const removedTrailingComma = contentWithoutMultiComments.replace(/\,(?!\s*?[\{\[\"\'\w])/g,'')
         try {
-            return JSON.parse(contentWithoutComments);
+            return JSON.parse(removedTrailingComma) ?? [];
         } catch (error) {
             console.error(`Error parsing existing snippet content: ${error}`);
             window.showErrorMessage(
                 `Error parsing existing snippet content: ${error}`
+            );
+            window.showErrorMessage(
+                `Check comments on file: ${filePath}`
             );
         }
         return null;
@@ -27,9 +35,11 @@ export const read = (filePath: string) => {
 };
 
 export const write = (filePath: string, content: string) => {
+    const parsed = JSON.stringify(content, null, 4);
+    const removedTrailingComma = parsed.replace(/\,(?!\s*?[\{\[\"\'\w])/g,'')
     if (existsSync(filePath)) {
         try {
-            writeFileSync(filePath, JSON.stringify(content, null, 4));
+            writeFileSync(filePath, removedTrailingComma);
             return true;
         } catch (error) {
             window.showErrorMessage(`Error saving snippet content: ${error}`);

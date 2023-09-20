@@ -1,7 +1,7 @@
 import { window } from "vscode";
 import { getUserFolderPath, read, write } from "./read-write";
 import { join } from "path";
-import { fetchLibSnips, fetchlibs } from "./api";
+import { LibMetadata, fetchLibSnips, fetchlibs } from "./api";
 
 export const searchSnips = async () => {
     const editor = window.activeTextEditor;
@@ -14,7 +14,9 @@ export const searchSnips = async () => {
             return;
         }
     }
-    let selectedLib: any;
+    let selectedLib:
+        | { label: string; path: string; description: string; langs: string[] }
+        | undefined;
     window.showInformationMessage("Fetching libraries");
     const libs = await fetchlibs(langId || "js");
     if (!libs) {
@@ -30,30 +32,31 @@ export const searchSnips = async () => {
         window.showInformationMessage("No library selected!");
         return;
     }
-    const snips = await fetchLibSnips(selectedLib.id);
-    if (!snips) {
-        window.showInformationMessage("No snips related to this library");
-        return;
-    }
-    console.log({ snips });
-    const userPath = getUserFolderPath();
-    if (!userPath) return;
-    const filePath = join(userPath, `${langId}.json`);
-    if (!filePath) {
-        window.showErrorMessage("User path not defined");
-        return;
-    } else {
-        const existingContent = read(filePath);
-        snips.forEach(({ prefix, body, description }) => {
-            const p = `${selectedLib.description}:${prefix}`;
-            existingContent[p] = {
-                prefix: p,
-                body,
-                description,
-            };
-        });
-        write(filePath, existingContent);
-        window.showInformationMessage("Snips added successfully");
-    }
+    selectedLib.langs.forEach(async (lang) => {
+        const snips = await fetchLibSnips(selectedLib!.path, lang);
+        if (!snips || snips.length == 0) {
+            window.showInformationMessage("No snips related to this library");
+            return;
+        }
+        console.log({ snip: snips[0] });
+        const userPath = getUserFolderPath();
+        if (!userPath) return;
+        const filePath = join(userPath, `${lang}.json`);
+        if (!filePath) {
+            window.showErrorMessage("User path not defined");
+            return;
+        } else {
+            const existingContent = read(filePath);
+            snips.forEach(({ prefix, body, description }) => {
+                const p = `${selectedLib!.description}:${prefix}`;
+                existingContent[p] = {
+                    prefix: p,
+                    body,
+                    description,
+                };
+            });
+            write(filePath, existingContent);
+            window.showInformationMessage("Snips added successfully");
+        }
+    });
 };
-

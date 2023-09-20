@@ -4,7 +4,7 @@
 
 ## Search 
 
-<img src="https://snipit.mfazail.com/assets/vscode-search.png" />
+<img src="https://snipit.mfazail.com/assets/vscode-search.webp" />
 
 - Open command pallete and search `Snip It: Search`
 - Enter the library name _e.g. shadcn, vuetify, etc_
@@ -15,7 +15,7 @@
 
 > This will create snips locally not to our server
 
-<img src="https://snipit.mfazail.com/assets/vscode-snipit.png" />
+<img src="https://snipit.mfazail.com/assets/vscode-snipit.webp" />
 
 - Select block of code that you want to create snip
 - Open command pallete or context menu and select `Snip It`
@@ -26,7 +26,7 @@
 
 > This will delete snips locally not to our server
 
-<img src="https://snipit.mfazail.com/assets/vscode-delete.png" />
+<img src="https://snipit.mfazail.com/assets/vscode-delete.webp" />
 
 - Open command pallete and search `Snip It: Delete`
 - Enter the prefix name _e.g. scn:dropdown,fbs:popover, accordion, etc_
