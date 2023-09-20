@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "version": "0.1.5",
+=======
+  "version": "0.1.6",
+>>>>>>> b8840b0764114f72aece6173894fe302ceaa563f
   "publisher": "mfazail",
   "name": "snip-it-vscode",
   "displayName": "Snip It",
