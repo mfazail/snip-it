@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .primary-btn {
+        @apply px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800;
+    }
+    ::-webkit-scrollbar {
+        @apply w-2 h-2;
+    }
+    ::-webkit-scrollbar-track {
+        @apply bg-slate-300 dark:bg-slate-500;
+    }
+    ::-webkit-scrollbar-thumb {
+        @apply bg-slate-500 dark:bg-slate-600 rounded-md;
+    }
+}
+/* Make clicks pass-through */
+#nprogress {
+    pointer-events: none;
+}
+
+#nprogress .bar {
+    @apply bg-blue-500 absolute z-[1000] top-0 left-0 w-full h-[2px];
+}
+
+/* Fancy blur effect */
+#nprogress .peg {
+    @apply block shadow-[0_0_10px_rgb(63,131,248),0_0_5px_rgb(63,131,248)] absolute right-0 w-[100px] h-full opacity-100 transform rotate-3 translate-x-0 -translate-y-1;
+}

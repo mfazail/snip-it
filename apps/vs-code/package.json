@@ -1,0 +1,87 @@
+{
+  "version": "0.1.5",
+  "publisher": "mfazail",
+  "name": "snip-it-vscode",
+  "displayName": "Snip It",
+  "description": "Create and share snippet with others, no need to see the docs and copy paste",
+  "author": "Fazail Alam <fazailalam898@gmail.com>",
+  "funding": "https://github.com/sponsors/mfazail",
+  "homepage": "https://snipit.mfazail.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mfazail/snip-it"
+  },
+  "bugs": {
+    "url": "https://github.com/mfazail/snip-it/issues"
+  },
+  "sponsor": {
+    "url": "https://github.com/sponsors/mfazail"
+  },
+  "engines": {
+    "vscode": "^1.82.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "icon": "icons/icon.png",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "snip-it.create",
+        "title": "Snip It"
+      },
+      {
+        "command": "snip-it.delete",
+        "title": "Snip It: Delete"
+      },
+      {
+        "command": "snip-it.search",
+        "title": "Snip It: Search"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "snip-it.create",
+          "group": "1_modification",
+          "when": "editorHasSelection"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "publish": "vsce publish --no-dependencies",
+    "pack": "vsce package --no-dependencies",
+    "vscode:prepublish": "pnpm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.82.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "@vscode/test-electron": "^2.3.4",
+    "eslint": "^8.47.0",
+    "glob": "^10.3.3",
+    "mocha": "^10.2.0",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}

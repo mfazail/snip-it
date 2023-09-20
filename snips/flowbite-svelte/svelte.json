@@ -1,0 +1,197 @@
+[
+    {
+      "prefix": "accordion",
+      "body": "<Accordion>\n\t<AccordionItem>\n\t$1\n\t</AccordionItem>\n\t<AccordionItem>\n\t\t$2\n\t</AccordionItem>\n</Accordion>",
+      "description": "flowbite svelte accordion"
+    },
+    {
+      "prefix": "drawer",
+      "body": "<Drawer transitionType=\"fly\" bind:hidden={hidden} >\n\t<CloseButton on:click={() => (hidden = true)} />\n\t$1\n</Drawer>",
+      "description": "Drawer"
+    },
+    {
+      "prefix": "dropdown",
+      "body": "<Button class=\"trigger\">$1</Button>\n<Dropdown triggeredBy=\".trigger\">\n\t<DropdownItem slot=\"header\">Profile</DropdownItem>\n  \t<DropdownItem>$2</DropdownItem>\n  \t<DropdownItem slot=\"footer\">Sign out</DropdownItem>\n</Dropdown>",
+      "description": "Dropdown"
+    },
+    {
+      "prefix": "alert",
+      "body": "<Alert color=\"$1\">\n\t$2\n</Alert>",
+      "description": "Alert"
+    },
+    {
+      "prefix": "avatar",
+      "body": "<Avatar src=\"$1\" >$2</Avatar>",
+      "description": "Avatar"
+    },
+    {
+      "prefix": "badge",
+      "body": "<Badge color=\"$1\">$2</Badge>",
+      "description": "Badge"
+    },
+    {
+      "prefix": "banner",
+      "body": "<Banner position=\"$1\" bannerType=\"$2\">\n\t$3\n</Banner>",
+      "description": "Banner"
+    },
+    {
+      "prefix": "bottom-navigation",
+      "body": "<BottomNav position=\"$1\" classInner=\"$2\">\n  <BottomNavItem btnName=\"$3\">\n\t\t$4\n  </BottomNavItem>\n  \t$5\n</BottomNav>",
+      "description": "Bottom Navigation"
+    },
+    {
+      "prefix": "breadcrumb",
+      "body": "<Breadcrumb>\n  <BreadcrumbItem href=\"$1\" home>$2</BreadcrumbItem>\n  <BreadcrumbItem href=\"$3\">$4</BreadcrumbItem>\n</Breadcrumb>",
+      "description": "Breadcrumb"
+    },
+    {
+      "prefix": "button-group",
+      "body": "<ButtonGroup>\n  <Button>$1</Button>\n  <Button>$2</Button>\n  <Button>$3</Button>\n</ButtonGroup>",
+      "description": "Button group"
+    },
+    {
+      "prefix": "button",
+      "body": "<Button color=\"$1\">$2</Button>",
+      "description": "Button"
+    },
+    {
+      "prefix": "card",
+      "body": "<Card>\n\t$1\n</Card>",
+      "description": "Card"
+    },
+    {
+      "prefix": "carousel",
+      "body": "<Carousel {images} let:Indicators let:Controls bind:index>\n    <Controls />\n    <Indicators />\n  </Carousel>",
+      "description": "Carousel"
+    },
+    {
+      "prefix": "dark-mode",
+      "body": "<DarkMode>\n  <svelte:fragment slot=\"lightIcon\">\n    <!-- <SunSolid /> -->\n  </svelte:fragment>\n  <svelte:fragment slot=\"darkIcon\">\n    <!-- <MoonSolid /> -->\n  </svelte:fragment>\n</DarkMode>",
+      "description": "Dark mode button"
+    },
+    {
+      "prefix": "device-mockup",
+      "body": "<DeviceMockup device=\"$1\">\n  <!-- images -->\n</DeviceMockup>",
+      "description": "Device mockups"
+    },
+    {
+      "prefix": "footer",
+      "body": "<Footer footerType=\"$1\">\n  <FooterCopyright href=\"/\" by=\"$2™\" year={$3} />\n  <FooterLinkGroup>\n    <FooterLink href=\"/\">$4</FooterLink>\n  </FooterLinkGroup>\n</Footer>",
+      "description": "Footer"
+    },
+    {
+      "prefix": "gallery",
+      "body": "<Gallery class=\"gap-4 grid-cols-2 md:grid-cols-4\">\n  <Gallery items={images1$1} />\n  <Gallery items={images2$2} />\n  <Gallery items={images3$3} />\n  <Gallery items={images4$4} />\n</Gallery>",
+      "description": "Gallery"
+    },
+    {
+      "prefix": "indicator",
+      "body": "<Indicator color=\"red\" border size=\"xl\" placement=\"top-right\">\n    <span class=\"text-white text-xs font-bold\">8</span>$1\n</Indicator>",
+      "description": "Indicator"
+    },
+    {
+      "prefix": "kbd",
+      "body": "<Kbd>$1\t</Kbd>",
+      "description": "KBD"
+    },
+    {
+      "prefix": "list-group",
+      "body": "<Listgroup active items={$1} let:item on:click={(e) => alert(Object.entries(e.detail))}>\n  {item.name}\n</Listgroup>",
+      "description": "items = [{name:\"\",current:true,}]"
+    },
+    {
+      "prefix": "mega-menu",
+      "body": "<MegaMenu items={$1} let:item>\n      <a href={item.href}>{item.name}</a>\n</MegaMenu>",
+      "description": "items=[{'name':'',href:''}]"
+    },
+    {
+      "prefix": "modal",
+      "body": " <Modal title=\"$1\" bind:open={open$2} autoclose outsideclose>\n\t<svelte:fragment slot=\"header\">$3</svelte:fragment>\n\t$5\n  \t<svelte:fragment slot=\"footer\">$4</svelte:fragment>\n</Modal>",
+      "description": "Modal"
+    },
+    {
+      "prefix": "navbar",
+      "body": "<Navbar let:hidden let:toggle>\n  <NavBrand href=\"/\">\n    <!-- <Logo  />-->$1\n  </NavBrand>\n  <NavHamburger on:click={toggle} />\n  <NavUl activeUrl=\"/\" {hidden} activeClass=\"\" nonActiveClass=\"\">\n    <NavLi href=\"/\">Home</NavLi>$2\n    <NavLi href=\"/docs\">Docs</NavLi>\n  </NavUl>\n</Navbar>",
+      "description": "Navbar"
+    },
+    {
+      "prefix": "pagination",
+      "body": "<Pagination {pages$1} on:previous={previous} on:next={next} icon>\n  <svelte:fragment slot=\"prev\">\n    <span class=\"sr-only\">Previous</span>\n    <!-- <ChevronLeftOutline class=\"w-2.5 h-2.5\" /> -->\n  </svelte:fragment>\n  <svelte:fragment slot=\"next\">\n    <span class=\"sr-only\">Next</span>\n    <!--<ChevronRightOutline class=\"w-2.5 h-2.5\" /> -->\n  </svelte:fragment>\n</Pagination>",
+      "description": "Pagination\n// pages = [{'':'','':''}]"
+    },
+    {
+      "prefix": "popover",
+      "body": "<Popover title=\"$1\" triggeredBy=\".btn$2\">\n\t$3\n</Popover>",
+      "description": "Popover"
+    },
+    {
+      "prefix": "progress",
+      "body": "<Progressbar progress={$1} size=\"h-4\" labelInside />",
+      "description": "Progress"
+    },
+    {
+      "prefix": "rating",
+      "body": "<Rating total={5} rating={3.4} icon={Star}>\n  <p slot=\"text\">3.4 out of 5</p>\n</Rating>",
+      "description": "Rating"
+    },
+    {
+      "prefix": "sidebar",
+      "body": "<Sidebar activeUrl=\"/\">\n  <SidebarWrapper>\n    <SidebarGroup>\n      <SidebarItem label=\"Dashboard\" href=\"/dashboard\">\n        <svelte:fragment slot=\"icon\">\n          <!-- <ChartPieSolid /> -->\n        </svelte:fragment>\n      </SidebarItem>\n      <SidebarItem label=\"Kanban\" spanClass=\"\">\n        <svelte:fragment slot=\"icon\">\n\t\t\t<!-- <Icon /> -->\n        </svelte:fragment>\n        <svelte:fragment slot=\"subtext\">\n          <span> Pro </span>\n        </svelte:fragment>\n      </SidebarItem>\n      </SidebarGroup>\n  </SidebarWrapper>\n</Sidebar>",
+      "description": "Sidebar"
+    },
+    {
+      "prefix": "skeleton",
+      "body": "<Skeleton size=\"$1\" />",
+      "description": "There are various more placeholder under prefix `fbs:ph:*`. "
+    },
+    {
+      "prefix": "ph:image",
+      "body": "<ImagePlaceholder imgHeight={$1} />",
+      "description": "ImagePlaceholder"
+    },
+    {
+      "prefix": "ph:video",
+      "body": "<VideoPlaceholder size=\"$1\" />",
+      "description": "VideoPlaceholder"
+    },
+    {
+      "prefix": "ph:text",
+      "body": "<TextPlaceholder size=\"$1\" />",
+      "description": "TextPlaceholder"
+    },
+    {
+      "prefix": "ph:card",
+      "body": "<CardPlaceholder size=\"$1\" />",
+      "description": "CardPlaceholder"
+    },
+    {
+      "prefix": "ph:widget",
+      "body": "<WidgetPlaceholder />\t",
+      "description": "WidgetPlaceholder"
+    },
+    {
+      "prefix": "ph:list",
+      "body": "<ListPlaceholder />",
+      "description": "ListPlaceholder"
+    },
+    {
+      "prefix": "speed-dial",
+      "body": "<SpeedDial >\n  <SpeedDialButton name=\"$1\">\n    <!-- <ShareNodesSolid /> -->\n  </SpeedDialButton>\n</SpeedDial>",
+      "description": "Speed dial"
+    },
+    {
+      "prefix": "spinner",
+      "body": "<Spinner color=\"$1\" size={$2} />",
+      "description": "Spinner"
+    },
+    {
+      "prefix": "tabs",
+      "body": "<Tabs style=\"$1\">\n  <TabItem open>\n    <div slot=\"title\">\n      <!-- <Icon size=\"sm\" /> -->\n      <!-- title $2 -->\n    </div>\n\t<!-- content -->\n  </TabItem>\n\t$3\n</Tabs>",
+      "description": "Tabs"
+    },
+    {
+      "prefix": "table",
+      "body": "<Table>\n  <TableHead>\n    <TableHeadCell>$1</TableHeadCell>\n  </TableHead>\n  <TableBody>\n    <TableBodyRow>\n      <TableBodyCell>$2</TableBodyCell>\n    </TableBodyRow>\n\t$3\n  </TableBody>\n</Table>",
+      "description": "Table"
+    }
+  ]

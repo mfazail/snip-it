@@ -1,0 +1,19 @@
+{
+    "name": "snip-it",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "dev": "pnpm --stream -r run dev",
+        "dev:s": "pnpm --filter snip-it-site --stream -r run dev",
+        "add:s": "pnpm --filter snip-it-site --stream -r add",
+        "add:v": "pnpm --filter snip-it-vs-code --stream -r add",
+        "pub    lish:vs":"pnpm --filter snip-it-vscode --stream -r run publish",
+        "build": "pnpm --stream -r run build"
+    },
+    "keywords": [],
+    "author": "Fazail Alam <fazailalam898@gmail.com>",
+    "license": "ISC",
+    "devDependencies": {
+        "typescript": "^5"
+    }
+}
